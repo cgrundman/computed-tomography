@@ -3,13 +3,11 @@ This is the home for an ongiong project to showcase how CT imaging works and pro
 
 <em>Currently a work in progress, new sections will be added and reorganized on a rolling basis.</em>.
 
-## Starting Point
+This Project has 5 sections, found in 5 folders from the main directory.
 
-sinogram_generator.m is the main file, start there. The sinogram iscreated by projection.m
+## Section 1: MATLAB Introduction
 
-## Section 1: Introduction
-
-TBD
+Within this folder, one file containing a few exercises relevent to MATLAB can be found. This is not directly project related, but the code served as a great refresher.
 
 ## Section 2: Exercise 1
 
@@ -26,6 +24,19 @@ TBD
 ## Section 5: Metal Artifact Removal
 
 TBD
+
+
+
+
+## Starting Point
+
+sinogram_generator.m is the main file, start there. The sinogram iscreated by projection.m
+
+
+
+
+
+
 
 
 # CT-2-Simulation
