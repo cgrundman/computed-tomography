@@ -56,11 +56,12 @@ beam_end = [dexel_c dexel_r];
 % initialize line integral
 s = 0;
 
-for i=1:length(data)
-    for j=1:length(data(i))
-        disp(data(i, j))
+for i=1:size(data, 1)
+    for j=1:size(data, 2)
+        % disp(data(i, j))
+        s = s + 1;
     end
-    s = s + 1;
+    
 end
 
 end
