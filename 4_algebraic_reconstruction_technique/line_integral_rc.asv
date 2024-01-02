@@ -1,4 +1,4 @@
-function s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
+function p = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % INPUTS
 % data - data matrix to simulate ct imaging through
 % source_r - r coordinate for the x-ray beam source
@@ -48,19 +48,14 @@ function s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 
 %%
 % source location
-beam_start = [source_c source_r];
+b = [source_c source_r];
 
-% end location
-beam_end = [dexel_c dexel_r];
 
-% initialize line integral
+
 s = 0;
 
-for i=1:length(data)
-    for j=1:length(data(i))
-        disp(data(i, j))
-    end
-    s = s + 1;
-end
+
+
+p = 0;
 
 end
