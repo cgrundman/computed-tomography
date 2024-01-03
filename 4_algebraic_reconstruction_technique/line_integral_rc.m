@@ -47,21 +47,42 @@ function s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % end
 
 %%
+% extract size of data for limits to simulation 
+[data_x,data_y] = size(data);
+
 % source location
 beam_start = [source_c source_r];
 
 % end location
 beam_end = [dexel_c dexel_r];
 
+min_r = min(source_r, dexel_r);
+max_r = max(source_r, dexel_r);
+min_c = min(source_c, dexel_c);
+max_c = max(source_c, dexel_c);
+
+% % x-ray beam vector magnitude
+% norm_scalar = sqrt( (dexel_c-source_c)^2 + (dexel_r-source_r)^2 );
+% 
+% % normalized x-ray beam vector
+% d_norm = d/norm_scalar;
+
 % initialize line integral
 s = 0;
 
-for i=1:size(data, 1)
-    for j=1:size(data, 2)
-        % disp(data(i, j))
-        s = s + 1;
+for r=1:size(data, 1)
+    for c=1:size(data, 2)
+        % if (0<c) && (c<=data_x) && (0<r) && (r<=data_y)
+        %     s = s + 1;
+        % end
+        if r>=min_r && r<=max_r
+            if c>=min_c && c<=max_c
+                % disp(data(r,c))
+                s = s + data(r,c);
+            end
+        end
+
     end
-    
 end
 
 end

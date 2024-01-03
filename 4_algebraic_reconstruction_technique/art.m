@@ -10,18 +10,28 @@ data = [0, 0, 0, 0
         0, 1, 3, 0
         0, 0, 0, 0];
 
-% % Example 1
-% source_r=0; source_c=2; dexel_r=5; dexel_c=2; % s -> 6
-% s1 = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
-% t1 = timeit(@() line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c));
-% % Example 2
-% source_r=2; source_c=0; dexel_r=2; dexel_c=6; % s -> 7
-% s2 = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
-% t2 = timeit(@() line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c));
-% % Example 3
-% source_r=0; source_c=0; dexel_r=6; dexel_c=6;% s -> ~11.31
-% s3 = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
-% t3 = timeit(@() line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c));
+% Example 1
+source_r=0; source_c=2; dexel_r=5; dexel_c=2; % s -> 6
+s1 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+t1 = timeit(@() line_integral_rc(data, source_r, source_c, dexel_r, dexel_c));
+disp("Example 1:")
+disp(s1)
+
+% Example 2
+source_r=2; source_c=0; dexel_r=2; dexel_c=6; % s -> 7
+s2 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+t2 = timeit(@() line_integral_rc(data, source_r, source_c, dexel_r, dexel_c));
+disp("Example 2:")
+disp(s2)
+
+% Example 3
+source_r=0; source_c=0; dexel_r=6; dexel_c=6;% s -> ~11.31
+s3 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+t3 = timeit(@() line_integral_rc(data, source_r, source_c, dexel_r, dexel_c));
+disp("Example 3:")
+disp(s3)
+% TODO Fix Calculation of Integral
+
 % % Example 4
 % source_r=0; source_c=0; dexel_r=5; dexel_c=4; % s -> ~6.24
 % s4 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
@@ -32,11 +42,6 @@ data = [0, 0, 0, 0
 % disp(s2)
 % disp(s3)
 % disp(s4)
-
-% test
-source_r=0; source_c=2; dexel_r=5; dexel_c=2; % s -> 6
-s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
-disp(s)
 
 %% Part 2 - Normalization
 
