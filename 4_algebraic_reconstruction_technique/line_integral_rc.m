@@ -84,7 +84,7 @@ for r=1:pixel_r
                 if beam_c(i)<c+0.5 && beam_c(i)>=c-0.5
                     % If intersection exists, 
                     inside = true;
-                    disp(data(r,c))
+                    disp(data(c,r))
                 end
             end
             if inside==true
@@ -93,7 +93,7 @@ for r=1:pixel_r
         end
         % Calculate Length of Beam within pixel
         if inside
-            s = s + data(r,c);
+            s = s + data(c,r);
         end
 
         % % if (0<c) && (c<=data_x) && (0<r) && (r<=data_y)
