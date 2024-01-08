@@ -7,7 +7,7 @@ function s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % dexel_c - c coordinate for the x-ray beam detector
 % 
 % OUTPUTS
-% p - attenuation signal for the x-ray beam at the detector
+% s - attenuation signal for the x-ray beam at the detector
 
 
 %% Old Code
