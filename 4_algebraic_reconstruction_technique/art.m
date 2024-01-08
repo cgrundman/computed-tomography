@@ -12,25 +12,39 @@ data = [0, 0, 0, 0
 
 % Example 1
 source_r=0; source_c=2; dexel_r=5; dexel_c=2; % s -> 6
+tic
 s1 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
-t1 = timeit(@() line_integral_rc(data, source_r, source_c, dexel_r, dexel_c));
+t1(1) = toc;
+tic
+s1_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
+t1(2) = toc;
 disp("Example 1:")
-disp(s1)
+fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t1*10, t1(1)/t1(2));
+fprintf("Answer: %.2f", s1)
 
 % Example 2
 source_r=2; source_c=0; dexel_r=2; dexel_c=6; % s -> 7
+tic
 s2 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
-t2 = timeit(@() line_integral_rc(data, source_r, source_c, dexel_r, dexel_c));
+t2(1) = toc;
+tic
+s2_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
+t2(2) = toc;
 disp("Example 2:")
-disp(s2)
+fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t2*10, t2(1)/t2(2));
+fprintf("Answer: %.2f", s2)
 
 % Example 3
 source_r=0; source_c=0; dexel_r=6; dexel_c=6;% s -> ~11.31
+tic
 s3 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
-t3 = timeit(@() line_integral_rc(data, source_r, source_c, dexel_r, dexel_c));
+t3(1) = toc;
+tic
+s3_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
+t3(2) = toc;
 disp("Example 3:")
-disp(s3)
-% TODO Fix Calculation of Integral
+fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t3*10, t3(1)/t3(2));
+fprintf("Answer: %.2f", s3)% TODO Fix Calculation of Integral
 
 % % Example 4
 % source_r=0; source_c=0; dexel_r=5; dexel_c=4; % s -> ~6.24
