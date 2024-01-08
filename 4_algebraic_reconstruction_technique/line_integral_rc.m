@@ -58,14 +58,13 @@ beam_end = [dexel_c dexel_r];
 
 % Beam Vector
 n_datapoints = 100;
-beam = [linspace(beam_start(1),beam_end(1), n_datapoints) linspace(beam_start(2),beam_end(2), n_datapoints)];
-disp(size(beam))
+beam_r = [linspace(beam_start(1),beam_end(1), n_datapoints)];
+beam_c = [linspace(beam_start(2),beam_end(2), n_datapoints)];
 
-min_r = min(source_r, dexel_r);
-max_r = max(source_r, dexel_r);
-min_c = min(source_c, dexel_c);
-max_c = max(source_c, dexel_c);
-
+% min_r = min(source_r, dexel_r);
+% max_r = max(source_r, dexel_r);
+% min_c = min(source_c, dexel_c);
+% max_c = max(source_c, dexel_c);
 % % x-ray beam vector magnitude
 % norm_scalar = sqrt( (dexel_c-source_c)^2 + (dexel_r-source_r)^2 );
 % 
@@ -80,9 +79,17 @@ for r=1:pixel_r
     for c=1:pixel_c
         inside = false;
         % Test if pixel intersects with beam line
-        
-        if r == 1
-            inside = true;
+        for i=1:size(beam_r,2)
+            if beam_r(i)<r+0.5 && beam_r(i)>=r-0.5
+                if beam_c(i)<c+0.5 && beam_c(i)>=c-0.5
+                    % If intersection exists, 
+                    inside = true;
+                    disp(data(r,c))
+                end
+            end
+            if inside==true
+                break
+            end
         end
         % Calculate Length of Beam within pixel
         if inside

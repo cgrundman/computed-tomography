@@ -44,18 +44,19 @@ s3_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 t3(2) = toc;
 disp("Example 3:")
 fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t3*10, t3(1)/t3(2));
-fprintf("Answer: %.2f", s3)% TODO Fix Calculation of Integral
+fprintf("Answer: %.2f", s3)
 
-% % Example 4
-% source_r=0; source_c=0; dexel_r=5; dexel_c=4; % s -> ~6.24
-% s4 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
-% t4 = timeit(@() line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c));
-% 
-% 
-% disp(s1)
-% disp(s2)
-% disp(s3)
-% disp(s4)
+% Example 4
+source_r=0; source_c=0; dexel_r=5; dexel_c=4; % s -> ~6.24
+tic
+s4 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+t4(1) = toc;
+tic
+s4_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
+t4(2) = toc;
+disp("Example 4:")
+fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t3*10, t3(1)/t3(2));
+fprintf("Answer: %.2f", s4)
 
 %% Part 2 - Normalization
 
