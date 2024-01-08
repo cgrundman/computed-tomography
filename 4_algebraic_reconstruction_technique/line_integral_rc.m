@@ -57,7 +57,7 @@ beam_start = [source_c source_r];
 beam_end = [dexel_c dexel_r];
 
 % Beam Vector
-n_datapoints = 100;
+n_datapoints = 1000;
 beam_r = [linspace(beam_start(1),beam_end(1), n_datapoints)];
 beam_c = [linspace(beam_start(2),beam_end(2), n_datapoints)];
 
@@ -77,23 +77,43 @@ s = 0;
 % Iterate through all pixels within the data array
 for r=1:pixel_r
     for c=1:pixel_c
-        inside = false;
+        i_start = false;
+        i_end = false;
         % Test if pixel intersects with beam line
         for i=1:size(beam_r,2)
             if beam_r(i)<r+0.5 && beam_r(i)>=r-0.5
                 if beam_c(i)<c+0.5 && beam_c(i)>=c-0.5
-                    % If intersection exists, 
-                    inside = true;
-                    disp(data(c,r))
+                    % If intersection exists, save beginning and ending
+                    % intersection point
+                    if i_start == false
+                        inter_points(1,1) = beam_c(i);
+                        inter_points(1,2) = beam_r(i);
+                    end
+                    inter_points(2,1) = beam_c(i);
+                    inter_points(2,2) = beam_r(i);
+                    i_start = true;
+                    % disp(data(c,r))
                 end
             end
-            if inside==true
+            if i_start == true && (beam_r(i)>=r+0.5 || beam_r(i)<r-0.5)
+                if i_start == true && (beam_r(i)>=r+0.5 || beam_r(i)<r-0.5)
+                    i_end = true;
+                end
+            end
+            if i_start==true && i_end==true
+                % disp(inter_points)
                 break
             end
         end
         % Calculate Length of Beam within pixel
-        if inside
-            s = s + data(c,r);
+        if i_start && i_end
+            disp("R-lenght:")
+            disp(abs(inter_points(1,2)-inter_points(2,2)))
+            disp("C-lenght:")
+            disp(abs(inter_points(1,1)-inter_points(2,1)))
+            B = sqrt(abs(inter_points(1,1)-inter_points(2,1)).^2 + abs(inter_points(1,2)-inter_points(2,2)).^2);
+            disp(B)
+            s = s + B*data(c,r);
         end
 
         % % if (0<c) && (c<=data_x) && (0<r) && (r<=data_y)
