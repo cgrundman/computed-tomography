@@ -47,14 +47,19 @@ function s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % end
 
 %%
-% extract size of data for limits to simulation 
-[data_x,data_y] = size(data);
+% Extract size of data 
+[pixel_r, pixel_c] = size(data);
 
-% source location
+% Source Location
 beam_start = [source_c source_r];
 
-% end location
+% End Location
 beam_end = [dexel_c dexel_r];
+
+% Beam Vector
+n_datapoints = 100;
+beam = [linspace(beam_start(1),beam_end(1), n_datapoints) linspace(beam_start(2),beam_end(2), n_datapoints)];
+disp(size(beam))
 
 min_r = min(source_r, dexel_r);
 max_r = max(source_r, dexel_r);
@@ -70,17 +75,29 @@ max_c = max(source_c, dexel_c);
 % initialize line integral
 s = 0;
 
-for r=1:size(data, 1)
-    for c=1:size(data, 2)
-        % if (0<c) && (c<=data_x) && (0<r) && (r<=data_y)
-        %     s = s + 1;
-        % end
-        if r>=min_r && r<=max_r
-            if c>=min_c && c<=max_c
-                % disp(data(r,c))
-                s = s + data(r,c);
-            end
+% Iterate through all pixels within the data array
+for r=1:pixel_r
+    for c=1:pixel_c
+        inside = false;
+        % Test if pixel intersects with beam line
+        
+        if r == 1
+            inside = true;
         end
+        % Calculate Length of Beam within pixel
+        if inside
+            s = s + data(r,c);
+        end
+
+        % % if (0<c) && (c<=data_x) && (0<r) && (r<=data_y)
+        % %     s = s + 1;
+        % % end
+        % if r>=min_r && r<=max_r
+        %     if c>=min_c && c<=max_c
+        %         % disp(data(r,c))
+        %         s = s + data(r,c);
+        %     end
+        % end
 
     end
 end
