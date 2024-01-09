@@ -8,7 +8,7 @@ function [s, h] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % 
 % OUTPUTS
 % s - attenuation signal for the x-ray beam at the detector
-% h - normalization 
+% h - normalization factor
 
 % Extract size of data 
 [pixel_r, pixel_c] = size(data);
