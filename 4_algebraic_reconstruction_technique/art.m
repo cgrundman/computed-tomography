@@ -18,9 +18,10 @@ t1(1) = toc;
 tic
 s1_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 t1(2) = toc;
+display(s1)
 disp("Example 1:")
 fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t1*10, t1(1)/t1(2));
-fprintf("Answer: %.2f", s1)
+fprintf("Answer: %.2f\n", s1)
 
 % Example 2
 source_r=2; source_c=0; dexel_r=2; dexel_c=6; % s -> 7
@@ -32,7 +33,7 @@ s2_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 t2(2) = toc;
 disp("Example 2:")
 fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t2*10, t2(1)/t2(2));
-fprintf("Answer: %.2f", s2)
+fprintf("Answer: %.2f\n", s2)
 
 % Example 3
 source_r=0; source_c=0; dexel_r=6; dexel_c=6;% s -> ~11.31
@@ -44,7 +45,7 @@ s3_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 t3(2) = toc;
 disp("Example 3:")
 fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t3*10, t3(1)/t3(2));
-fprintf("Answer: %.2f", s3)
+fprintf("Answer: %.2f\n", s3)
 
 % Example 4
 source_r=0; source_c=0; dexel_r=5; dexel_c=4; % s -> ~6.24
@@ -56,7 +57,7 @@ s4_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 t4(2) = toc;
 disp("Example 4:")
 fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t3*10, t3(1)/t3(2));
-fprintf("Answer: %.2f", s4)
+fprintf("Answer: %.2f\n", s4)
 
 %% Part 2 - Normalization
 

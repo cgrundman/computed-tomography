@@ -57,75 +57,62 @@ beam_start = [source_c source_r];
 beam_end = [dexel_c dexel_r];
 
 % Beam Vector
-n_datapoints = 1000;
+n_datapoints = 10000;
 beam_r = [linspace(beam_start(1),beam_end(1), n_datapoints)];
 beam_c = [linspace(beam_start(2),beam_end(2), n_datapoints)];
 
-% min_r = min(source_r, dexel_r);
-% max_r = max(source_r, dexel_r);
-% min_c = min(source_c, dexel_c);
-% max_c = max(source_c, dexel_c);
-% % x-ray beam vector magnitude
-% norm_scalar = sqrt( (dexel_c-source_c)^2 + (dexel_r-source_r)^2 );
-% 
-% % normalized x-ray beam vector
-% d_norm = d/norm_scalar;
-
-% initialize line integral
+% initialize line total attenuation
 s = 0;
 
 % Iterate through all pixels within the data array
 for r=1:pixel_r
     for c=1:pixel_c
         i_start = false;
-        i_end = false;
-        % Test if pixel intersects with beam line
+        % For all points along the Beam
         for i=1:size(beam_r,2)
-            if beam_r(i)<r+0.5 && beam_r(i)>=r-0.5
-                if beam_c(i)<c+0.5 && beam_c(i)>=c-0.5
-                    % If intersection exists, save beginning and ending
-                    % intersection point
-                    if i_start == false
-                        inter_points(1,1) = beam_c(i);
-                        inter_points(1,2) = beam_r(i);
-                    end
+            % If the r-values are within pixel range
+            if beam_r(i)<r+0.5 && beam_r(i)>=r-0.5 && beam_c(i)<c+0.5 && beam_c(i)>=c-0.5
+                % And if the c-value are within pixel range
+                
+                % Save the intersection points
+                % (first and last points within pixel range)
+                % If this is the first time an intersection has occured
+                if i_start == false
+                    % Save the r.c coords for first point within range
+                    inter_points(1,1) = beam_c(i);
+                    inter_points(1,2) = beam_r(i);
+                    i_start = true;
+                elseif i_start == true
                     inter_points(2,1) = beam_c(i);
                     inter_points(2,2) = beam_r(i);
-                    i_start = true;
-                    % disp(data(c,r))
                 end
-            end
-            if i_start == true && (beam_r(i)>=r+0.5 || beam_r(i)<r-0.5)
-                if i_start == true && (beam_r(i)>=r+0.5 || beam_r(i)<r-0.5)
-                    i_end = true;
-                end
-            end
-            if i_start==true && i_end==true
-                % disp(inter_points)
+                
+
+            % TODO Fix the trigger for calculation
+            % If intersection started and the point is not within pixel
+            elseif i_start == true 
+                %&& ((beam_r(i)>=r+0.5 || beam_r(i)<r-0.5) || (beam_c(i)>=c+0.5 || beam_c(i)<c-0.5))
+                % Trigger for the end of calculation
+                
+                % Calculate Corection for resolution gap
+                corr = 3.9/n_datapoints;
+
+                % Calculate r-length of beam within pixel
+                r_length = abs(inter_points(1,2)-inter_points(2,2)) + corr;
+                % Calculate c-length of beam within pixel
+                c_length = abs(inter_points(1,1)-inter_points(2,1)) + corr;
+                % Calculate total leangth of beam within pixel
+                s_pixel = sqrt(r_length.^2 + c_length.^2);
+
+                % Find Attenuation value and add it to the running total
+                s = s + s_pixel*data(c,r);
+
+                % Exit from calculation of current pixel
                 break
             end
-        end
-        % Calculate Length of Beam within pixel
-        if i_start && i_end
-            disp("R-lenght:")
-            disp(abs(inter_points(1,2)-inter_points(2,2)))
-            disp("C-lenght:")
-            disp(abs(inter_points(1,1)-inter_points(2,1)))
-            B = sqrt(abs(inter_points(1,1)-inter_points(2,1)).^2 + abs(inter_points(1,2)-inter_points(2,2)).^2);
-            disp(B)
-            s = s + B*data(c,r);
-        end
 
-        % % if (0<c) && (c<=data_x) && (0<r) && (r<=data_y)
-        % %     s = s + 1;
-        % % end
-        % if r>=min_r && r<=max_r
-        %     if c>=min_c && c<=max_c
-        %         % disp(data(r,c))
-        %         s = s + data(r,c);
-        %     end
-        % end
-
+        
+        end
     end
 end
 
