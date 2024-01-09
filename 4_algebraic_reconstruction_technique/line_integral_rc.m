@@ -1,4 +1,4 @@
-function s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
+function [s, h] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % INPUTS
 % data - data matrix to simulate ct imaging through
 % source_r - r coordinate for the x-ray beam source
@@ -8,6 +8,7 @@ function s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % 
 % OUTPUTS
 % s - attenuation signal for the x-ray beam at the detector
+% h - normalization 
 
 % Extract size of data 
 [pixel_r, pixel_c] = size(data);
@@ -23,8 +24,11 @@ n_datapoints = 10000;
 beam_r = [linspace(beam_start(1),beam_end(1), n_datapoints)];
 beam_c = [linspace(beam_start(2),beam_end(2), n_datapoints)];
 
-% initialize line total attenuation
-s = 0;
+% Initialize attenuation variables
+s = 0; % total attenuation
+a = zeros(1); % row vector of pixel intersection lengths
+
+counter = 0;
 
 % Iterate through all pixels within the data array
 for r=1:pixel_r
@@ -66,6 +70,9 @@ for r=1:pixel_r
                 % Find Attenuation value and add it to the running total
                 s = s + s_pixel*data(c,r);
 
+                counter = counter + 1;
+                a(counter) = s_pixel;
+
                 % Exit from calculation of current pixel
                 break
             end
@@ -73,5 +80,7 @@ for r=1:pixel_r
         end
     end
 end
+
+h = a*(a.');
 
 end
