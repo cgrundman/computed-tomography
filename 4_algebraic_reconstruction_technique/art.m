@@ -13,7 +13,7 @@ data = [0, 0, 0, 0
 % Example 1
 source_r=0; source_c=2; dexel_r=5; dexel_c=2; % s -> 6
 tic
-s1 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+[s1,~] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
 t1(1) = toc;
 tic
 s1_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
@@ -26,7 +26,7 @@ fprintf("\n")
 % Example 2
 source_r=2; source_c=0; dexel_r=2; dexel_c=6; % s -> 7
 tic
-s2 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+[s2,~] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
 t2(1) = toc;
 tic
 s2_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
@@ -39,7 +39,7 @@ fprintf("\n")
 % Example 3
 source_r=0; source_c=0; dexel_r=6; dexel_c=6;% s -> ~11.31
 tic
-s3 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+[s3,~] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
 t3(1) = toc;
 tic
 s3_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
@@ -52,19 +52,48 @@ fprintf("\n")
 % Example 4
 source_r=0; source_c=0; dexel_r=5; dexel_c=4; % s -> ~6.24
 tic
-s4 = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+[s4,~] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
 t4(1) = toc;
 tic
 s4_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 t4(2) = toc;
 disp("Example 4:")
-fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t3*10, t3(1)/t3(2));
+fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t4*10, t4(1)/t4(2));
 fprintf("Answer: %.2f\n", s4)
 fprintf("\n")
 
 %% Part 2 - Normalization
+% Example 1
+source_r=0; source_c=2; dexel_r=5; dexel_c=2; % s -> 6
+[s1,h1] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+disp("Example 1:")
+fprintf("Normalization Value: %.2f\n", h1)
+fprintf("\n")
+
+% Example 2
+source_r=2; source_c=0; dexel_r=2; dexel_c=6; % s -> 7
+[s2,h2] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+disp("Example 2:")
+fprintf("Normalization Value: %.2f\n", h2)
+fprintf("\n")
+
+% Example 3
+source_r=0; source_c=0; dexel_r=6; dexel_c=6;% s -> ~11.31
+[s3,h3] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+disp("Example 3:")
+fprintf("Normalization Value: %.2f\n", h3)
+fprintf("\n")
+
+% Example 4
+source_r=0; source_c=0; dexel_r=5; dexel_c=4; % s -> ~6.24
+[s4,h4] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
+disp("Example 4:")
+fprintf("Normalization Value: %.2f\n", h4)
+fprintf("\n")
 
 %% Part 3 - Conversion to the x/y-system
+% Extended the normalization factor from line_integral_rc.m to
+% line_integral_xy.m
 
 %% Part 4 - Forward Projection for One View
 
