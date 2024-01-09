@@ -9,44 +9,6 @@ function s = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % OUTPUTS
 % s - attenuation signal for the x-ray beam at the detector
 
-
-%% Old Code
-% % extract size of data for limits to simulation
-% [data_x,data_y] = size(data);
-% 
-% % Initiate p to iterate a summation
-% p = 0;
-% 
-% % source location
-% b = [source_c source_r];
-% 
-% % x-ray beam vector
-% d = [dexel_c-source_c dexel_r-source_r];
-% 
-% % x-ray beam vector magnitude
-% norm_scalar = sqrt( (dexel_c-source_c)^2 + (dexel_r-source_r)^2 );
-% 
-% % normalized x-ray beam vector
-% d_norm = d/norm_scalar;
-% 
-% % iteration 
-% delta_s = .05;
-% 
-% % for loop to iterate value of p over entire d vector
-% for i = 0:norm_scalar/delta_s
-%     c = round(b(1)); % c coordinate for the data vector at current position
-%     r = round(b(2)); % r coordinate for the data vector at current position
-%     b = b + delta_s*d_norm; % increase point b from source to detector
-% 
-%     % increase p only if position is within the data matrix
-%     if (0<c) && (c<=data_x) && (0<r) && (r<=data_y)
-%         p = p + delta_s*data(r,c); % iterate the value of p
-%     else
-%         continue
-%     end
-% end
-
-%%
 % Extract size of data 
 [pixel_r, pixel_c] = size(data);
 
@@ -82,19 +44,16 @@ for r=1:pixel_r
                     inter_points(1,1) = beam_c(i);
                     inter_points(1,2) = beam_r(i);
                     i_start = true;
+                % If intersection has already been detected
                 elseif i_start == true
+                    % Store the latest point within range
                     inter_points(2,1) = beam_c(i);
                     inter_points(2,2) = beam_r(i);
                 end
-                
 
-            % TODO Fix the trigger for calculation
             % If intersection started and the point is not within pixel
-            elseif i_start == true 
-                %&& ((beam_r(i)>=r+0.5 || beam_r(i)<r-0.5) || (beam_c(i)>=c+0.5 || beam_c(i)<c-0.5))
-                % Trigger for the end of calculation
-                
-                % Calculate Corection for resolution gap
+            elseif i_start == true                 
+                % Calculate Correction for resolution gap
                 corr = 3.9/n_datapoints;
 
                 % Calculate r-length of beam within pixel
@@ -110,7 +69,6 @@ for r=1:pixel_r
                 % Exit from calculation of current pixel
                 break
             end
-
         
         end
     end
