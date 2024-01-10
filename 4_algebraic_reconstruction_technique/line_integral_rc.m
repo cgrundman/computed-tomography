@@ -36,10 +36,8 @@ for r=1:pixel_r
         i_start = false;
         % For all points along the Beam
         for i=1:size(beam_r,2)
-            % If the r-values are within pixel range
+            % If the r-values and c-values are within pixel range
             if beam_r(i)<r+0.5 && beam_r(i)>=r-0.5 && beam_c(i)<c+0.5 && beam_c(i)>=c-0.5
-                % And if the c-value are within pixel range
-                
                 % Save the intersection points
                 % (first and last points within pixel range)
                 % If this is the first time an intersection has occured

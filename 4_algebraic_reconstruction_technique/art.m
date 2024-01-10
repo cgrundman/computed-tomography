@@ -37,7 +37,7 @@ fprintf("Answer: %.2f\n", s2)
 fprintf("\n")
 
 % Example 3
-source_r=0; source_c=0; dexel_r=6; dexel_c=6;% s -> ~11.31
+source_r=0; source_c=0; dexel_r=6; dexel_c=6; % s -> ~11.31
 tic
 [s3,~] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
 t3(1) = toc;
@@ -96,13 +96,66 @@ fprintf("\n")
 % line_integral_xy.m
 
 %% Part 4 - Forward Projection for One View
+% Created view_xy.m from view.m to include normalization factors
 
 %% Part 5 - Backprojection
+
+image = zeros(4,4);
+c_i = -0.5;
+
+% Example 1
+source_r=0; source_c=2; dexel_r=5; dexel_c=2;
+% -> new_1 = [0 0.5 0 0; 
+%             0 0.5 0 0;
+%             0 0.5 0 0;
+%             0 0.5 0 0]
+new_image_1 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 1:")
+disp(new_image_1)
+fprintf("\n")
+
+% Example 2
+source_r=2; source_c=0; dexel_r=2; dexel_c=6;
+% -> new_2 = [  0   0   0   0; 
+%             0.5 0.5 0.5 0.5; 
+%               0   0   0   0; 
+%               0   0   0   0]
+new_image_2 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 2:")
+disp(new_image_2)
+fprintf("\n")
+
+% Example 3
+source_r=0; source_c=0; dexel_r=6; dexel_c=6;
+% -> new_3 = [0.7   0   0   0; 
+%               0 0.7   0   0; 
+%               0   0 0.7   0; 
+%               0   0   0 0.7]
+new_image_3 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 3:")
+disp(new_image_3)
+fprintf("\n")
+
+% Example 4
+source_r=0; source_c=0; dexel_r=5; dexel_c=4;
+% -> new_4 = [0.56   0    0    0; 
+%             0.24 0.4    0    0; 
+%                0 0.4 0.24    0; 
+%                0   0 0.56 0.08]
+new_image_4 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 4:")
+disp(new_image_4)
+fprintf("\n")
 
 %% Part 6 - Backprojection for One View
 
 %% Part 7 - The Complete Reconstruction
 
+%% Old
 % %% Part 1 - Basic coordinate system and its orientation
 % 
 % %% Part 2 - Adding x/y system
