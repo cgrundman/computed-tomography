@@ -16,7 +16,7 @@ function [S, H] = view_xy(image_data, FCD_mm, DCD_mm, angle_deg, n_dexel, ...
 % Store image data
 data = image_data;
 
-% Calculate position of tube and all detectors
+% Calculate position of x-ray source
 [source_x,source_y] = tube_position_xy(FCD_mm, angle_deg);
 
 % Find positions for detector elements
