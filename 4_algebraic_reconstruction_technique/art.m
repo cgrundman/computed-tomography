@@ -5,6 +5,8 @@ clear
 close all
 
 %% Part 1 - Forward Projection
+
+fprintf("<strong>Part 1: Forward Projection</strong>\n")
 data = [0, 0, 0, 0
         0, 5, 2, 0
         0, 1, 3, 0
@@ -63,6 +65,9 @@ fprintf("Answer: %.2f\n", s4)
 fprintf("\n")
 
 %% Part 2 - Normalization
+
+fprintf("<strong>Part 2: Normalization</strong>\n")
+
 % Example 1
 source_r=0; source_c=2; dexel_r=5; dexel_c=2; % s -> 6
 [s1,h1] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c);
@@ -99,6 +104,10 @@ fprintf("\n")
 % Created view_xy.m from view.m to include normalization factors
 
 %% Part 5 - Backprojection
+
+fprintf("<strong>Part 5: Backprojection</strong>\n")
+
+fprintf("<strong>Step 1: backproject_rc</strong>\n")
 
 image = zeros(4,4);
 c_i = -0.5;
@@ -150,6 +159,10 @@ new_image_4 = backproject_rc(image, source_r, source_c, dexel_r, ...
 disp("Example 4:")
 disp(new_image_4)
 fprintf("\n")
+
+% Step 2: backproject_xy
+% Implemented backproject_xy.m using same structure as line_integral_xy and
+% calculating c_i, calls backproject_rc
 
 %% Part 6 - Backprojection for One View
 
