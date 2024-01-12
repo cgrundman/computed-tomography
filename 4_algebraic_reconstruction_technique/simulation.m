@@ -10,7 +10,8 @@ function sinogram = simulation(image_data, FCD_mm, DCD_mm, angles_deg, ...
 % pixel_size_mm - size of the pixels in mm
 % 
 % OUTPUTS
-% P - attenuation signals for the x-ray beam across all detectors
+% sinogram - collection of all antuation signals for all degrees of
+%            rotation
 
 % define number of iterations
 [~,n_angles] = size(angles_deg);

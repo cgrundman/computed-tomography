@@ -8,14 +8,13 @@ close all
 
 % Load dataset
 main_dir = "dicom_data";
-S = dir(fullfile(main_dir,'*'));
-file_names = {S(~[S.isdir]).name};
+main_dir_for = dir(fullfile(main_dir,'*'));
+file_names = {main_dir_for(~[main_dir_for.isdir]).name};
 ct_imgs = zeros(512,512,size(file_names,2));
 for file_idx=1:numel(file_names)
     file_name = fullfile(main_dir,file_names{file_idx});
     [ct_imgs(:,:,file_idx), ~] = dicomread(file_name);
 end
-disp(file_names)
 
 % Display dataset
 figure()
@@ -32,16 +31,22 @@ end
 %% Simulate CT Machine
 
 % CT Simulation Settings
-FCD_mm = 300;
-DCD_mm = 300;
+FCD_mm = 400;
+DCD_mm = 200;
 n_dexel = 200;
-image_size_mm = 300;
-detector_size_mm = 600;
+n_pixel = size(ct_imgs, 1);
+image_size_mm = 200;
+detector_size_mm = 400;
+dexel_size_mm = detector_size_mm / n_dexel;
+pixel_size_mm = image_size_mm / n_pixel;
 
+rotation = 360;
+rot_per_view = 2;
 % Pass data through CT simulator
-figure()
-for file_idx=1:size(ct_imgs,3)
-    
+ct_data = zeros(rotation/rot_per_view,n_dexel,size(file_names,2));
+for img_idx=1:size(ct_imgs,3)
+    angles_deg = 0:rot_per_view:rotation-1;
+    ct_data(:,:,img_idx) = simulation(ct_imgs(:,:,img_idx), FCD_mm, DCD_mm, angles_deg, n_dexel, dexel_size_mm, pixel_size_mm);
 end
 
 
@@ -58,14 +63,6 @@ end
 % [n_r, n_x] = size(image);
 % n_pixel = n_r;
 % 
-% FCD_mm = 300;
-% DCD_mm = 300;
-% 
-% n_dexel=200;
-% 
-% image_size_mm = 300;
-% 
-% detector_size_mm = 600;
 % 
 % dexel_size_mm = detector_size_mm / n_dexel;
 % pixel_size_mm = image_size_mm / n_pixel;
