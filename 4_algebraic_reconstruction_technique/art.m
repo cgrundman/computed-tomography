@@ -173,8 +173,11 @@ fprintf("\n")
 
 %% Part 7 - The Complete Reconstruction
 
-% Load image
+% Load Sinogram Data
 ct_data = rand(200,200);
+% ct_data = struct2cell(load(file_name));
+% ct_data = ct_data{1,1};
+% disp(ct_data)
 
 % Initialize Image Reconstruction
 image = zeros(1);
