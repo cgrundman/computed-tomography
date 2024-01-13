@@ -20,7 +20,7 @@ end
 figure()
 for file_idx=1:size(ct_imgs,3)
     pos = [0.1 0.1 0.1 0.1];
-    subplot(2,4,file_idx)
+    subplot(2,2,file_idx)
     imagesc(ct_imgs(:,:,file_idx))
     colormap gray(256)
     title('Image ' + string(file_idx))
@@ -33,7 +33,7 @@ end
 % CT Simulation Settings
 FCD_mm = 400;
 DCD_mm = 200;
-n_dexel = 200;
+n_dexel = 4;
 n_pixel = size(ct_imgs, 1);
 image_size_mm = 200;
 detector_size_mm = 400;
@@ -41,53 +41,38 @@ dexel_size_mm = detector_size_mm / n_dexel;
 pixel_size_mm = image_size_mm / n_pixel;
 
 rotation = 360;
-rot_per_view = 2;
-% Pass data through CT simulator
-ct_data = zeros(rotation/rot_per_view,n_dexel,size(file_names,2));
-for img_idx=1:size(ct_imgs,3)
-    angles_deg = 0:rot_per_view:rotation-1;
-    ct_data(:,:,img_idx) = simulation(ct_imgs(:,:,img_idx), FCD_mm, DCD_mm, angles_deg, n_dexel, dexel_size_mm, pixel_size_mm);
-end
+rot_per_view = 90;
 
-
-% %% Part 8 - Complete Simulation
+% % Pass data through CT simulator
+% % ct_data = zeros(rotation/rot_per_view,n_dexel,size(file_names,2));
+% ct_data = zeros(rotation/rot_per_view,n_dexel,1);
+% for img_idx=1:size(ct_imgs,3)
+%     disp("Simulation of Image:")
+%     disp(img_idx)
+%     angles_deg = 0:rot_per_view:rotation-1;
+%     ct_data(:,:,img_idx) = simulation(ct_imgs(:,:,img_idx), FCD_mm, DCD_mm, angles_deg, n_dexel, dexel_size_mm, pixel_size_mm);
+% end
 % 
-% image = imread('CTLab-Introduction3.jpg');
-% 
-% image = image(:,:,1);
-% 
-% image = double(image);
-% image = image / max(max(image));
-% image = image * 0.4;
-% 
-% [n_r, n_x] = size(image);
-% n_pixel = n_r;
-% 
-% 
-% dexel_size_mm = detector_size_mm / n_dexel;
-% pixel_size_mm = image_size_mm / n_pixel;
-% 
-% angles_deg = 0:2:359;
-% 
-% sino = simulation(image, FCD_mm, DCD_mm, angles_deg, n_dexel, dexel_size_mm, pixel_size_mm);
-% 
+% % Display dataset
 % figure()
-% subplot(1,2,1)
-% imagesc(image)
-% colormap gray(256)
-% title('Image')
-% axis('square')
-% axis off
-% 
-% subplot(1,2,2)
-% sinogram_array = projection(image);
-% imagesc(sino)
-% colormap gray(256) 
-% title('Sinogram')
-% axis('square')
-% axis off
-
-
-
+% for file_idx=1:size(ct_imgs,3)
+%     pos = [0.1 0.1 0.1 0.1];
+%     subplot(2,4,file_idx)
+%     imagesc(ct_data(:,:,file_idx))
+%     colormap gray(256)
+%     title('Image ' + string(file_idx))
+%     axis('square')
+%     axis off
+% end
 
 %% Save New Sinogram Data
+
+% % Save Sinogram Data
+% file_name = 'sinograms/delete.mat';
+% save(file_name)
+% close(file_name)
+% 
+% % Load Sinogram Data
+% ct_load = struct2cell(load(file_name));
+% ct_load = ct_load{1,1};
+% disp(ct_load)
