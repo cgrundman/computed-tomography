@@ -1,4 +1,4 @@
-function [p, h] = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c)
+function p = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c)
 % INPUTS
 % data - data matrix to simulate ct imaging through
 % source_r - r coordinate for the x-ray beam source
@@ -43,7 +43,5 @@ for i = 0:norm_scalar/delta_s
         continue
     end
 end
-
-h = 0;
 
 end
