@@ -45,6 +45,8 @@ for r=1:pixel_r
                     % Save the r.c coords for first point within range
                     inter_points(1,1) = beam_c(i);
                     inter_points(1,2) = beam_r(i);
+                    inter_points(2,1) = beam_c(i);
+                    inter_points(2,2) = beam_r(i);
                     i_start = true;
                 % If intersection has already been detected
                 elseif i_start == true
@@ -54,9 +56,11 @@ for r=1:pixel_r
                 end
 
             % If intersection started and the point is not within pixel
-            elseif i_start == true                 
+            elseif i_start == true
                 % Calculate Correction for resolution gap
                 corr = 3.9/n_datapoints;
+
+                % disp(inter_points)
 
                 % Calculate r-length of beam within pixel
                 r_length = abs(inter_points(1,2)-inter_points(2,2)) + corr;
@@ -67,7 +71,8 @@ for r=1:pixel_r
 
                 % Find Attenuation value and add it to the running total
                 s = s + s_pixel*data(c,r);
-
+                
+                
                 counter = counter + 1;
                 a(counter) = s_pixel;
 
