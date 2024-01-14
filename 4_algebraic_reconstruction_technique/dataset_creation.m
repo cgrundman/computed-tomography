@@ -4,31 +4,23 @@ clc
 clear
 close all
 
-%% Load Data and View Data
+%% Load Dataset and Display
 
-% Load dataset
-main_dir = "dicom_data";
+% Initialize directory for CT images, and file names
+main_dir = "ct_images";
 main_dir_for = dir(fullfile(main_dir,'*'));
 file_names = {main_dir_for(~[main_dir_for.isdir]).name};
-ct_imgs = zeros(512,512,size(file_names,2));
+
+% Iterate through files, loading the files and storing data in ct_imgs
+ct_imgs = zeros(200,200,size(file_names,2));
 for file_idx=1:numel(file_names)
-    file_name = fullfile(main_dir,file_names{file_idx});
-    [ct_imgs(:,:,file_idx), ~] = dicomread(file_name);
+    file_dir = fullfile(main_dir,file_names{file_idx});
+    image = imread(file_dir);
+    image = image(:,:,1);
+    ct_imgs(:,:,file_idx) = image;
 end
 
-% Display dataset
-figure()
-for file_idx=1:size(ct_imgs,3)
-    pos = [0.1 0.1 0.1 0.1];
-    subplot(2,2,file_idx)
-    imagesc(ct_imgs(:,:,file_idx))
-    colormap gray(256)
-    title('Image ' + string(file_idx))
-    axis('square')
-    axis off
-end
-
-%% Simulate CT Machine
+%% Simulate CT Machine and Save Sinograms
 
 % CT Simulation Settings
 FCD_mm = 400;
@@ -40,39 +32,65 @@ detector_size_mm = 400;
 dexel_size_mm = detector_size_mm / n_dexel;
 pixel_size_mm = image_size_mm / n_pixel;
 
+% Set rotation setting for CT Simulator
 rotation = 360;
 rot_per_view = 90;
+angles_deg = 0:rot_per_view:rotation-1;
 
-% % Pass data through CT simulator
-% % ct_data = zeros(rotation/rot_per_view,n_dexel,size(file_names,2));
+% Pass data through CT simulator
+save_dir = 'sinograms\';
+file_name = 'sinogram_';
+ct_data = zeros(rotation/rot_per_view,n_dexel,size(file_names,2));
 % ct_data = zeros(rotation/rot_per_view,n_dexel,1);
-% for img_idx=1:size(ct_imgs,3)
-%     disp("Simulation of Image:")
-%     disp(img_idx)
-%     angles_deg = 0:rot_per_view:rotation-1;
-%     ct_data(:,:,img_idx) = simulation(ct_imgs(:,:,img_idx), FCD_mm, DCD_mm, angles_deg, n_dexel, dexel_size_mm, pixel_size_mm);
-% end
-% 
-% % Display dataset
-% figure()
-% for file_idx=1:size(ct_imgs,3)
-%     pos = [0.1 0.1 0.1 0.1];
-%     subplot(2,4,file_idx)
-%     imagesc(ct_data(:,:,file_idx))
-%     colormap gray(256)
-%     title('Image ' + string(file_idx))
-%     axis('square')
-%     axis off
-% end
+for img_idx=1:size(ct_imgs,3)
+    % Display start point for image simulation
+    fprintf("Simulation of Image: %.0f\n", img_idx)
 
-%% Save New Sinogram Data
+    % Display time feedback for simulation 
+    % (simulations take a long time)
+    tic
+    ct_simulation = simulation(ct_imgs(:,:,img_idx), FCD_mm, DCD_mm, angles_deg, n_dexel, dexel_size_mm, pixel_size_mm);
+    t = toc;
+    fprintf("Simulation Time: %.0f\n", t)
 
-% % Save Sinogram Data
-% file_name = 'sinograms/delete.mat';
-% save(file_name)
-% close(file_name)
-% 
-% % Load Sinogram Data
-% ct_load = struct2cell(load(file_name));
-% ct_load = ct_load{1,1};
-% disp(ct_load)
+    % Store data in ct_data vaiable
+    ct_data(:,:,img_idx) = ct_simulation;
+
+    % Save CT Simulation Data in .mat file
+    save([save_dir,file_name,num2str(img_idx),'.mat'],'ct_simulation');
+
+end
+
+%% Display dataset
+
+% Display all ct data
+figure()
+for file_idx=1:size(ct_imgs,3)
+
+    % Display original CT Image
+    subplot(2, 4, file_idx);
+    imagesc(ct_imgs(:,:,file_idx))
+    colormap gray(256)
+    img_title = extractBefore(string(file_names(file_idx)), ".JPG");
+    title(img_title,'FontSize',16)
+    axis('square')
+    % axis off
+    xticklabels ''
+    yticklabels ''
+    if file_idx == 1
+        ylabel("Original CT Images",'FontSize',16,'FontWeight','bold');
+    end
+
+    % Display Simulated CT Data
+    subplot(2, 4, file_idx+4);
+    imagesc(ct_data(:,:,file_idx))
+    colormap gray(256)
+    axis('square')
+    % axis off
+    xticklabels ''
+    yticklabels ''
+    if file_idx == 1
+        ylabel("CT Simulation Results",'FontSize',16,'FontWeight','bold');
+    end
+
+end
