@@ -22,8 +22,7 @@ sinogram = zeros(n_angles,n_dexel);
 % loop over all angles and create sinogram matrix
 
 for i = 1:n_angles
-    disp("Calculating view at angle:")
-    disp(angles_deg(i))
+    fprintf("Calculating view at angle: %.0f\n", angles_deg(i))
     % tic
     sinogram(i,:) = view(image_data, FCD_mm, DCD_mm, angles_deg(i), ...
                        n_dexel, dexel_size_mm, pixel_size_mm);
