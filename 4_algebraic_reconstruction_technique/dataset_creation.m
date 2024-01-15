@@ -16,7 +16,12 @@ ct_imgs = zeros(200,200,size(file_names,2));
 for file_idx=1:numel(file_names)
     file_dir = fullfile(main_dir,file_names{file_idx});
     image = imread(file_dir);
+
+    % Preprocess Image
     image = image(:,:,1);
+    image = double(image);
+    image = image / max(max(image));
+    image = image * 0.4;
     ct_imgs(:,:,file_idx) = image;
 end
 
@@ -25,7 +30,7 @@ end
 % CT Simulation Settings
 FCD_mm = 400;
 DCD_mm = 200;
-n_dexel = 4;
+n_dexel = 200;
 n_pixel = size(ct_imgs, 1);
 image_size_mm = 200;
 detector_size_mm = 400;
@@ -38,7 +43,7 @@ rot_per_view = 90;
 angles_deg = 0:rot_per_view:rotation-1;
 
 % Pass data through CT simulator
-save_dir = 'sinograms\';
+save_dir = 'sinograms_temp\';
 file_name = 'sinogram_';
 ct_data = zeros(rotation/rot_per_view,n_dexel,size(file_names,2));
 % ct_data = zeros(rotation/rot_per_view,n_dexel,1);
