@@ -31,7 +31,7 @@ d_norm = xray_vec/norm_scalar;
 
 % Iteration length
 % delta_s = .05;
-delta_s = .001;
+delta_s = .05;
 
 counter = 1;
 length = 0;

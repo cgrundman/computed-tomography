@@ -33,17 +33,17 @@ DCD_mm = 200;
 n_dexel = 200;
 n_pixel = size(ct_imgs, 1);
 image_size_mm = 200;
-detector_size_mm = 400;
+detector_size_mm = 440;
 dexel_size_mm = detector_size_mm / n_dexel;
 pixel_size_mm = image_size_mm / n_pixel;
 
 % Set rotation setting for CT Simulator
 rotation = 360;
-rot_per_view = 90;
+rot_per_view = 2;
 angles_deg = 0:rot_per_view:rotation-1;
 
 % Pass data through CT simulator
-save_dir = 'sinograms_temp\';
+save_dir = 'sinograms\';
 file_name = 'sinogram_';
 ct_data = zeros(rotation/rot_per_view,n_dexel,size(file_names,2));
 % ct_data = zeros(rotation/rot_per_view,n_dexel,1);
@@ -59,7 +59,7 @@ for img_idx=1:size(ct_imgs,3)
     fprintf("Simulation Time: %.0f\n", t)
 
     % Store data in ct_data vaiable
-    ct_data(:,:,img_idx) = ct_simulation;
+    ct_data(:,:,img_idx) = rescale(ct_simulation, 0, 0.4);
 
     % Save CT Simulation Data in .mat file
     save([save_dir,file_name,num2str(img_idx),'.mat'],'ct_simulation');
