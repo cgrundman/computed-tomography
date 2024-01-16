@@ -27,10 +27,10 @@ norm_scalar = sqrt( (dexel_c-source_c)^2 + (dexel_r-source_r)^2 );
 % normalized x-ray beam vector
 d_norm = d/norm_scalar;
 
-% iteration 
+% Iteration length 
 delta_s = .05;
 
-% for loop to iterate value of p over entire d vector
+% Iterate value of s over entire x-ray vector
 for i = 0:norm_scalar/delta_s
     c = round(b(1)); % c coordinate for the data vector at current position
     r = round(b(2)); % r coordinate for the data vector at current position

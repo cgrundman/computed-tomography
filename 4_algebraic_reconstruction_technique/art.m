@@ -214,22 +214,22 @@ old_image = image;
 %     % Replace old image with current reconstruction
 %     old_image = image;
 % end
-
-% Create Dual Plot of Original Image and Backprojection
-figure()
-% Plot original CT data
-subplot(1,2,1)
-imagesc(ct_data)
-colormap gray(256)
-title('CT Data')
-axis('square')
-axis off
-
-% Plot Reconstruction
-subplot(1,2,2)
-sinogram_array = projection(image);
-imagesc(image)
-colormap gray(256) 
-title('Reconstruction')
-axis('square')
-axis off
+% 
+% % Create Dual Plot of Original Image and Backprojection
+% figure()
+% % Plot original CT data
+% subplot(1,2,1)
+% imagesc(ct_data)
+% colormap gray(256)
+% title('CT Data')
+% axis('square')
+% axis off
+% 
+% % Plot Reconstruction
+% subplot(1,2,2)
+% sinogram_array = projection(image);
+% imagesc(image)
+% colormap gray(256) 
+% title('Reconstruction')
+% axis('square')
+% axis off
