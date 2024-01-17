@@ -4,7 +4,7 @@ clc
 clear
 close all
 
-%% Load Dataset and Display
+%% Load Dataset
 
 % Initialize directory for CT images, and file names
 main_dir = "ct_images";
