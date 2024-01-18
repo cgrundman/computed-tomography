@@ -173,6 +173,25 @@ close all
 
 %% Part 7 - The Complete Reconstruction
 
+% Load Image Data
+dataset_dir = "ct_images";
+dataset_dir_for = dir(fullfile(dataset_dir,'*'));
+file_names_imgs = {dataset_dir_for(~[dataset_dir_for.isdir]).name};
+
+% Iterate through files, loading the files and storing data in ct_imgs
+ct_imgs = zeros(200,200,size(file_names_imgs,2));
+for file_idx=1:numel(file_names_imgs)
+    file_dir = fullfile(dataset_dir,file_names_imgs{file_idx});
+    image = imread(file_dir);
+
+    % Preprocess Image
+    image = image(:,:,1);
+    image = double(image);
+    image = image / max(max(image));
+    image = image * 0.4;
+    ct_imgs(:,:,file_idx) = image;
+end
+
 % Load Sinogram Data
 load_dir = 'sinograms_temp\';
 load_dir_for = dir(fullfile(load_dir,'*'));
@@ -190,73 +209,134 @@ for file_idx=1:numel(file_names)
 
 end
 
-
-
-% load([save_dir,file_name,num2str(img_idx),'.mat'],'ct_simulation');
-% ct_data = struct2cell(load(file_name));
-% ct_data = ct_data{1,1};
-% disp(ct_data)
-
-
-
-
-% main_dir = "ct_images";
-% main_dir_for = dir(fullfile(main_dir,'*'));
-% file_names = {main_dir_for(~[main_dir_for.isdir]).name};
-
-
-
 % Initialize Image Reconstruction
-image = zeros(1);
+n_pixels = 200;
+image = zeros(n_pixels,n_pixels,4);
 
 % Store image as the older version of itself
 old_image = image;
 
-% % CT machine geometry
-% FCD_mm = 400;
-% DCD_mm = 200;
-% detector_width_mm = 400;
-% image_width = 200;
-% 
-% % Iterate backprojections to reconstruct image 
-% for iter=1:n_iter
-%     for view=1:100 % select a random view, change 1:100
-%         % Calculate  and normalization values
-%         [s,h] = view_xy(old_image, FCD_mm);
-% 
-%         % Calculate measures projection values for one view
-%         m = sinogram(view);
-% 
-%         % Calculate the difference between simulated and measured 
-%         % projection values
-%         d = s - m;
-% 
-%         % Backproject new image
-%         backproject = backproject_view_xy(image_data, FCD_mm, DCD_mm, ...
-%             angle_deg, n_dexel, dexel_size_mm, pixel_size_mm, d, h);
-% 
-%         % Find new image with back projection
-%         image = image - backproject;
-%     end
-%     % Replace old image with current reconstruction
-%     old_image = image;
-% end
-% 
-% % Create Dual Plot of Original Image and Backprojection
+% CT machine geometry
+FCD_mm = 400;
+DCD_mm = 200;
+dexel_size_mm = 400;
+image_width = 200;
+
+% Store iteration ranges
+[num_views, n_dexel, num_data] = size(ct_data);
+
+pixel_size_mm = image_width/n_pixels;
+angles = linspace(0,360,num_views+1);
+angles = angles(1:end-1);
+
+
+% Iterate backprojections to reconstruct image 
+for iter=1:1 % num_data
+
+    fprintf("Reconstucting Image: %g\n", iter)
+
+    for view=1:num_views % select a random view, change 1:100
+
+        fprintf("View: %g\n", angles(view))
+
+        % Calculate attenuation and normalization values
+        [s,h] = view_xy(old_image(:,:,num_data), FCD_mm, DCD_mm, angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm);
+
+        % Calculate measured projection values for one view
+        m = ct_data(view,:,file_idx);
+
+        % Calculate the difference between simulated and measured 
+        % projection values
+        d = s.' - m;
+        
+        disp("Backprojecting")
+
+        % Backproject new image
+        backproject = backproject_view_xy(image(:,:,num_data), FCD_mm, DCD_mm, ...
+            angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
+
+        % Find new image with back projection
+        image(:,:,num_data) = image(:,:,num_data) - backproject;
+    end
+    % Replace old image with current reconstruction
+    old_image(:,:,num_data) = image(:,:,num_data);
+end
+
+% % Display all ct data
 % figure()
-% % Plot original CT data
-% subplot(1,2,1)
-% imagesc(ct_data)
-% colormap gray(256)
-% title('CT Data')
-% axis('square')
-% axis off
+% for file_idx=1:size(ct_data,3)
 % 
-% % Plot Reconstruction
-% subplot(1,2,2)
-% sinogram_array = projection(image);
-% imagesc(image)
-% colormap gray(256) 
-% title('Reconstruction')
-% axis('square')
+%     % Display original CT Image
+%     subplot(3, 4, file_idx);
+%     imagesc(ct_imgs(:,:,file_idx))
+%     colormap gray(256)
+%     img_title = extractBefore(string(file_names_imgs(file_idx)), ".JPG");
+%     title(img_title,'FontSize',16)
+%     axis('square')
+%     % axis off
+%     xticklabels ''
+%     yticklabels ''
+%     if file_idx == 1
+%         ylabel("Original CT Images",'FontSize',16,'FontWeight','bold');
+%     end
+% 
+%     % Display Simulated CT Data
+%     subplot(3, 4, file_idx+4);
+%     imagesc(ct_data(:,:,file_idx))
+%     colormap gray(256)
+%     img_title = extractBefore(string(file_names(file_idx)), ".mat");
+%     img_title = strrep(img_title, "_", " ");
+%     title(img_title,'FontSize',16)
+%     axis('square')
+%     % axis off
+%     xticklabels ''
+%     yticklabels ''
+%     if file_idx == 1
+%         ylabel("CT Simulation Results",'FontSize',16,'FontWeight','bold');
+%     end
+% 
+% end
+
+%% Delete
+figure()
+% Display original CT Image
+subplot(3, 4, 1);
+imagesc(ct_imgs(:,:,file_idx))
+colormap gray(256)
+img_title = extractBefore(string(file_names_imgs(file_idx)), ".JPG");
+title(img_title,'FontSize',16)
+axis('square')
 % axis off
+xticklabels ''
+yticklabels ''
+if file_idx == 1
+    ylabel("Original CT Images",'FontSize',16,'FontWeight','bold');
+end
+% Display Simulated CT Data
+subplot(3, 4, 5);
+imagesc(ct_data(:,:,file_idx))
+colormap gray(256)
+img_title = extractBefore(string(file_names(file_idx)), ".mat");
+img_title = strrep(img_title, "_", " ");
+title(img_title,'FontSize',16)
+axis('square')
+% axis off
+xticklabels ''
+yticklabels ''
+if file_idx == 1
+    ylabel("CT Simulation Results",'FontSize',16,'FontWeight','bold');
+end
+
+%% Display Simulated CT Data
+subplot(3, 4, 9);
+imagesc(image(:,:,1))
+colormap gray(256)
+img_title = "Reconstruction";
+title(img_title,'FontSize',16)
+axis('square')
+% axis off
+xticklabels ''
+yticklabels ''
+if file_idx == 1
+    ylabel("CT Simulation Results",'FontSize',16,'FontWeight','bold');
+end
