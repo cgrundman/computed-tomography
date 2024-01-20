@@ -180,7 +180,7 @@ file_names_imgs = {dataset_dir_for(~[dataset_dir_for.isdir]).name};
 
 % Iterate through files, loading the files and storing data in ct_imgs
 ct_imgs = zeros(200,200,size(file_names_imgs,2));
-for file_idx=1:1 % numel(file_names_imgs)
+for file_idx=1:numel(file_names_imgs)
     file_dir = fullfile(dataset_dir,file_names_imgs{file_idx});
     image = imread(file_dir);
 
@@ -200,7 +200,7 @@ file_names = {load_dir_for(~[load_dir_for.isdir]).name};
 % Iterate through files, loading the files and storing data in ct_imgs
 ct_data = zeros(4,4,size(file_names,2));
 ct_data = ct_data./10; % cast(ct_data,"uint8");
-for file_idx=1:1 % numel(file_names)
+for file_idx=1:numel(file_names)
 
     file_dir = fullfile(load_dir,file_names{file_idx});
     data = load(file_dir, "ct_simulation");
@@ -210,10 +210,8 @@ for file_idx=1:1 % numel(file_names)
 end
 
 % Initialize Image Reconstruction
-% n_pixels = 200;
-% image = zeros(n_pixels,n_pixels,4);
-n_pixels = 4; % delete
-image = zeros(n_pixels,n_pixels,1); % delete
+n_pixels = 200;
+image = zeros(n_pixels,n_pixels,4);
 
 % Store image as the older version of itself
 old_image = image;
@@ -242,7 +240,7 @@ for iter=1:1 % num_data
         fprintf("View: %g\n", angles(view))
 
         % Calculate attenuation and normalization values
-        [s,h] = view_xy(old_image(:,:,1), FCD_mm, DCD_mm, angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm);
+        [s,h] = view_xy(old_image(:,:,num_data), FCD_mm, DCD_mm, angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm);
 
         % Calculate measured projection values for one view
         m = ct_data(view,:,file_idx);
@@ -254,14 +252,14 @@ for iter=1:1 % num_data
         disp("Backprojecting")
 
         % Backproject new image
-        backproject = backproject_view_xy(image(:,:,1), FCD_mm, DCD_mm, ...
+        backproject = backproject_view_xy(image(:,:,num_data), FCD_mm, DCD_mm, ...
             angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
 
         % Find new image with back projection
-        image(:,:,1) = image(:,:,1) - backproject;
+        image(:,:,num_data) = image(:,:,num_data) - backproject;
     end
     % Replace old image with current reconstruction
-    old_image(:,:,1) = image(:,:,1);
+    old_image(:,:,num_data) = image(:,:,num_data);
 end
 
 % % Display all ct data
@@ -299,9 +297,9 @@ end
 % 
 % end
 
-%% Single CT Process Display
-
+%% Delete
 figure()
+
 % Display original CT Image
 subplot(3, 1, 1);
 imagesc(ct_imgs(:,:,1))
@@ -327,4 +325,6 @@ colormap gray(256)
 img_title = "Reconstruction";
 title(img_title,'FontSize',16)
 axis('square')
-axis off
+% axis off
+xticklabels ''
+yticklabels ''
