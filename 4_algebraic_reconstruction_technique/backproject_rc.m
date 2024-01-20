@@ -72,3 +72,7 @@ for r=1:pixel_r
         end
     end
 end
+
+disp(c_i)
+
+end

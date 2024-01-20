@@ -233,29 +233,42 @@ angles = angles(1:end-1);
 
 
 % Iterate backprojections to reconstruct image 
-for iter=1:1 % num_data
+for iter=1:1 % num_iterations
 
     fprintf("Reconstucting Image: %g\n", iter)
 
-    for view=1:num_views % select a random view, change 1:100
+    for view=1:1 % select a random view
 
         fprintf("View: %g\n", angles(view))
 
         % Calculate attenuation and normalization values
         [s,h] = view_xy(old_image(:,:,1), FCD_mm, DCD_mm, angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm);
 
+        disp("S")
+        disp(s)
+        disp("H")
+        disp(h)
+
         % Calculate measured projection values for one view
         m = ct_data(view,:,file_idx);
+
+        disp("m")
+        disp(m)
 
         % Calculate the difference between simulated and measured 
         % projection values
         d = s.' - m;
         
+        disp("d")
+        disp(d)
+
         disp("Backprojecting")
 
         % Backproject new image
         backproject = backproject_view_xy(image(:,:,1), FCD_mm, DCD_mm, ...
             angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
+
+        disp(backproject)
 
         % Find new image with back projection
         image(:,:,1) = image(:,:,1) - backproject;
