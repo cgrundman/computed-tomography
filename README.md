@@ -9,11 +9,11 @@ This Project has 5 sections, found in 5 folders from the main directory.
 
 Within this folder, one file containing a few exercises relevent to MATLAB can be found. This is not directly project related, but the code served as a great refresher.
 
-## Section 2: Exercise 1
+## Section 2: Attenuation Collection
 
 This section covers the creation of CT Data at one instance or angle. 
 
-## Section 3: Exercise 2
+## Section 3: Sinogram Creation
 
 This section shows how a collection of different views are compiled into an image called a sinogram. This code simulates a CT machine. It should be noted that the simulation excludes many other real world issues, like noise and X-Ray beam distribution.
 
@@ -23,7 +23,7 @@ This is a full demonstration of CT Data Reconstruction. The code from previous s
 
 ## Section 5: Metal Artifact Removal
 
-TBD
+This section deals with metal artifacts in CT Imaging. 
 
 
 
