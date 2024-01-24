@@ -29,6 +29,7 @@ c_i = d_i/h_i;
 correction_image = backproject_rc(image, source_r, source_c, dexel_r, ...
     dexel_c, c_i);
 
-disp(correction_image)
+% disp("backproject_xy")
+% disp(correction_image)
 
 end

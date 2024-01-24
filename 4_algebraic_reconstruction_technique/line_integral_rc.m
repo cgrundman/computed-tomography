@@ -80,6 +80,8 @@ for r=1:pixel_r
 end
 
 h = a*(a.');
+disp("line_integral_rc - h")
+disp(h)
 
 end
 

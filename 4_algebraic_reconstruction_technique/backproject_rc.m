@@ -73,6 +73,10 @@ for r=1:pixel_r
     end
 end
 
-disp(c_i)
+% disp("c_i")
+% disp(c_i)
+% 
+% disp("backproject_rc")
+% disp(correction_image)
 
 end

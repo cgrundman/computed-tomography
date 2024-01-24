@@ -26,12 +26,18 @@ image = image_data;
 % Initialize correction_image
 correction_image = zeros(size(image));
 
+% disp("h")
+% disp(h)
+
 % Iterate over all detectors to calculate attenuation array
 for i = 1:n_dexel
     % store each single measuerment in P
     correction_image(:,:) = backproject_xy(image, source_x, source_y, ...
     dexel_x(n_dexel), dexel_y(n_dexel), pixel_size_mm, d(i), h(i));
-    disp(correction_image)
+    
 end
+
+disp("backproject_view_xy")
+disp(correction_image)
 
 end

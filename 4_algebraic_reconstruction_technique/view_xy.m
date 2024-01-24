@@ -33,6 +33,8 @@ for i = 1:n_dexel
     % store each single measuerment in P
     [S(i), H(i)] = line_integral_xy(data, pixel_size_mm, source_x, ...
         source_y, det_x(i), det_y(i));
+    disp("view_xy - H")
+    disp(H)
 end
 
 end
