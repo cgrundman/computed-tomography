@@ -21,7 +21,7 @@ close all
 % s1_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 % t1(2) = toc;
 % disp("Example 1:")
-% fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t1*10, t1(1)/t1(2));
+% % fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t1*10, t1(1)/t1(2));
 % fprintf("Answer: %.2f\n", s1)
 % fprintf("\n")
 % 
@@ -34,7 +34,7 @@ close all
 % s2_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 % t2(2) = toc;
 % disp("Example 2:")
-% fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t2*10, t2(1)/t2(2));
+% % fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t2*10, t2(1)/t2(2));
 % fprintf("Answer: %.2f\n", s2)
 % fprintf("\n")
 % 
@@ -47,7 +47,7 @@ close all
 % s3_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 % t3(2) = toc;
 % disp("Example 3:")
-% fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t3*10, t3(1)/t3(2));
+% % fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t3*10, t3(1)/t3(2));
 % fprintf("Answer: %.2f\n", s3)
 % fprintf("\n")
 % 
@@ -60,7 +60,7 @@ close all
 % s4_old = line_integral_rc_old(data, source_r, source_c, dexel_r, dexel_c);
 % t4(2) = toc;
 % disp("Example 4:")
-% fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t4*10, t4(1)/t4(2));
+% % fprintf('Method 1: %.4f msec\nMethod 2: %.4f msec\nSpeedup: %.2f x\n', t4*10, t4(1)/t4(2));
 % fprintf("Answer: %.2f\n", s4)
 % fprintf("\n")
 % 
@@ -213,7 +213,7 @@ end
 % n_pixels = 200;
 % image = zeros(n_pixels,n_pixels,4);
 n_pixels = 4; % delete
-image = zeros(n_pixels,n_pixels,1); % delete
+image = ones(n_pixels,n_pixels,1); % delete
 
 % Store image as the older version of itself
 old_image = image;
@@ -235,22 +235,27 @@ angles = angles(1:end-1);
 % Iterate backprojections to reconstruct image 
 for iter=1:1 % num_iterations
 
-    fprintf("Reconstucting Image: %g\n", iter)
+    fprintf("Reconstructing View: %g\n", iter)
 
     for view=1:1 % select a random view
 
-        fprintf("View: %g\n", angles(view))
+        fprintf("View: %g\n", angles(iter))
 
         % Calculate attenuation and normalization values
-        [s,h] = view_xy(old_image(:,:,1), FCD_mm, DCD_mm, angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm);
+        [s,h] = view_xy(old_image(:,:,1), FCD_mm, DCD_mm, angles(view), n_dexel, dexel_size_mm, pixel_size_mm);
 
         disp("S")
         disp(s)
+        % Correct Calculation of H
         disp("H")
+        h(1) = 1;
+        h(2) = 1;
+        h(3) = 1;
+        h(4) = 1;
         disp(h)
 
         % Calculate measured projection values for one view
-        m = ct_data(view,:,file_idx);
+        m = ct_data(iter,:,1);
 
         disp("m")
         disp(m)
@@ -258,17 +263,18 @@ for iter=1:1 % num_iterations
         % Calculate the difference between simulated and measured 
         % projection values
         d = s.' - m;
-        
+
         disp("d")
         disp(d)
 
-        disp("Backprojecting")
+        % disp("Backprojecting")
 
         % Backproject new image
         backproject = backproject_view_xy(image(:,:,1), FCD_mm, DCD_mm, ...
             angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
 
-        disp(backproject)
+        % disp("Backprojection")
+        % disp(backproject)
 
         % Find new image with back projection
         image(:,:,1) = image(:,:,1) - backproject;
@@ -312,32 +318,32 @@ end
 % 
 % end
 
-%% Single CT Process Display
+% Single CT Process Display
 
-figure()
-% Display original CT Image
-subplot(3, 1, 1);
-imagesc(ct_imgs(:,:,1))
-colormap gray(256)
-img_title = "Original";
-title(img_title,'FontSize',16)
-axis('square')
-axis off
-
-% Display Simulated CT Data
-subplot(3, 1, 2);
-imagesc(ct_data(:,:,1))
-colormap gray(256)
-img_title = "Sinogram";
-title(img_title,'FontSize',16)
-axis('square')
-axis off
-
-% Display Simulated CT Data
-subplot(3, 1, 3);
-imagesc(image(:,:,1))
-colormap gray(256)
-img_title = "Reconstruction";
-title(img_title,'FontSize',16)
-axis('square')
-axis off
+% figure()
+% % Display original CT Image
+% subplot(3, 1, 1);
+% imagesc(ct_imgs(:,:,1))
+% colormap gray(256)
+% img_title = "Original";
+% title(img_title,'FontSize',16)
+% axis('square')
+% axis off
+% 
+% % Display Simulated CT Data
+% subplot(3, 1, 2);
+% imagesc(ct_data(:,:,1))
+% colormap gray(256)
+% img_title = "Sinogram";
+% title(img_title,'FontSize',16)
+% axis('square')
+% axis off
+% 
+% % Display Simulated CT Data
+% subplot(3, 1, 3);
+% imagesc(image(:,:,1))
+% colormap gray(256)
+% img_title = "Reconstruction";
+% title(img_title,'FontSize',16)
+% axis('square')
+% axis off
