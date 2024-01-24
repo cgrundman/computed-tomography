@@ -1,6 +1,6 @@
 function [s, h] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % INPUTS
-% data - image matrix to simulate ct imaging through
+% data - data matrix to simulate ct imaging through
 % source_r - r coordinate for the x-ray beam source
 % source_c - c coordinate for the x-ray beam source
 % dexel_r - r coordinate for the x-ray beam detector
@@ -10,66 +10,76 @@ function [s, h] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % s - attenuation signal for the x-ray beam at the detector
 % h - normalization factor
 
-% Extract size of image
-[data_x,data_y] = size(data);
+% Extract size of data 
+[pixel_r, pixel_c] = size(data);
 
-% Initiate attenuation variables to iterate a summation
+% Source Location
+beam_start = [source_c source_r];
+
+% End Location
+beam_end = [dexel_c dexel_r];
+
+% Beam Vector
+n_datapoints = 10000;
+beam_r = [linspace(beam_start(1),beam_end(1), n_datapoints)];
+beam_c = [linspace(beam_start(2),beam_end(2), n_datapoints)];
+
+% Initialize attenuation variables
 s = 0; % total attenuation
 a = zeros(1); % row vector of pixel intersection lengths
 
-% Calculation point
-calc_p = [source_c source_r];
+counter = 0;
 
-% X-ray beam vector
-xray_vec = [dexel_c-source_c dexel_r-source_r];
+% Iterate through all pixels within the data array
+for r=1:pixel_r
+    for c=1:pixel_c
+        i_start = false;
+        % For all points along the Beam
+        for i=1:size(beam_r,2)
+            % If the r-values and c-values are within pixel range
+            if beam_r(i)<r+0.5 && beam_r(i)>=r-0.5 && beam_c(i)<c+0.5 && beam_c(i)>=c-0.5
+                % Save the intersection points
+                % (first and last points within pixel range)
+                % If this is the first time an intersection has occured
+                if i_start == false
+                    % Save the r.c coords for first point within range
+                    inter_points(1,1) = beam_c(i);
+                    inter_points(1,2) = beam_r(i);
+                    i_start = true;
+                % If intersection has already been detected
+                elseif i_start == true
+                    % Store the latest point within range
+                    inter_points(2,1) = beam_c(i);
+                    inter_points(2,2) = beam_r(i);
+                end
 
-% X-ray beam vector magnitude
-norm_scalar = sqrt( (dexel_c-source_c)^2 + (dexel_r-source_r)^2 );
+            % If intersection started and the point is not within pixel
+            elseif i_start == true                 
+                % Calculate Correction for resolution gap
+                corr = 3.9/n_datapoints;
 
-% Normalized x-ray beam vector
-d_norm = xray_vec/norm_scalar;
+                % Calculate r-length of beam within pixel
+                r_length = abs(inter_points(1,2)-inter_points(2,2)) + corr;
+                % Calculate c-length of beam within pixel
+                c_length = abs(inter_points(1,1)-inter_points(2,1)) + corr;
+                % Calculate total leangth of beam within pixel
+                s_pixel = sqrt(r_length.^2 + c_length.^2);
 
-% Iteration length
-% delta_s = .05;
-delta_s = .05;
+                % Find Attenuation value and add it to the running total
+                s = s + s_pixel*data(c,r);
 
-counter = 1;
-length = 0;
+                counter = counter + 1;
+                a(counter) = s_pixel;
 
-c_old = 0;
-r_old = 0;
-
-% Iterate value of s over entire d vector
-for i = 0:norm_scalar/delta_s
-    c = round(calc_p(1)); % c value for the data vector at itaration position
-    r = round(calc_p(2)); % r value for the data vector at itaration position
-    calc_p = calc_p + delta_s*d_norm; % increase iteration point toward detector
-
-    % increase s only if position is within the data matrix
-    if (0<c) && (c<=data_x) && (0<r) && (r<=data_y)
-        % length = length + delta_s;
-        s = s + delta_s*data(r,c); % iterate the value of s
-        % a(counter) = s_pixel;
-        length = length + delta_s;
-    end
-
-    % Calculate length of beam within current pixel
-    if (c_old~=c || r~=r_old)
-        % If within data array
-        if (c_old<=data_x && r_old<=data_y) && (c_old~=0 && r_old~=0)
-            a(counter) = length; % *data(r_old,c_old);
-            length = 0;
-            counter = counter + 1;
+                % Exit from calculation of current pixel
+                break
+            end
+        
         end
     end
-
-    % Save old values of c and r
-    c_old = c;
-    r_old = r;
-
 end
 
-% Calculate normalization value
 h = a*(a.');
 
 end
+
