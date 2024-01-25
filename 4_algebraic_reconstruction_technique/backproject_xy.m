@@ -22,8 +22,14 @@ source_r = y_to_r(source_y, image, pixel_size_mm);
 dexel_c = x_to_c(dexel_x, image, pixel_size_mm);
 dexel_r = y_to_r(dexel_y, image, pixel_size_mm);
 
+% disp("backproject_xy h_i")
+% disp(h_i)
+
 % Calculate correction value for backprojection
 c_i = d_i/h_i;
+
+% disp("backproject_xy c_i")
+% disp(c_i)
 
 % Calculate correction_image
 correction_image = backproject_rc(image, source_r, source_c, dexel_r, ...

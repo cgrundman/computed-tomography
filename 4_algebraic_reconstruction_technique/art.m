@@ -105,62 +105,62 @@ close all
 % 
 % % Created view_xy.m from view.m to include normalization factors
 % 
-% %% Part 5 - Backprojection
-% 
-% fprintf("<strong>Part 5: Backprojection</strong>\n")
-% 
-% fprintf("<strong>Step 1: backproject_rc</strong>\n")
-% 
-% image = zeros(4,4);
-% c_i = -0.5;
-% 
-% % Example 1
-% source_r=0; source_c=2; dexel_r=5; dexel_c=2;
-% % -> new_1 = [0 0.5 0 0; 
-% %             0 0.5 0 0;
-% %             0 0.5 0 0;
-% %             0 0.5 0 0]
-% new_image_1 = backproject_rc(image, source_r, source_c, dexel_r, ...
-%     dexel_c, c_i);
-% disp("Example 1:")
-% disp(new_image_1)
-% fprintf("\n")
-% 
-% % Example 2
-% source_r=2; source_c=0; dexel_r=2; dexel_c=6;
-% % -> new_2 = [  0   0   0   0; 
-% %             0.5 0.5 0.5 0.5; 
-% %               0   0   0   0; 
-% %               0   0   0   0]
-% new_image_2 = backproject_rc(image, source_r, source_c, dexel_r, ...
-%     dexel_c, c_i);
-% disp("Example 2:")
-% disp(new_image_2)
-% fprintf("\n")
-% 
-% % Example 3
-% source_r=0; source_c=0; dexel_r=6; dexel_c=6;
-% % -> new_3 = [0.7   0   0   0; 
-% %               0 0.7   0   0; 
-% %               0   0 0.7   0; 
-% %               0   0   0 0.7]
-% new_image_3 = backproject_rc(image, source_r, source_c, dexel_r, ...
-%     dexel_c, c_i);
-% disp("Example 3:")
-% disp(new_image_3)
-% fprintf("\n")
-% 
-% % Example 4
-% source_r=0; source_c=0; dexel_r=5; dexel_c=4;
-% % -> new_4 = [0.56   0    0    0; 
-% %             0.24 0.4    0    0; 
-% %                0 0.4 0.24    0; 
-% %                0   0 0.56 0.08]
-% new_image_4 = backproject_rc(image, source_r, source_c, dexel_r, ...
-%     dexel_c, c_i);
-% disp("Example 4:")
-% disp(new_image_4)
-% fprintf("\n")
+%% Part 5 - Backprojection
+
+fprintf("<strong>Part 5: Backprojection</strong>\n")
+
+fprintf("<strong>Step 1: backproject_rc</strong>\n")
+
+image = zeros(4,4);
+c_i = -0.5;
+
+% Example 1
+source_r=0; source_c=2; dexel_r=5; dexel_c=2;
+% -> new_1 = [0 0.5 0 0; 
+%             0 0.5 0 0;
+%             0 0.5 0 0;
+%             0 0.5 0 0]
+new_image_1 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 1:")
+disp(new_image_1)
+fprintf("\n")
+
+% Example 2
+source_r=2; source_c=0; dexel_r=2; dexel_c=6;
+% -> new_2 = [  0   0   0   0; 
+%             0.5 0.5 0.5 0.5; 
+%               0   0   0   0; 
+%               0   0   0   0]
+new_image_2 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 2:")
+disp(new_image_2)
+fprintf("\n")
+
+% Example 3
+source_r=0; source_c=0; dexel_r=6; dexel_c=6;
+% -> new_3 = [0.7   0   0   0; 
+%               0 0.7   0   0; 
+%               0   0 0.7   0; 
+%               0   0   0 0.7]
+new_image_3 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 3:")
+disp(new_image_3)
+fprintf("\n")
+
+% Example 4
+source_r=0; source_c=0; dexel_r=5; dexel_c=4;
+% -> new_4 = [0.56   0    0    0; 
+%             0.24 0.4    0    0; 
+%                0 0.4 0.24    0; 
+%                0   0 0.56 0.08]
+new_image_4 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 4:")
+disp(new_image_4)
+fprintf("\n")
 % 
 % % Step 2: backproject_xy
 % % Implemented backproject_xy.m using same structure as line_integral_xy and
@@ -213,7 +213,7 @@ end
 % n_pixels = 200;
 % image = zeros(n_pixels,n_pixels,4);
 n_pixels = 4; % delete
-image = ones(n_pixels,n_pixels,1); % delete
+image = zeros(n_pixels,n_pixels,1); % delete
 
 % Store image as the older version of itself
 old_image = image;
@@ -221,13 +221,13 @@ old_image = image;
 % CT machine geometry
 FCD_mm = 400;
 DCD_mm = 200;
-dexel_size_mm = 400;
 image_width = 200;
 
 % Store iteration ranges
 [num_views, n_dexel, num_data] = size(ct_data);
 
 pixel_size_mm = image_width/n_pixels;
+dexel_size_mm = 100/n_dexel;
 angles = linspace(0,360,num_views+1);
 angles = angles(1:end-1);
 
@@ -248,22 +248,16 @@ for iter=1:1 % num_iterations
         disp(s)
         % Correct Calculation of H
         disp("H")
-        h(1) = 1;
-        h(2) = 1;
-        h(3) = 1;
-        h(4) = 1;
         disp(h)
 
         % Calculate measured projection values for one view
         m = ct_data(iter,:,1);
-
         disp("m")
         disp(m)
 
         % Calculate the difference between simulated and measured 
         % projection values
         d = s.' - m;
-
         disp("d")
         disp(d)
 
@@ -273,8 +267,8 @@ for iter=1:1 % num_iterations
         backproject = backproject_view_xy(image(:,:,1), FCD_mm, DCD_mm, ...
             angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
 
-        % disp("Backprojection")
-        % disp(backproject)
+        disp("Backprojection")
+        disp(backproject)
 
         % Find new image with back projection
         image(:,:,1) = image(:,:,1) - backproject;

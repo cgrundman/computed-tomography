@@ -25,7 +25,7 @@ data = image_data;
 
 % Initiate output arrays
 S = zeros(n_dexel,1); % attenuation array
-H = zeros(1); % normalization factor array
+H = zeros(n_dexel,1); % normalization factor array
 
 
 % Iterate over all detectors to calculate attenuation array
@@ -33,8 +33,8 @@ for i = 1:n_dexel
     % store each single measuerment in P
     [S(i), H(i)] = line_integral_xy(data, pixel_size_mm, source_x, ...
         source_y, det_x(i), det_y(i));
-    disp("view_xy - H")
-    disp(H)
+    % disp("view_xy - H")
+    % disp(H)
 end
 
 end

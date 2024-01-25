@@ -26,7 +26,7 @@ image = image_data;
 % Initialize correction_image
 correction_image = zeros(size(image));
 
-% disp("h")
+% disp("backproject_view_xy h")
 % disp(h)
 
 % Iterate over all detectors to calculate attenuation array
@@ -37,7 +37,7 @@ for i = 1:n_dexel
     
 end
 
-disp("backproject_view_xy")
-disp(correction_image)
+% disp("backproject_view_xy")
+% disp(correction_image)
 
 end
