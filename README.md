@@ -21,6 +21,8 @@ This section shows how a collection of different views are compiled into an imag
 
 This is a full demonstration of CT Data Reconstruction. The code from previous sections creates the data, where this code rebuilds ot into images we can interpret.
 
+This is an old algorithm that is not in use. For a more current CT Example search for Fourier Transform.
+
 ## Section 5: Metal Artifact Removal
 
 This section deals with metal artifacts in CT Imaging. 
