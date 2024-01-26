@@ -226,25 +226,26 @@ FCD_mm = 400;
 DCD_mm = 200;
 image_width = 200;
 
-
-
 pixel_size_mm = image_width/n_pixels;
 dexel_size_mm = 100/n_dexel;
 angles = linspace(0,360,num_views+1);
 angles = angles(1:end-1);
 
-
 % Iterate through sinograms
 for img_idx=1:num_data
 
     % Iterate backprojections to reconstruct image 
-    for iter=1:4 % num_iterations
+    for iter=1:1 % num_iterations
     
-        fprintf("Reconstructing View: %g\n", iter)
+        % TODO correct attenuation calculation - likely to be an angle
+        % input problem, not a technical calculation
+        % TODO randomize views
+        % TODO make the iterations work
+        for view=1:4 % select a random view
+
+            fprintf("Reconstructing View: %g\n", view)
     
-        for view=1:1 % select a random view
-    
-            fprintf("View: %g\n", angles(iter))
+            fprintf("View: %g\n", angles(view))
     
             % Calculate attenuation and normalization values
             [s,h] = view_xy(old_image(:,:,img_idx), FCD_mm, DCD_mm, angles(view), n_dexel, dexel_size_mm, pixel_size_mm);
@@ -256,7 +257,7 @@ for img_idx=1:num_data
             % disp(h)
     
             % Calculate measured projection values for one view
-            m = ct_data(iter,:,img_idx);
+            m = ct_data(view,:,img_idx);
             % disp("m")
             % disp(m)
     
