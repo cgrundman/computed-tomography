@@ -27,13 +27,13 @@ n_datapoints = 10000;
 beam_r = [linspace(beam_start(1),beam_end(1), n_datapoints)];
 beam_c = [linspace(beam_start(2),beam_end(2), n_datapoints)];
 
-disp("backproject_rc")
+% disp("backproject_rc")
 
 % Iterate through all pixels within the image
 for r=1:pixel_r
     for c=1:pixel_c
 
-        fprintf("Pixel: %g,%g\n", r, c) % DELETE
+        % fprintf("Pixel: %g,%g\n", r, c) % DELETE
 
         i_start = false;
         % For all points along the Beam
@@ -68,11 +68,10 @@ for r=1:pixel_r
                 a_pixel = sqrt(r_length.^2 + c_length.^2);
 
                 % Calculate New Pixel Value
-                correction_image(c,r) = round(-a_pixel*c_i,2);
+                correction_image(c,r) = -a_pixel*c_i;
 
-                disp(c_i)
+                % disp(correction_image(c,r))
                
-
                 % Exit from calculation of current pixel
                 break
             end

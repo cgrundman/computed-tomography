@@ -105,62 +105,62 @@ close all
 % 
 % % Created view_xy.m from view.m to include normalization factors
 % 
-%% Part 5 - Backprojection
-
-fprintf("<strong>Part 5: Backprojection</strong>\n")
-
-fprintf("<strong>Step 1: backproject_rc</strong>\n")
-
-image = zeros(4,4);
-c_i = -0.5;
-
-% Example 1
-source_r=0; source_c=2; dexel_r=5; dexel_c=2;
-% -> new_1 = [0 0.5 0 0; 
-%             0 0.5 0 0;
-%             0 0.5 0 0;
-%             0 0.5 0 0]
-new_image_1 = backproject_rc(image, source_r, source_c, dexel_r, ...
-    dexel_c, c_i);
-disp("Example 1:")
-disp(new_image_1)
-fprintf("\n")
-
-% Example 2
-source_r=2; source_c=0; dexel_r=2; dexel_c=6;
-% -> new_2 = [  0   0   0   0; 
-%             0.5 0.5 0.5 0.5; 
-%               0   0   0   0; 
-%               0   0   0   0]
-new_image_2 = backproject_rc(image, source_r, source_c, dexel_r, ...
-    dexel_c, c_i);
-disp("Example 2:")
-disp(new_image_2)
-fprintf("\n")
-
-% Example 3
-source_r=0; source_c=0; dexel_r=6; dexel_c=6;
-% -> new_3 = [0.7   0   0   0; 
-%               0 0.7   0   0; 
-%               0   0 0.7   0; 
-%               0   0   0 0.7]
-new_image_3 = backproject_rc(image, source_r, source_c, dexel_r, ...
-    dexel_c, c_i);
-disp("Example 3:")
-disp(new_image_3)
-fprintf("\n")
-
-% Example 4
-source_r=0; source_c=0; dexel_r=5; dexel_c=4;
-% -> new_4 = [0.56   0    0    0; 
-%             0.24 0.4    0    0; 
-%                0 0.4 0.24    0; 
-%                0   0 0.56 0.08]
-new_image_4 = backproject_rc(image, source_r, source_c, dexel_r, ...
-    dexel_c, c_i);
-disp("Example 4:")
-disp(new_image_4)
-fprintf("\n")
+% %% Part 5 - Backprojection
+% 
+% fprintf("<strong>Part 5: Backprojection</strong>\n")
+% 
+% fprintf("<strong>Step 1: backproject_rc</strong>\n")
+% 
+% image = zeros(4,4);
+% c_i = -0.5;
+% 
+% % Example 1
+% source_r=0; source_c=2; dexel_r=5; dexel_c=2;
+% % -> new_1 = [0 0.5 0 0; 
+% %             0 0.5 0 0;
+% %             0 0.5 0 0;
+% %             0 0.5 0 0]
+% new_image_1 = backproject_rc(image, source_r, source_c, dexel_r, ...
+%     dexel_c, c_i);
+% disp("Example 1:")
+% disp(new_image_1)
+% fprintf("\n")
+% 
+% % Example 2
+% source_r=2; source_c=0; dexel_r=2; dexel_c=6;
+% % -> new_2 = [  0   0   0   0; 
+% %             0.5 0.5 0.5 0.5; 
+% %               0   0   0   0; 
+% %               0   0   0   0]
+% new_image_2 = backproject_rc(image, source_r, source_c, dexel_r, ...
+%     dexel_c, c_i);
+% disp("Example 2:")
+% disp(new_image_2)
+% fprintf("\n")
+% 
+% % Example 3
+% source_r=0; source_c=0; dexel_r=6; dexel_c=6;
+% % -> new_3 = [0.7   0   0   0; 
+% %               0 0.7   0   0; 
+% %               0   0 0.7   0; 
+% %               0   0   0 0.7]
+% new_image_3 = backproject_rc(image, source_r, source_c, dexel_r, ...
+%     dexel_c, c_i);
+% disp("Example 3:")
+% disp(new_image_3)
+% fprintf("\n")
+% 
+% % Example 4
+% source_r=0; source_c=0; dexel_r=5; dexel_c=4;
+% % -> new_4 = [0.56   0    0    0; 
+% %             0.24 0.4    0    0; 
+% %                0 0.4 0.24    0; 
+% %                0   0 0.56 0.08]
+% new_image_4 = backproject_rc(image, source_r, source_c, dexel_r, ...
+%     dexel_c, c_i);
+% disp("Example 4:")
+% disp(new_image_4)
+% fprintf("\n")
 % 
 % % Step 2: backproject_xy
 % % Implemented backproject_xy.m using same structure as line_integral_xy and
@@ -180,7 +180,7 @@ file_names_imgs = {dataset_dir_for(~[dataset_dir_for.isdir]).name};
 
 % Iterate through files, loading the files and storing data in ct_imgs
 ct_imgs = zeros(200,200,size(file_names_imgs,2));
-for file_idx=1:1 % numel(file_names_imgs)
+for file_idx=1:numel(file_names_imgs)
     file_dir = fullfile(dataset_dir,file_names_imgs{file_idx});
     image = imread(file_dir);
 
@@ -200,7 +200,7 @@ file_names = {load_dir_for(~[load_dir_for.isdir]).name};
 % Iterate through files, loading the files and storing data in ct_imgs
 ct_data = zeros(4,4,size(file_names,2));
 ct_data = ct_data./10; % cast(ct_data,"uint8");
-for file_idx=1:1 % numel(file_names)
+for file_idx=1:numel(file_names)
 
     file_dir = fullfile(load_dir,file_names{file_idx});
     data = load(file_dir, "ct_simulation");
@@ -209,11 +209,14 @@ for file_idx=1:1 % numel(file_names)
 
 end
 
+% Store iteration ranges
+[num_views, n_dexel, num_data] = size(ct_data);
+
 % Initialize Image Reconstruction
 % n_pixels = 200;
 % image = zeros(n_pixels,n_pixels,4);
 n_pixels = 4; % delete
-image = zeros(n_pixels,n_pixels,1); % delete
+image = zeros(n_pixels,n_pixels,num_data); % delete
 
 % Store image as the older version of itself
 old_image = image;
@@ -223,8 +226,7 @@ FCD_mm = 400;
 DCD_mm = 200;
 image_width = 200;
 
-% Store iteration ranges
-[num_views, n_dexel, num_data] = size(ct_data);
+
 
 pixel_size_mm = image_width/n_pixels;
 dexel_size_mm = 100/n_dexel;
@@ -232,112 +234,101 @@ angles = linspace(0,360,num_views+1);
 angles = angles(1:end-1);
 
 
-% Iterate backprojections to reconstruct image 
-for iter=1:1 % num_iterations
+% Iterate through sinograms
+for img_idx=1:num_data
 
-    fprintf("Reconstructing View: %g\n", iter)
-
-    for view=1:1 % select a random view
-
-        fprintf("View: %g\n", angles(iter))
-
-        % Calculate attenuation and normalization values
-        [s,h] = view_xy(old_image(:,:,1), FCD_mm, DCD_mm, angles(view), n_dexel, dexel_size_mm, pixel_size_mm);
-
-        disp("S")
-        disp(s)
-        % Correct Calculation of H
-        disp("H")
-        disp(h)
-
-        % Calculate measured projection values for one view
-        m = ct_data(iter,:,1);
-        disp("m")
-        disp(m)
-
-        % Calculate the difference between simulated and measured 
-        % projection values
-        d = s.' - m;
-        disp("d")
-        disp(d)
-
-        % disp("Backprojecting")
-
-        % Backproject new image
-        backproject = backproject_view_xy(image(:,:,1), FCD_mm, DCD_mm, ...
-            angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
-
-        disp("Backprojection")
-        disp(backproject)
-
-        % Find new image with back projection
-        image(:,:,1) = image(:,:,1) - backproject;
+    % Iterate backprojections to reconstruct image 
+    for iter=1:4 % num_iterations
+    
+        fprintf("Reconstructing View: %g\n", iter)
+    
+        for view=1:1 % select a random view
+    
+            fprintf("View: %g\n", angles(iter))
+    
+            % Calculate attenuation and normalization values
+            [s,h] = view_xy(old_image(:,:,img_idx), FCD_mm, DCD_mm, angles(view), n_dexel, dexel_size_mm, pixel_size_mm);
+    
+            % disp("S")
+            disp(s)
+            % Correct Calculation of H
+            % disp("H")
+            % disp(h)
+    
+            % Calculate measured projection values for one view
+            m = ct_data(iter,:,img_idx);
+            % disp("m")
+            % disp(m)
+    
+            % Calculate the difference between simulated and measured 
+            % projection values
+            d = s.' - m;
+            % disp("d")
+            % disp(d)
+    
+            % disp("Backprojecting")
+    
+            % Backproject new image
+            backproject = backproject_view_xy(image(:,:,img_idx), FCD_mm, DCD_mm, ...
+                angles(num_views), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
+    
+            disp("Backprojection")
+            disp(backproject)
+    
+            % Find new image with back projection
+            image(:,:,img_idx) = image(:,:,img_idx) - backproject;
+        end
+        % Replace old image with current reconstruction
+        old_image(:,:,img_idx) = image(:,:,img_idx);
     end
-    % Replace old image with current reconstruction
-    old_image(:,:,1) = image(:,:,1);
+
 end
 
-% % Display all ct data
-% figure()
-% for file_idx=1:size(ct_data,3)
-% 
-%     % Display original CT Image
-%     subplot(3, 4, file_idx);
-%     imagesc(ct_imgs(:,:,file_idx))
-%     colormap gray(256)
-%     img_title = extractBefore(string(file_names_imgs(file_idx)), ".JPG");
-%     title(img_title,'FontSize',16)
-%     axis('square')
-%     % axis off
-%     xticklabels ''
-%     yticklabels ''
-%     if file_idx == 1
-%         ylabel("Original CT Images",'FontSize',16,'FontWeight','bold');
-%     end
-% 
-%     % Display Simulated CT Data
-%     subplot(3, 4, file_idx+4);
-%     imagesc(ct_data(:,:,file_idx))
-%     colormap gray(256)
-%     img_title = extractBefore(string(file_names(file_idx)), ".mat");
-%     img_title = strrep(img_title, "_", " ");
-%     title(img_title,'FontSize',16)
-%     axis('square')
-%     % axis off
-%     xticklabels ''
-%     yticklabels ''
-%     if file_idx == 1
-%         ylabel("CT Simulation Results",'FontSize',16,'FontWeight','bold');
-%     end
-% 
-% end
+% Display all ct data
+figure()
+for file_idx=1:size(ct_data,3)
 
-% Single CT Process Display
+    % Display original CT Image
+    subplot(3, num_data, file_idx);
+    imagesc(ct_imgs(:,:,file_idx))
+    colormap gray(256)
+    img_title = extractBefore(string(file_names_imgs(file_idx)), ".JPG");
+    title(img_title,'FontSize',16)
+    axis('square')
+    % axis off
+    xticklabels ''
+    yticklabels ''
+    if file_idx == 1
+        ylabel("Original CT Images",'FontSize',16,'FontWeight','bold');
+    end
 
-% figure()
-% % Display original CT Image
-% subplot(3, 1, 1);
-% imagesc(ct_imgs(:,:,1))
-% colormap gray(256)
-% img_title = "Original";
-% title(img_title,'FontSize',16)
-% axis('square')
-% axis off
-% 
-% % Display Simulated CT Data
-% subplot(3, 1, 2);
-% imagesc(ct_data(:,:,1))
-% colormap gray(256)
-% img_title = "Sinogram";
-% title(img_title,'FontSize',16)
-% axis('square')
-% axis off
-% 
-% % Display Simulated CT Data
-% subplot(3, 1, 3);
-% imagesc(image(:,:,1))
-% colormap gray(256)
-% img_title = "Reconstruction";
-% title(img_title,'FontSize',16)
-% axis('square')
-% axis off
+    % Display Simulated CT Data
+    subplot(3, num_data, file_idx+4);
+    imagesc(ct_data(:,:,file_idx))
+    colormap gray(256)
+    img_title = extractBefore(string(file_names(file_idx)), ".mat");
+    img_title = strrep(img_title, "_", " ");
+    title(img_title,'FontSize',16)
+    axis('square')
+    % axis off
+    xticklabels ''
+    yticklabels ''
+    if file_idx == 1
+        ylabel("CT Simulation Results",'FontSize',16,'FontWeight','bold');
+    end
+
+    % Display Simulated CT Data
+    subplot(3, num_data, file_idx+8);
+    imagesc(image(:,:,1))
+    colormap gray(256)
+    % img_title = "Reconstruction";
+    % title(img_title,'FontSize',16)
+    axis('square')
+    % axis off
+    xticklabels ''
+    yticklabels ''
+    if file_idx == 1
+        ylabel("Reconstruction",'FontSize',16,'FontWeight','bold');
+    end
+
+end
