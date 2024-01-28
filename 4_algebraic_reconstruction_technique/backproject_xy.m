@@ -36,6 +36,6 @@ correction_image = backproject_rc(image, source_r, source_c, dexel_r, ...
     dexel_c, c_i);
 
 disp("backproject_xy")
-% disp(correction_image)
+disp(correction_image)
 
 end

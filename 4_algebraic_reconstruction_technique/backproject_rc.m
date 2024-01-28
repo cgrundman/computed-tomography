@@ -83,7 +83,7 @@ end
 % disp("backproject_rc c_i")
 % disp(c_i)
 % 
-% disp("backproject_rc")
-% disp(correction_image)
+disp("backproject_rc")
+disp(correction_image)
 
 end

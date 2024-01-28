@@ -54,9 +54,12 @@ for r=1:pixel_r
                 end
 
             % If intersection started and the point is not within pixel
-            elseif i_start == true                 
+            elseif i_start == true && size(inter_points,1) == 2              
                 % Calculate Correction for resolution gap
                 corr = 3.9/n_datapoints;
+
+                % % TODO Troubleshoot from here
+                % disp(size(inter_points,1))
 
                 % Calculate r-length of beam within pixel
                 r_length = abs(inter_points(1,2)-inter_points(2,2)) + corr;
@@ -74,7 +77,7 @@ for r=1:pixel_r
                 % Exit from calculation of current pixel
                 break
             end
-        
+            
         end
     end
 end
