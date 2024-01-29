@@ -96,83 +96,83 @@ disp("Example 4:")
 fprintf("Normalization Value: %.2f\n", h4)
 fprintf("\n")
 
-% %% Part 3 - Conversion to the x/y-system
-% 
-% % Extended the normalization factor from line_integral_rc.m to
-% % line_integral_xy.m
-% 
-% %% Part 4 - Forward Projection for One View
-% 
-% % Created view_xy.m from view.m to include normalization factors
-% 
-% %% Part 5 - Backprojection
-% 
-% fprintf("<strong>Part 5: Backprojection</strong>\n")
-% 
-% fprintf("<strong>Step 1: backproject_rc</strong>\n")
-% 
-% image = zeros(4,4);
-% c_i = -0.5;
-% 
-% % Example 1
-% source_r=0; source_c=2; dexel_r=5; dexel_c=2;
-% % -> new_1 = [0 0.5 0 0; 
-% %             0 0.5 0 0;
-% %             0 0.5 0 0;
-% %             0 0.5 0 0]
-% new_image_1 = backproject_rc(image, source_r, source_c, dexel_r, ...
-%     dexel_c, c_i);
-% disp("Example 1:")
-% disp(new_image_1)
-% fprintf("\n")
-% 
-% % Example 2
-% source_r=2; source_c=0; dexel_r=2; dexel_c=6;
-% % -> new_2 = [  0   0   0   0; 
-% %             0.5 0.5 0.5 0.5; 
-% %               0   0   0   0; 
-% %               0   0   0   0]
-% new_image_2 = backproject_rc(image, source_r, source_c, dexel_r, ...
-%     dexel_c, c_i);
-% disp("Example 2:")
-% disp(new_image_2)
-% fprintf("\n")
-% 
-% % Example 3
-% source_r=0; source_c=0; dexel_r=6; dexel_c=6;
-% % -> new_3 = [0.7   0   0   0; 
-% %               0 0.7   0   0; 
-% %               0   0 0.7   0; 
-% %               0   0   0 0.7]
-% new_image_3 = backproject_rc(image, source_r, source_c, dexel_r, ...
-%     dexel_c, c_i);
-% disp("Example 3:")
-% disp(new_image_3)
-% fprintf("\n")
-% 
-% % Example 4
-% source_r=0; source_c=0; dexel_r=5; dexel_c=4;
-% % -> new_4 = [0.56   0    0    0; 
-% %             0.24 0.4    0    0; 
-% %                0 0.4 0.24    0; 
-% %                0   0 0.56 0.08]
-% new_image_4 = backproject_rc(image, source_r, source_c, dexel_r, ...
-%     dexel_c, c_i);
-% disp("Example 4:")
-% disp(new_image_4)
-% fprintf("\n")
-% 
-% % Step 2: backproject_xy
-% % Implemented backproject_xy.m using same structure as line_integral_xy and
-% % calculating c_i, calls backproject_rc
-% 
-% %% Part 6 - Backprojection for One View
-% 
+%% Part 3 - Conversion to the x/y-system
+
+% Extended the normalization factor from line_integral_rc.m to
+% line_integral_xy.m
+
+%% Part 4 - Forward Projection for One View
+
+% Created view_xy.m from view.m to include normalization factors
+
+%% Part 5 - Backprojection
+
+fprintf("<strong>Part 5: Backprojection</strong>\n")
+
+fprintf("<strong>Step 1: backproject_rc</strong>\n")
+
+image = zeros(4,4);
+c_i = -0.5;
+
+% Example 1
+source_r=0; source_c=2; dexel_r=5; dexel_c=2;
+% -> new_1 = [0 0.5 0 0; 
+%             0 0.5 0 0;
+%             0 0.5 0 0;
+%             0 0.5 0 0]
+new_image_1 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 1:")
+disp(new_image_1)
+fprintf("\n")
+
+% Example 2
+source_r=2; source_c=0; dexel_r=2; dexel_c=6;
+% -> new_2 = [  0   0   0   0; 
+%             0.5 0.5 0.5 0.5; 
+%               0   0   0   0; 
+%               0   0   0   0]
+new_image_2 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 2:")
+disp(new_image_2)
+fprintf("\n")
+
+% Example 3
+source_r=0; source_c=0; dexel_r=6; dexel_c=6;
+% -> new_3 = [0.7   0   0   0; 
+%               0 0.7   0   0; 
+%               0   0 0.7   0; 
+%               0   0   0 0.7]
+new_image_3 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 3:")
+disp(new_image_3)
+fprintf("\n")
+
+% Example 4
+source_r=0; source_c=0; dexel_r=5; dexel_c=4;
+% -> new_4 = [0.56   0    0    0; 
+%             0.24 0.4    0    0; 
+%                0 0.4 0.24    0; 
+%                0   0 0.56 0.08]
+new_image_4 = backproject_rc(image, source_r, source_c, dexel_r, ...
+    dexel_c, c_i);
+disp("Example 4:")
+disp(new_image_4)
+fprintf("\n")
+
+% Step 2: backproject_xy
+% Implemented backproject_xy.m using same structure as line_integral_xy and
+% calculating c_i, calls backproject_rc
+
+%% Part 6 - Backprojection for One View
+
 % % Created backproject_view_xy.m from view_xy.m, implemented backprojection
 % % and called backproject_xy
 
-% %% Part 7 - The Complete Reconstruction
-% 
+%% Part 7 - The Complete Reconstruction
+
 % % Load Image Data
 % dataset_dir = "ct_images";
 % dataset_dir_for = dir(fullfile(dataset_dir,'*'));
@@ -195,10 +195,10 @@ fprintf("\n")
 % % Load Sinogram Data
 % 
 % % Select Dataset, comment the rest
-% % load_dir = 'sinograms_tiny\';
-% % data_shape = [4 4];
-% load_dir = 'sinograms_mid\';
-% data_shape = [4 200];
+% load_dir = 'sinograms_tiny\';
+% data_shape = [4 4];
+% % load_dir = 'sinograms_mid\';
+% % data_shape = [4 200];
 % 
 % load_dir_for = dir(fullfile(load_dir,'*'));
 % file_names = {load_dir_for(~[load_dir_for.isdir]).name};
