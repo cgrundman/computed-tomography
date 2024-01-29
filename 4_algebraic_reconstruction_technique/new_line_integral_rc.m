@@ -10,39 +10,55 @@ function [s, h] = new_line_integral_rc(data, source_r, source_c, dexel_r, dexel_
 % s - attenuation signal for the x-ray beam at the detector
 % h - normalization factor
 
-% extract size of data for limits to simulation
-[data_x,data_y] = size(data);
+% Extract size of data
+[pixel_r, pixel_c] = size(data);
 
-% Initiate p to iterate a summation
+% Initialize empty variable
 s = 0;
+h = 0;
 
-% source location
-b = [source_c source_r];
+% X-ray beam vector
+d = [(dexel_r - source_r); (dexel_c - source_c)]; 
 
-% x-ray beam vector
-d = [dexel_c-source_c dexel_r-source_r];
+% Length vector
+norm_scalar = norm(d);
 
-% x-ray beam vector magnitude
-norm_scalar = sqrt( (dexel_c-source_c)^2 + (dexel_r-source_r)^2 );
+% Direction vector, normalized
+d_norm = (d/norm_scalar);
 
-% normalized x-ray beam vector
-d_norm = d/norm_scalar;
+% Source location
+beam_start = [source_r; source_c];
 
-% Iteration length 
-delta_s = .05;
+% Step size
+delta_s = 0.05;
 
-% Iterate value of s over entire x-ray vector
-for i = 0:norm_scalar/delta_s
-    c = round(b(1)); % c coordinate for the data vector at current position
-    r = round(b(2)); % r coordinate for the data vector at current position
-    b = b + delta_s*d_norm; % increase point b from source to detector
+% Iterate through the length of the beam
+for i = 0:delta_s:norm_scalar
 
-    % increase p only if position is within the data matrix
-    if (0<c) && (c<=data_x)
-        if (0<r) && (r<=data_y)
-            s = s + delta_s*data(r,c); % iterate the value of p
+    disp(i)
+    % Increase current position on the beam
+    pos = beam_start + i * d_norm;
+    % b = b + delta_s*d_norm; % increase point b from source to detector
+
+    % If current beam position is within image
+    if (pos(1) <= pixel_r) && (pos(2) <= pixel_c && pos(1) > 1 && pos(2) > 1)
+
+        % Get Pixel value
+        x = data(round(pos(1)),round(pos(2)));
+
+        % If the sum of Pixel values equals zero, skip
+        if(sum(x, 'default') == 0) 
+            continue;
+        else
+            % Add the intensity value, multiply by step
+            s = s + data(round(pos(1)),round(pos(2)))*delta_s;
+
+            % Calculate the normalization term
+            h = h + 2*(s/s.')*delta_s;
         end
+    else
+        continue;
     end
 end
 
-h = 0;
+end
