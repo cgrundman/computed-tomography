@@ -19,20 +19,8 @@ This section shows how a collection of different views are compiled into an imag
 
 ## Section 4: ART
 
-This is a full demonstration of CT Data Reconstruction. The code from previous sections creates the data, where this code rebuilds ot into images we can interpret.
-
-This is an old algorithm that is not in use. For a more current CT Example search for Fourier Transform.
+This is a full demonstration of CT Data Reconstruction. The code from previous sections creates the data, where this code rebuilds ot into images we can interpret. Unfortunately, full implementation is out of my reach, may a more capable programmer take it from here. Though it is to be noted, this is an old algorithm that is not in use. For a more current CT Example search for Fourier Transform.
 
 ## Section 5: Metal Artifact Removal
 
 This section deals with metal artifacts in CT Imaging. 
-
-
-
-
-## Starting Point
-
-sinogram_generator.m is the main file, start there. The sinogram iscreated by projection.m
-
-
-
