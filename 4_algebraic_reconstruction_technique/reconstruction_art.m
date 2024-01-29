@@ -1,4 +1,5 @@
-%% Signals and Systems - Advanced Simulation of CT
+%% Computed Tomography Reconstruction
+% The Algebraic Reconstruction Technique (ART)
 
 clc
 clear
