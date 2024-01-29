@@ -16,7 +16,6 @@ function [s, h] = line_integral_rc(data, source_r, source_c, dexel_r, dexel_c)
 % Initialize empty variable
 s = 0;
 h = 0;
-a = zeros(1);
 
 % X-ray beam vector
 d = [(dexel_r - source_r); (dexel_c - source_c)]; 
@@ -26,7 +25,6 @@ norm_scalar = norm(d);
 
 % Direction vector, normalized
 d_norm = (d/norm_scalar);
-disp(sum(d_norm))
 
 % Source location
 beam_start = [source_r; source_c];
@@ -34,14 +32,12 @@ beam_start = [source_r; source_c];
 % Step size
 delta_s = 0.05;
 
-counter = 0;
 
 % Iterate through the length of the beam
 for i = 0:delta_s:norm_scalar
 
     % Increase current position on the beam
-    % beam_pos = beam_pos + i * d_norm;
-    beam_pos = beam_start + i *d_norm; % Movement along the Beam
+    beam_pos = beam_start + i *d_norm;
 
     % If current beam position is within image
     if (beam_pos(1) <= pixel_r) && (beam_pos(2) <= pixel_c && beam_pos(1) > 1 && beam_pos(2) > 1)
@@ -53,14 +49,15 @@ for i = 0:delta_s:norm_scalar
         if(sum(x, 'default') == 0) 
             continue;
         else
-            % Add the intensity value, multiply by step
+            % Add the intensity value along current beam segment
             s = s + data(round(beam_pos(1)),round(beam_pos(2)))*delta_s;
+
+            % Calculate the normalization term
+            h = h + 2*(s/s.')*delta_s;
         end
     else
         continue;
-    end
+    end  
 end
-
-h=0;
 
 end
