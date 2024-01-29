@@ -24,7 +24,7 @@ correction_image = zeros(n_dexel,size(image,1),size(image,2)); % Create vector h
 
 % Iterate over all detectors to calculate attenuation array
 for i = 1:n_dexel
-    backproject = backproject_xy(image,source_x, source_y, dexel_x(1), dexel_y(1),pixel_size_mm, d(1), h); % Create correcton data for one dexel
+    backproject = backproject_xy(image,source_x, source_y, dexel_x(i), dexel_y(i),pixel_size_mm, d(i), h(i)); % Create correcton data for one dexel
     
     % Reshape Correction Image
     backproject = reshape(backproject, size(image));
