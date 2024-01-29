@@ -168,170 +168,173 @@ fprintf("\n")
 
 %% Part 6 - Backprojection for One View
 
-% % Created backproject_view_xy.m from view_xy.m, implemented backprojection
-% % and called backproject_xy
+% Created backproject_view_xy.m from view_xy.m, implemented backprojection
+% and called backproject_xy
 
 %% Part 7 - The Complete Reconstruction
 
-% % Load Image Data
-% dataset_dir = "ct_images";
-% dataset_dir_for = dir(fullfile(dataset_dir,'*'));
-% file_names_imgs = {dataset_dir_for(~[dataset_dir_for.isdir]).name};
-% 
-% % Iterate through files, loading the files and storing data in ct_imgs
-% ct_imgs = zeros(200,200,size(file_names_imgs,2));
-% for file_idx=1:1%numel(file_names_imgs)
-%     file_dir = fullfile(dataset_dir,file_names_imgs{file_idx});
-%     image = imread(file_dir);
-% 
-%     % Preprocess Image
-%     image = image(:,:,1);
-%     image = double(image);
-%     image = image / max(max(image));
-%     image = image * 0.4;
-%     ct_imgs(:,:,file_idx) = image;
-% end
-% 
-% % Load Sinogram Data
-% 
-% % Select Dataset, comment the rest
-% load_dir = 'sinograms_tiny\';
-% data_shape = [4 4];
-% % load_dir = 'sinograms_mid\';
-% % data_shape = [4 200];
-% 
-% load_dir_for = dir(fullfile(load_dir,'*'));
-% file_names = {load_dir_for(~[load_dir_for.isdir]).name};
-% 
-% % Iterate through files, loading the files and storing data in ct_imgs
-% ct_data = zeros(data_shape(1),data_shape(2),size(file_names,2));
-% ct_data = ct_data./10; % cast(ct_data,"uint8");
-% for file_idx=1:1%numel(file_names)
-% 
-%     file_dir = fullfile(load_dir,file_names{file_idx});
-%     data = load(file_dir, "ct_simulation");
-% 
-%     ct_data(:,:,file_idx) = data.ct_simulation;
-% 
-% end
-% 
-% % Store iteration ranges
-% [num_views, n_dexel, num_data] = size(ct_data);
-% 
-% % Initialize Image Reconstruction
-% n_pixels = data_shape(2);
-% % n_pixels = 4;
-% % image = zeros(n_pixels,n_pixels,4);
-% image = zeros(n_pixels,n_pixels,num_data);
-% 
-% % Store image as the older version of itself
-% old_image = image;
-% 
-% % CT machine geometry
-% FCD_mm = 400;
-% DCD_mm = 200;
-% image_width = 200;
-% 
-% pixel_size_mm = image_width/n_pixels;
-% dexel_size_mm = 100/n_dexel;
-% angles = linspace(0,360,num_views+1);
-% angles = angles(1:end-1);
-% 
-% % Iterate through sinograms
-% for img_idx=1:1%num_data
-% 
-%     % Iterate backprojections to reconstruct image 
-%     for iter=1:1 % num_iterations
-% 
-%         % TODO correct attenuation calculation - recheck the structure of
-%         % line_integral_rc, new algorithm is supposed to be faster than the
-%         % old one
-%         % input problem, not a technical calculation
-%         % TODO randomize views
-%         % TODO make the iterations work
-%         % TODO Save matrices into data files to be loaded later
-%         % TODO make gifs
-%         % TODO update the comments and code structure
-%         for view=1:4 % select a random view
-% 
-%             fprintf("Reconstructing View: %g\n", view)
-% 
-%             fprintf("View: %g\n", angles(view))
-% 
-%             % Calculate attenuation and normalization values
-%             [s,h] = view_xy(old_image(:,:,img_idx), FCD_mm, DCD_mm, ...
-%                 angles(view), n_dexel, dexel_size_mm, pixel_size_mm);
-% 
-%             % Calculate measured projection values for one view
-%             m = ct_data(view,:,img_idx);
-% 
-%             % Calculate the difference between simulated and measured 
-%             % projection values
-%             d = s.' - m;
-% 
-%             % backproject_view_xy(image_data,FCD_mm,DCD_mm,angle,n_dexel,dexel_size_mm,pixel_size_mm,d,h)
-% 
-%             % Backproject new image
-%             backproject = backproject_view_xy(image(:,:,img_idx), FCD_mm, DCD_mm, ...
-%                 angles(view), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
-% 
-%             disp("Backprojection")
-%             disp(backproject)
-% 
-%             % Find new image with back projection
-%             image(:,:,img_idx) = image(:,:,img_idx) + backproject;
-%         end
-%         % Replace old image with current reconstruction
-%         old_image(:,:,img_idx) = image(:,:,img_idx);
-%     end
-% 
-% end
-% 
-% % Display all ct data
-% figure('units','normalized','outerposition',[0 0 1 1])
-% for file_idx=1:size(ct_data,3)
-% 
-%     % Display original CT Image
-%     subplot(3, num_data, file_idx);
-%     imagesc(ct_imgs(:,:,file_idx))
-%     colormap gray(256)
-%     img_title = extractBefore(string(file_names_imgs(file_idx)), ".JPG");
-%     title(img_title,'FontSize',16)
-%     axis('square')
-%     % axis off
-%     xticklabels ''
-%     yticklabels ''
-%     if file_idx == 1
-%         ylabel("Original CT Images",'FontSize',16,'FontWeight','bold');
-%     end
-% 
-%     % Display Simulated CT Data
-%     subplot(3, num_data, file_idx+4);
-%     imagesc(ct_data(:,:,file_idx))
-%     colormap gray(256)
-%     img_title = extractBefore(string(file_names(file_idx)), ".mat");
-%     img_title = strrep(img_title, "_", " ");
-%     title(img_title,'FontSize',16)
-%     axis('square')
-%     % axis off
-%     xticklabels ''
-%     yticklabels ''
-%     if file_idx == 1
-%         ylabel("CT Simulation Results",'FontSize',16,'FontWeight','bold');
-%     end
-% 
-%     % Display Simulated CT Data
-%     subplot(3, num_data, file_idx+8);
-%     imagesc(image(:,:,file_idx))
-%     colormap gray(256)
-%     % img_title = "Reconstruction";
-%     % title(img_title,'FontSize',16)
-%     axis('square')
-%     % axis off
-%     xticklabels ''
-%     yticklabels ''
-%     if file_idx == 1
-%         ylabel("Reconstruction",'FontSize',16,'FontWeight','bold');
-%     end
-% 
-% end
+% Load Image Data
+dataset_dir = "ct_images";
+dataset_dir_for = dir(fullfile(dataset_dir,'*'));
+file_names_imgs = {dataset_dir_for(~[dataset_dir_for.isdir]).name};
+
+% Iterate through files, loading the files and storing data in ct_imgs
+ct_imgs = zeros(200,200,size(file_names_imgs,2));
+for file_idx=1:numel(file_names_imgs)
+    file_dir = fullfile(dataset_dir,file_names_imgs{file_idx});
+    image = imread(file_dir);
+
+    % Preprocess Image
+    image = image(:,:,1);
+    image = double(image);
+    image = image / max(max(image));
+    image = image * 0.4;
+    ct_imgs(:,:,file_idx) = image;
+end
+
+% Load Sinogram Data
+
+% Select Dataset, comment the rest
+load_dir = 'sinograms_tiny\';
+save_dir = 'reconstructions_tiny\';
+data_shape = [4 4];
+% load_dir = 'sinograms_mid\';
+% data_shape = [4 200];
+
+file_name = 'reconstruction_';
+
+load_dir_for = dir(fullfile(load_dir,'*'));
+file_names = {load_dir_for(~[load_dir_for.isdir]).name};
+
+% Iterate through files, loading the files and storing data in ct_imgs
+ct_data = zeros(data_shape(1),data_shape(2),size(file_names,2));
+ct_data = ct_data./10; % cast(ct_data,"uint8");
+for file_idx=1:numel(file_names)
+
+    file_dir = fullfile(load_dir,file_names{file_idx});
+    data = load(file_dir, "ct_simulation");
+
+    ct_data(:,:,file_idx) = data.ct_simulation;
+
+end
+
+% Store iteration ranges
+[num_views, n_dexel, num_data] = size(ct_data);
+
+% Initialize Image Reconstruction
+n_pixels = data_shape(2);
+image = zeros(n_pixels,n_pixels,num_data);
+
+% Store image as the older version of itself
+old_image = image;
+
+% CT machine geometry
+FCD_mm = 400;
+DCD_mm = 200;
+image_width = 200;
+
+pixel_size_mm = image_width/n_pixels;
+dexel_size_mm = 100/n_dexel;
+angles = linspace(0,360,num_views+1);
+angles = angles(1:end-1);
+
+% Iterate through sinograms
+for img_idx=1:num_data
+
+    % Set number of passes through data
+    num_iterations = 30;
+
+    % Iterate backprojections to reconstruct image 
+    for iter=1:num_iterations
+
+        angles_random = angles(randperm(length(angles)));
+
+        % TODO correct attenuation calculation - problem lies in the
+        % implementation of the system, each component appears to function
+        % correctly
+
+        % TODO make gifs - for later project
+
+        % Iterate through randomized views
+        for view=1:length(angles_random)
+
+            % Calculate attenuation and normalization values
+            [s,h] = view_xy(old_image(:,:,img_idx), FCD_mm, DCD_mm, ...
+                angles_random(view), n_dexel, dexel_size_mm, pixel_size_mm);
+
+            % Calculate measured projection values for one view
+            m = ct_data(view,:,img_idx);
+
+            % Calculate the difference between simulated and measured 
+            % projection values
+            d = s.' - m;
+
+            % Backproject new image
+            backproject = backproject_view_xy(image(:,:,img_idx), FCD_mm, DCD_mm, ...
+                angles_random(view), n_dexel, dexel_size_mm, pixel_size_mm, d, h);
+
+            % Find new image with back projection
+            image(:,:,img_idx) = abs(image(:,:,img_idx) + backproject);
+        end
+        % Replace old image with current reconstruction
+        old_image(:,:,img_idx) = image(:,:,img_idx);
+    end
+
+    % Correct inversion
+    % image = image.*-1;
+    % Save CT Reconstruction Data in .mat file
+    ct_reconstruction = image(:,:,img_idx);
+    save([save_dir,file_name,num2str(img_idx),'.mat'],'image');
+
+end
+
+
+
+% Display all ct data
+figure('units','normalized','outerposition',[0 0 1 1])
+for file_idx=1:size(ct_data,3)
+
+    % Display original CT Image
+    subplot(3, num_data, file_idx);
+    imagesc(ct_imgs(:,:,file_idx))
+    colormap gray(256)
+    img_title = extractBefore(string(file_names_imgs(file_idx)), ".JPG");
+    title(img_title,'FontSize',16)
+    axis('square')
+    % axis off
+    xticklabels ''
+    yticklabels ''
+    if file_idx == 1
+        ylabel("Original CT Images",'FontSize',16,'FontWeight','bold');
+    end
+
+    % Display Simulated CT Data
+    subplot(3, num_data, file_idx+4);
+    imagesc(ct_data(:,:,file_idx))
+    colormap gray(256)
+    img_title = extractBefore(string(file_names(file_idx)), ".mat");
+    img_title = strrep(img_title, "_", " ");
+    title(img_title,'FontSize',16)
+    axis('square')
+    % axis off
+    xticklabels ''
+    yticklabels ''
+    if file_idx == 1
+        ylabel("CT Simulation Results",'FontSize',16,'FontWeight','bold');
+    end
+
+    % Display Simulated CT Data
+    subplot(3, num_data, file_idx+8);
+    imagesc(image(:,:,file_idx))
+    colormap gray(256)
+    % img_title = "Reconstruction";
+    % title(img_title,'FontSize',16)
+    axis('square')
+    % axis off
+    xticklabels ''
+    yticklabels ''
+    if file_idx == 1
+        ylabel("Reconstruction",'FontSize',16,'FontWeight','bold');
+    end
+
+end
