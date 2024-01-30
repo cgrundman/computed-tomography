@@ -55,10 +55,6 @@ canny_regions = imfill(canny,'holes'); % fill closed areas on the image
 kernel = strel('disk',1);
 canny_clean = imopen(canny_regions, kernel);
 
-
-% Create Sinogram of mask with forward projection
-mask_sino = forwardproject(canny_clean);
-
 % Visualize Metal Artifact Detection
 figure('units','normalized','outerposition',[0 0 1 .66]);
 subplot(1, 3, 1);
@@ -88,11 +84,39 @@ axis('square')
 xticklabels ''
 yticklabels ''
 
-% Visualize Metal Mask as a Sinogram
-figure('units','normalized','outerposition',[0 0 .6 .75]);
+%% Mask the full dataset with the metal mask
+% Create Sinogram of mask with forward projection
+mask_sino = forwardproject(canny_clean);
+
+% THhreshold Sinogram of mask with forward projection
+level=0.014;
+window=0.007;
+vmin=level-window/2;
+vmax=level+window/2;
+
+% Filter full sinogram with metal mask
+data_masked = bsxfun(@minus, data_sino, mask_sino);
+
+% Visualize Metal Mask Sinogram and Filtered Sinogram of data
+figure('units','normalized','outerposition',[0 0 1 .5]);
+subplot(1, 3, 1);
 imagesc(mask_sino);
 colormap gray(256)
 img_title = "Isolated Metal Regions - Sinogram";
+title(img_title,'FontSize',16)
+axis off
+
+subplot(1, 3, 2);
+imagesc(mask_sino, [vmin vmax]);
+colormap gray(256)
+img_title = "Isolated Metal Regions - Sinogram (Thresholds)";
+title(img_title,'FontSize',16)
+axis off
+
+subplot(1, 3, 3);
+imagesc(data_masked);
+colormap gray(256)
+img_title = "Data Sinogram with Mask Applied";
 title(img_title,'FontSize',16)
 axis off
 
