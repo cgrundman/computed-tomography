@@ -88,14 +88,21 @@ yticklabels ''
 % Create Sinogram of mask with forward projection
 mask_sino = forwardproject(canny_clean);
 
-% THhreshold Sinogram of mask with forward projection
+% Threshold Sinogram of mask with forward projection
 level=0.014;
 window=0.007;
 vmin=level-window/2;
 vmax=level+window/2;
 
+% Scale Mask Sinogram to match data sinogram
+% mask_sino_log = mask_sino;
+% mask_sino_log(mask_sino_log ~= 0) = 1;
+
+%% TODO Solve Mask/Data Merge
 % Filter full sinogram with metal mask
+% data_masked = data_sino;
 data_masked = bsxfun(@minus, data_sino, mask_sino);
+% data_masked(mask_sino_log == 1) = 0;
 
 % Visualize Metal Mask Sinogram and Filtered Sinogram of data
 figure('units','normalized','outerposition',[0 0 1 .5]);
@@ -120,3 +127,21 @@ img_title = "Data Sinogram with Mask Applied";
 title(img_title,'FontSize',16)
 axis off
 
+%% Reconstruction of Masked Sinogram
+reco_masked = reconstruct(data_masked);
+
+% Visualize Reconstruction
+figure('units','normalized','outerposition',[0 0 .4 .75]); 
+% level=0.014;
+% window=0.007;
+% vmin=level-window/2;
+% vmax=level+window/2;
+% imshow(reco_masked,[vmin vmax]);
+% colormap gray(256)
+imagesc(reco_masked);
+colormap gray(256)
+img_title = "Masked Reconstruction";
+title(img_title,'FontSize',16)
+axis('square')
+xticklabels ''
+yticklabels ''
