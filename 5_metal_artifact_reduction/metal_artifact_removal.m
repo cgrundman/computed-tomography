@@ -19,7 +19,8 @@ data_sino = data.sino;
 % axis off
 % saveas(fig,'figures/hip_sino.jpg');
 
-%% Reconstruct the Data
+%% 1) Creation of Metal Masks 
+% 1a. Reconstruct the Data
 % Perform reconstruction
 data_reco = reconstruct(data_sino);
 
@@ -41,7 +42,7 @@ cmax = level + window/2;
 % yticklabels ''
 % saveas(fig_2,'figures/data_reco.jpg');
 
-%% Create Metal Mask
+% 1b. Create Metal Mask
 % Adjust image for les saturation
 img = imadjust(data_reco);
 
@@ -85,7 +86,7 @@ canny_clean = imopen(canny_regions, kernel);
 % yticklabels ''
 % saveas(fig_3,'figures/canny_detection.jpg');
 
-%% Mask the full dataset with the metal mask
+% 1c. Mask the full dataset with the metal mask
 % Create Sinogram of mask with forward projection
 mask_sino = forwardproject(canny_clean);
 
@@ -116,7 +117,7 @@ data_masked = bsxfun(@minus, data_sino, mask_sino);
 % axis off
 % saveas(fig_4,'figures/mask_sino.jpg');
 
-%% Reconstruction of Masked Sinogram
+% 1d. Reconstruction of Masked Sinogram
 reco_masked = reconstruct(data_masked);
 
 % % Visualize Reconstruction
@@ -130,11 +131,11 @@ reco_masked = reconstruct(data_masked);
 % yticklabels ''
 % saveas(fig_5,'figures/mask_reco.jpg');
 
-%% Reduce the Noise
-% Reduction of noise is through bluring
+%% 2) Reduce the Noise
+% 2a. Reduction of noise is through bluring
 
 % Technique 1
-blur_rad = 4;
+blur_rad = 20;
 blurred_sino_1 = blur(data_sino, blur_rad);
 
 % Technique 2
@@ -156,3 +157,50 @@ colormap gray(256)
 img_title = "Blurring Technique 2";
 title(img_title,'FontSize',16)
 axis off
+
+% 2b. Apply the mask to the blurred images
+% Mask Original Sinogram
+masked_2 = bsxfun(@minus, data_sino, mask_sino); % data_masked
+% masked_2 = rescale(masked_2,0,1);
+% mask the blurred sinogram - leave only blurred metal traces
+masked_blurred = bsxfun(@and, im2uint8(blurred_sino_1), im2uint8(mask_sino));
+masked_blurred = rescale(masked_blurred,0,1);
+% mix the above sinograms
+sino_mix = imfuse(data_masked, masked_blurred, 'blend');
+
+% Visualize
+fig_7 = figure('units','normalized','outerposition',[0 0 1 .5]);
+subplot(1,3,1)
+imagesc(masked_2)%, [min(masked_2, [], 'all'), max(masked_2, [], 'all')]);
+colormap gray(256)
+img_title = "masked_2";
+title(img_title,'FontSize',16)
+axis off
+
+subplot(1,3,2)
+imagesc(masked_blurred)%, [min(masked_blurred, [], 'all'), max(masked_blurred, [], 'all')]);
+colormap gray(256)
+img_title = "masked_blurred";
+title(img_title,'FontSize',16)
+axis off
+
+subplot(1,3,3)
+imagesc(sino_mix, [min(sino_mix, [], 'all'), max(sino_mix, [], 'all')]);
+colormap gray(256)
+img_title = "sino_mix";
+title(img_title,'FontSize',16)
+axis off
+
+% 2c. Reconstruct blurred sinogram
+reconstructed_mix = reconstruct(sino_mix); 
+
+% Vizualize
+fig_8 = figure('units','normalized','outerposition',[0 0 .4 .75]);
+imagesc(reconstructed_mix, [min(reconstructed_mix, [], 'all'), max(reconstructed_mix, [], 'all')]); 
+colormap gray(256)
+img_title = "Reconstruction - Noise Reduction";
+title(img_title,'FontSize',16)
+axis('square')
+% axis off
+xticklabels ''
+yticklabels ''
