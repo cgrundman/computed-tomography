@@ -11,12 +11,13 @@ data = load('hip_sino.mat');
 data_sino = data.sino;
 
 % Visualize Sinogram
-figure('units','normalized','outerposition',[0 0 .6 .75])
+fig = figure('units','normalized','outerposition',[0 0 .6 .75]);
 imagesc(data_sino)
 colormap gray(256)
 img_title = "Hip with Metal Prosthesis - Sinogram";
 title(img_title,'FontSize',16)
 axis off
+saveas(fig,'figures/hip_sino.jpg');
 
 %% Reconstruct the Data
 % Perform reconstruction
@@ -29,7 +30,7 @@ cmin = level - window/2;
 cmax = level + window/2;
 
 % Visualize Reconstruction
-figure('units','normalized','outerposition',[0 0 .4 .75]);
+fig_2 = figure('units','normalized','outerposition',[0 0 .4 .75]);
 imagesc(data_reco, [cmin cmax]);
 colormap gray(256)
 img_title = "Hip with Metal Prosthesis - CT Image";
@@ -38,6 +39,7 @@ axis('square')
 % axis off
 xticklabels ''
 yticklabels ''
+saveas(fig_2,'figures/data_reco.jpg');
 
 %% Create Metal Mask
 % Adjust image for les saturation
@@ -54,7 +56,7 @@ kernel = strel('disk',1);
 canny_clean = imopen(canny_regions, kernel);
 
 % Visualize Metal Artifact Detection
-figure('units','normalized','outerposition',[0 0 1 .66]);
+fig_3 = figure('units','normalized','outerposition',[0 0 1 .66]);
 subplot(1, 3, 1);
 imagesc(canny);
 colormap gray(256)
@@ -81,6 +83,7 @@ title(img_title,'FontSize',16)
 axis('square')
 xticklabels ''
 yticklabels ''
+saveas(fig_3,'figures/canny_detection.jpg');
 
 %% Mask the full dataset with the metal mask
 % Create Sinogram of mask with forward projection
@@ -90,7 +93,7 @@ mask_sino = forwardproject(canny_clean);
 data_masked = bsxfun(@minus, data_sino, mask_sino);
 
 % Visualize Metal Mask Sinogram and Filtered Sinogram of data
-figure('units','normalized','outerposition',[0 0 1 .5]);
+fig_4 = figure('units','normalized','outerposition',[0 0 1 .5]);
 subplot(1, 3, 1);
 imagesc(mask_sino);
 colormap gray(256)
@@ -111,12 +114,13 @@ colormap gray(256)
 img_title = "Data Sinogram with Mask Applied";
 title(img_title,'FontSize',16)
 axis off
+saveas(fig_4,'figures/mask_sino.jpg');
 
 %% Reconstruction of Masked Sinogram
 reco_masked = reconstruct(data_masked);
 
 % Visualize Reconstruction
-figure('units','normalized','outerposition',[0 0 .4 .75]); 
+fig_5 = figure('units','normalized','outerposition',[0 0 .4 .75]); 
 imshow(reco_masked, [cmin cmax]);
 colormap gray(256)
 img_title = "Masked Reconstruction";
@@ -124,3 +128,4 @@ title(img_title,'FontSize',16)
 axis('square')
 xticklabels ''
 yticklabels ''
+saveas(fig_5,'figures/mask_reco.jpg');
