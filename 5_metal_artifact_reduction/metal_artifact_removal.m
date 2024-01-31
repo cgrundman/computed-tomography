@@ -25,12 +25,12 @@ data_reco = reconstruct(data_sino);
 % Set thresholds for visualization
 level = 0.014;
 window = 0.007;
-vmin = level - window/2;
-vmax = level + window/2;
+cmin = level - window/2;
+cmax = level + window/2;
 
 % Visualize Reconstruction
 figure('units','normalized','outerposition',[0 0 .4 .75]);
-imagesc(data_reco, [vmin vmax]);
+imagesc(data_reco, [cmin cmax]);
 colormap gray(256)
 img_title = "Hip with Metal Prosthesis - CT Image";
 title(img_title,'FontSize',16)
@@ -46,10 +46,8 @@ img = imadjust(data_reco);
 % Perform Canny Edge Detection (shows borders of metal)
 canny = edge(data_reco, "canny", 0.02, 2);
 
-
 % Fill closed regions within image (areas that are metal)
 canny_regions = imfill(canny,'holes'); % fill closed areas on the image
-
 
 % Remove remaining edges from Canny Edge Detection (false readings)
 kernel = strel('disk',1);
@@ -88,21 +86,8 @@ yticklabels ''
 % Create Sinogram of mask with forward projection
 mask_sino = forwardproject(canny_clean);
 
-% Threshold Sinogram of mask with forward projection
-level=0.014;
-window=0.007;
-vmin=level-window/2;
-vmax=level+window/2;
-
-% Scale Mask Sinogram to match data sinogram
-% mask_sino_log = mask_sino;
-% mask_sino_log(mask_sino_log ~= 0) = 1;
-
-%% TODO Solve Mask/Data Merge
 % Filter full sinogram with metal mask
-% data_masked = data_sino;
 data_masked = bsxfun(@minus, data_sino, mask_sino);
-% data_masked(mask_sino_log == 1) = 0;
 
 % Visualize Metal Mask Sinogram and Filtered Sinogram of data
 figure('units','normalized','outerposition',[0 0 1 .5]);
@@ -114,14 +99,14 @@ title(img_title,'FontSize',16)
 axis off
 
 subplot(1, 3, 2);
-imagesc(mask_sino, [vmin vmax]);
+imagesc(mask_sino, [cmin cmax]);
 colormap gray(256)
 img_title = "Isolated Metal Regions - Sinogram (Thresholds)";
 title(img_title,'FontSize',16)
 axis off
 
 subplot(1, 3, 3);
-imagesc(data_masked);
+imagesc(data_masked, [0 max(data_masked, [], 'all')]);
 colormap gray(256)
 img_title = "Data Sinogram with Mask Applied";
 title(img_title,'FontSize',16)
@@ -132,13 +117,7 @@ reco_masked = reconstruct(data_masked);
 
 % Visualize Reconstruction
 figure('units','normalized','outerposition',[0 0 .4 .75]); 
-% level=0.014;
-% window=0.007;
-% vmin=level-window/2;
-% vmax=level+window/2;
-% imshow(reco_masked,[vmin vmax]);
-% colormap gray(256)
-imagesc(reco_masked);
+imshow(reco_masked, [cmin cmax]);
 colormap gray(256)
 img_title = "Masked Reconstruction";
 title(img_title,'FontSize',16)
