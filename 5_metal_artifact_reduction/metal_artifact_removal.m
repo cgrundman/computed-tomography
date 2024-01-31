@@ -168,7 +168,7 @@ masked_2 = bsxfun(@minus, data_sino, mask_sino); % data_masked
 masked_blurred = bsxfun(@and, im2uint8(blurred_sino_1), im2uint8(mask_sino));
 masked_blurred = rescale(masked_blurred,0,1);
 % mix the above sinograms
-sino_mix = imfuse(data_masked, masked_blurred, 'blend');
+sino_clean = imfuse(data_masked, masked_blurred, 'blend');
 
 % Visualize
 fig_7 = figure('units','normalized','outerposition',[0 0 1 .5]);
@@ -187,19 +187,19 @@ title(img_title,'FontSize',16)
 axis off
 
 subplot(1,3,3)
-imagesc(sino_mix, [min(sino_mix, [], 'all'), max(sino_mix, [], 'all')]);
+imagesc(sino_clean, [min(sino_clean, [], 'all'), max(sino_clean, [], 'all')]);
 colormap gray(256)
-img_title = "sino_mix";
+img_title = "sino_clean";
 title(img_title,'FontSize',16)
 axis off
 saveas(fig_7,'figures/noise_reduction.jpg');
 
 % 2c. Reconstruct blurred sinogram
-reconstructed_mix = reconstruct(sino_mix); 
+recon_clean = reconstruct(sino_clean); 
 
 % Vizualize
 fig_8 = figure('units','normalized','outerposition',[0 0 .4 .75]);
-imagesc(reconstructed_mix, [min(reconstructed_mix, [], 'all'), max(reconstructed_mix, [], 'all')]); 
+imagesc(recon_clean, [min(recon_clean, [], 'all'), max(recon_clean, [], 'all')]); 
 colormap gray(256)
 img_title = "Reconstruction - Noise Reduction";
 title(img_title,'FontSize',16)
