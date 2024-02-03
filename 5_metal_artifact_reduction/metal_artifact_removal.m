@@ -21,4 +21,9 @@ phantom_mask(vmin, vmax);
 
 %% Noise Reduction
 
+% Run phantom_smooth.m
+phantom_smooth(vmin, vmax);
+
 %% Missing Information Interpolation
+
+
