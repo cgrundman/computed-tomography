@@ -17,7 +17,7 @@ vmax = level + window / 2;
 hip_mask(vmin, vmax);
 
 % Run phantom_mask.m
-phantom_mask();
+phantom_mask(vmin, vmax);
 
 %% Noise Reduction
 
