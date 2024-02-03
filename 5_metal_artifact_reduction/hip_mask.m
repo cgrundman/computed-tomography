@@ -1,5 +1,7 @@
 function hip_mask(vmin, vmax)
 % INPUTS
+% vmin - minimum display window
+% vmax - maximum display window
 % 
 % OUTPUTS
 
