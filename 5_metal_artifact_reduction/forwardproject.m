@@ -1,28 +1,21 @@
-function sinogram = forwardproject(image)
-% INPUTS
-% image - image data to convert
-% 
-% OUTPUTS
-% sinogram - sinogram of input image
+function sino = forwardproject(i)
 
-% Extract size of input image
-[nrows, ncols] = size(image);
+    [nrows, ncols] = size(i);
+    
+    if nrows ~= 520
+        error('wrong data, not 736 rows!')
+    end
 
-% Check data for correct size
-if nrows ~= 520
-    error('wrong data, not 736 rows!')
-elseif ncols~= 520
-    error('wrong data. not 576 cols!')
-end
+    if ncols~= 520
+        error('wrong data. not 576 cols!')
+    end
+    
+    nviews = 576;
+    
+    theta = 360 * ((1:nviews) - 1) / nviews;
 
-% Set the number of views
-n_views = 576;
+    sino = radon(i, theta);
 
-% Define view angle theta
-theta = 360 * ((1:n_views) - 1) / n_views;
 
-% Calculation of Sinogram
-sinogram = radon(image, theta);
-sinogram = sinogram(2:end-2,:); % trim sinogram
-
+    sino = sino(2:end-2,:);
 end
