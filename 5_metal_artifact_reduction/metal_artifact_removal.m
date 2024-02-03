@@ -26,4 +26,6 @@ phantom_smooth(vmin, vmax);
 
 %% Missing Information Interpolation
 
+% Run hip_interpolate.m
+hip_interpolation(vmin, vmax);
 
