@@ -30,7 +30,7 @@ colormap gray(256)
 img_title = "Reconstruction of Original Data";
 title(img_title,'FontSize',16)
 axis off
-saveas(fig_1,'figures/hip_sino_orignial_data.jpg');
+saveas(fig_1,'figures/hip_sino_original_data.jpg');
 
 %% Create the Mask
 % Dialate the reconstruction image
