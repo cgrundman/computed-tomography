@@ -14,7 +14,7 @@ hip_sino = hip_data.sino;
 hip_reconstruction = reconstruct(hip_sino);
 
 % Visualize Original Sinogram and Reconstruction
-fig_6 = figure('units','normalized','outerposition',[0 0 1 .75]);
+fig_1 = figure('units','normalized','outerposition',[0 0 1 .75]);
 subplot(1,2,1)
 imagesc(hip_sino);
 colormap gray(256)
@@ -28,6 +28,51 @@ colormap gray(256)
 img_title = "Reconstruction of Original Data";
 title(img_title,'FontSize',16)
 axis off
-saveas(fig_6,'figures/hip_sino_orignial_data.jpg');
+saveas(fig_1,'figures/hip_sino_orignial_data.jpg');
+
+%% Create the Mask
+% Dialate the reconstruction image
+hip_dial = imdilate(hip_reconstruction, strel('sphere',2));
+% Dialate image again to fill smaller gaps
+hip_dial_2 = imdilate(hip_dial, strel('sphere',1)); 
+% Remove values by threshold
+hip_dial_2(hip_dial_2<=0.019) = 0;
+
+% Forward project mask
+mask_sino = forwardproject(hip_dial_2);
+% Convert Mask Sinogram to logical (0 or 1)
+mask_sino_logical = mask_sino;
+mask_sino_logical(mask_sino_logical~=0) = 1;
+
+% Visualization of Mask
+fig_2 = figure('units','normalized','outerposition',[0 0 1 .5]);
+subplot(1,4,1)
+imagesc(hip_reconstruction, [vmin vmax]); % Reconstruction image
+colormap gray(256);
+img_title = "Original Data Reconstruction";
+title(img_title,'FontSize',16)
+axis off
+subplot(1,4,2)
+imagesc(hip_dial_2, [vmin vmax]);
+colormap gray(256);
+img_title = "Metal Mask";
+title(img_title,'FontSize',16)
+axis off
+subplot(1,4,3)
+imagesc(mask_sino);
+colormap gray(256);
+img_title = "Metal Mask - Sinogram";
+title(img_title,'FontSize',16)
+axis off
+subplot(1,4,4)
+imagesc(mask_sino_logical);
+colormap gray(256);
+img_title = "Metal Mask - Sinogram Logical";
+title(img_title,'FontSize',16)
+axis off
+saveas(fig_2,'figures/hip_sino_metal_mask_creation.jpg');
+
+%% Save the mask data
+save('hip_mask.mat','mask_sino_logical');
 
 end
