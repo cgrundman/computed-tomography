@@ -46,7 +46,7 @@ mask_sino = forwardproject(hip_dial_2);
 mask_sino_logical = mask_sino;
 mask_sino_logical(mask_sino_logical~=0) = 1;
 
-% Visualization of Mask
+% Visualization of Mask Creation
 fig_2 = figure('units','normalized','outerposition',[0 0 1 .5]);
 subplot(1,4,1)
 imagesc(hip_reconstruction, [vmin vmax]); % Reconstruction image
@@ -76,5 +76,29 @@ saveas(fig_2,'figures/hip_sino_metal_mask_creation.jpg');
 
 %% Save the mask data
 save('hip_mask.mat','mask_sino_logical');
+
+%% Create Masked Image
+% Invert the mask
+mask_sino_invert = ~mask_sino_logical;
+% Singram intersection with inverted mask
+masked_sinogram = hip_sino.*mask_sino_invert;
+% Reconstruct the masked sinogram
+masked_reconstruction = reconstruct(masked_sinogram);
+
+% Visualization of Mask and New Reconstruction
+fig_3 = figure('units','normalized','outerposition',[0 0 1 .75]);
+subplot(1,2,1)
+imagesc(masked_sinogram)
+colormap gray(256)
+img_title = "Masked Sinogram";
+title(img_title,'FontSize',16)
+axis off
+subplot(1,2,2)
+imagesc(masked_reconstruction, [vmin vmax])
+colormap gray(256)
+img_title = "Masked Reconstruction";
+title(img_title,'FontSize',16)
+axis off
+saveas(fig_3,'figures/hip_sino_metal_mask_results.jpg');
 
 end

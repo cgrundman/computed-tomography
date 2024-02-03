@@ -77,4 +77,28 @@ saveas(fig_2,'figures/phantom_sino_metal_mask_creation.jpg');
 %% Save the mask data
 save('phantom_mask.mat','mask_sino_logical');
 
+%% Create Masked Image
+% Invert the mask
+mask_sino_invert = ~mask_sino_logical;
+% Singram intersection with inverted mask
+masked_sinogram = phantom_sino.*mask_sino_invert;
+% Reconstruct the masked sinogram
+masked_reconstruction = reconstruct(masked_sinogram);
+
+% Visualization of Mask and New Reconstruction
+fig_3 = figure('units','normalized','outerposition',[0 0 1 .75]);
+subplot(1,2,1)
+imagesc(masked_sinogram)
+colormap gray(256)
+img_title = "Masked Sinogram";
+title(img_title,'FontSize',16)
+axis off
+subplot(1,2,2)
+imagesc(masked_reconstruction, [vmin vmax])
+colormap gray(256)
+img_title = "Masked Reconstruction";
+title(img_title,'FontSize',16)
+axis off
+saveas(fig_3,'figures/phantom_sino_metal_mask_results.jpg');
+
 end
