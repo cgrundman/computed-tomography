@@ -60,21 +60,21 @@ reconstruction(:,:,5) = reconstruct(phantom_sinogram(:,:,5));
 % Visualize the sinograms and reconstructions
 fig_1 = figure('units','normalized','outerposition',[0 0 1 .75]);
 
-titles = ["Average Smoothing"; 
-          "Median Smoothing";
-          "Gaussian Smoothing"; 
-          "Linear Regression";
-          "Combined Smoothing"];
+titles = ["Average"; 
+          "Median";
+          "Gaussian"; 
+          "Linear";
+          "Combined"];
 
 for i=1:size(reconstruction,3)
 
     subplot(2,5,i)
     imagesc(phantom_sinogram(:,:,i), [0 7])
     colormap gray(256)
-    title(titles(i),'FontSize',16)
+    title(titles(i),'FontSize',36)
     axis('square')
     if i==1
-        ylabel("Sinogram",'FontSize',16)
+        ylabel("Sinogram",'FontSize',30)
     end
     xticklabels ''
     yticklabels ''
@@ -84,7 +84,7 @@ for i=1:size(reconstruction,3)
     colormap gray(256)
     axis('square')
     if i==1
-        ylabel("Reconstruction",'FontSize',16)
+        ylabel("Reconstruction",'FontSize',30)
     end
     xticklabels ''
     yticklabels ''
