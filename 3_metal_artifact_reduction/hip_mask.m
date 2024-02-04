@@ -49,7 +49,7 @@ mask_sino_logical(mask_sino_logical~=0) = 1;
 % Visualization of Mask Creation
 fig_2 = figure('units','normalized','outerposition',[0 0 1 .55]);
 subplot(1,4,1)
-imagesc(hip_reconstruction, [vmin vmax]); % Reconstruction image
+imagesc(hip_dil, [vmin vmax]); % Reconstruction image
 colormap gray(256);
 img_title = {'Original Data';'Reconstruction'};
 title(img_title,'FontSize',36)

@@ -61,29 +61,24 @@ phantom_sinogram(:,:,3) = phantom_sino_invert + phantom_sino_masked(:,:,3);
 reconstruction(:,:,3) = reconstruct(phantom_sinogram(:,:,3));
 
 % Visualize Smoothing Technique
-fig_1 = figure('units','normalized','outerposition',[0 0 1 .75]);
+fig_1 = figure('units','normalized','outerposition',[0 0 1 .5]);
 subplot(1,4,1)
 masked_sinogram_orginal = zeros(size(phantom_sino_invert,1),size(phantom_sino_invert,2),3);
 masked_sinogram_orginal(:,:,1) = phantom_sino_invert;
 masked_sinogram_orginal(:,:,2) = phantom_sino_invert;
 imshow(masked_sinogram_orginal)
-img_title = {"Initial Sinogram","AND","Inverted Mask"};
-title(img_title,'FontSize',24)
 subplot(1,4,2)
 masked_sinogram_smoothed = zeros(size(phantom_sino_invert,1),size(phantom_sino_invert,2),3);
 masked_sinogram_smoothed(:,:,3) = phantom_sino_masked(:,:,1);
 imshow(masked_sinogram_smoothed)
-img_title = {"Smoothed Sinogram","AND","Mask"};
-title(img_title,'FontSize',24)
+title("",'FontSize',36)
 subplot(1,4,3)
 hybrid_sinogram = masked_sinogram_smoothed + masked_sinogram_orginal;
 imshow(hybrid_sinogram)
-img_title = {"Hybrid Sinogram","Colorized"};
-title(img_title,'FontSize',24)
+title = {Final Si}
+title(title,'FontSize',36)
 subplot(1,4,4)
 imshow(phantom_sinogram(:,:,1))
-img_title = {"Hybrid Sinogram","Grayscale"};
-title(img_title,'FontSize',24)
 colormap gray(256)
 
 saveas(fig_1,'figures/smoothing_technique.jpg');
