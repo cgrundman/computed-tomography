@@ -26,7 +26,7 @@ phantom_sino_invert = phantom_sino.*mask_sino_invert;
 smooth_type = ["movmean", "movmedian"];
 
 % Initialize Variables
-phantom_smoothing = zeros(size(phantom_sino,1),size(phantom_sino,2),1);
+phantom_smoothing   = zeros(size(phantom_sino,1),size(phantom_sino,2),1);
 phantom_sino_masked = phantom_smoothing;
 phantom_sinogram    = phantom_smoothing;
 reconstruction      = zeros(520,520,1);
@@ -62,6 +62,7 @@ reconstruction(:,:,3) = reconstruct(phantom_sinogram(:,:,3));
 
 % Visualize Smoothing Technique
 fig_1 = figure('units','normalized','outerposition',[0 0 1 .75]);
+% Plot Masked Sinogram
 subplot(1,4,1)
 masked_sinogram_orginal = zeros(size(phantom_sino_invert,1),size(phantom_sino_invert,2),3);
 masked_sinogram_orginal(:,:,1) = phantom_sino_invert;
@@ -69,34 +70,36 @@ masked_sinogram_orginal(:,:,2) = phantom_sino_invert;
 imshow(masked_sinogram_orginal)
 img_title = {"Initial Sinogram","AND","Inverted Mask"};
 title(img_title,'FontSize',24)
+% Plot Intersectino with Mask and Smoothed Sinogram
 subplot(1,4,2)
 masked_sinogram_smoothed = zeros(size(phantom_sino_invert,1),size(phantom_sino_invert,2),3);
 masked_sinogram_smoothed(:,:,3) = phantom_sino_masked(:,:,1);
 imshow(masked_sinogram_smoothed)
 img_title = {"Smoothed Sinogram","AND","Mask"};
 title(img_title,'FontSize',24)
+% Plot Colorized Hybrid Sinogram
 subplot(1,4,3)
 hybrid_sinogram = masked_sinogram_smoothed + masked_sinogram_orginal;
 imshow(hybrid_sinogram)
 img_title = {"Hybrid Sinogram","Colorized"};
 title(img_title,'FontSize',24)
+% Plot Grayscale Hybrid Sinogram
 subplot(1,4,4)
 imshow(phantom_sinogram(:,:,1))
 img_title = {"Hybrid Sinogram","Grayscale"};
 title(img_title,'FontSize',24)
 colormap gray(256)
-
-saveas(fig_1,'figures/smoothing_technique.jpg');
+saveas(fig_1,'figures/smoothing_technique.jpg'); % save figure
 
 % Visualize the sinograms and reconstructions
 fig_2 = figure('units','normalized','outerposition',[0 0 1 1]);
-
+% Set Title strings for plot iteration
 titles = ["Average"; 
           "Median";
           "Combined"];
-
+% Iterate Through Image Arrays
 for i=1:size(reconstruction,3)
-
+    % Plot Sinogram
     subplot(2,3,i)
     imagesc(phantom_sinogram(:,:,i), [0 7])
     colormap gray(256)
@@ -107,7 +110,7 @@ for i=1:size(reconstruction,3)
     end
     xticklabels ''
     yticklabels ''
-
+    % Plot Reconstruction
     subplot(2,3,i+3)
     imagesc(reconstruction(:,:,i), [vmin vmax]);
     colormap gray(256)
@@ -117,9 +120,7 @@ for i=1:size(reconstruction,3)
     end
     xticklabels ''
     yticklabels ''
-
 end
-
-saveas(fig_2,'figures/phantom_smoothing_results.jpg');
+saveas(fig_2,'figures/phantom_smoothing_results.jpg'); % save figure
 
 end
