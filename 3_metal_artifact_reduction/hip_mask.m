@@ -39,7 +39,9 @@ dilation = imdilate(hip_reconstruction, strel('sphere',2));
 % Dilate image again to fill smaller gaps
 dilation_2 = imdilate(dilation, strel('sphere',1)); 
 % Remove values by threshold
+% mask_img = dilation;
 % mask_img(dilation<=0.019) = 0;
+mask_img = dilation_2;
 mask_img(dilation_2<=0.019) = 0;
 
 % Forward project mask
