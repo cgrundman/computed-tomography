@@ -71,3 +71,12 @@ ct_simulation.m
         - x_to_c.m
         - y_to_r.m
         - line_integral_rc.m
+
+## Authors
+
+- [@cgrundman](https://github.com/cgrundman/)
+- [@RiccardoCatena1](https://github.com/RiccardoCatena1/)
+
+## Feedback
+
+If you have any feedback, please reach out to me at https://github.com/cgrundman.
