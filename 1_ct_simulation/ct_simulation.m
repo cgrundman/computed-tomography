@@ -68,9 +68,11 @@ angles_deg = linspace(0,358,180);
 %     close(fig)
 % end
 
-%% Part 2 - 
+%% Part 2 - Description of a single View
 
-%% Part 3 - Simulation
+% Load sinogram data
+sino = load('figures/head_sinogram.mat');
+sinogram = sino.sino;
 
 % Reset Machine Properties for actual Simulation
 n_dexel = 200;
@@ -80,11 +82,32 @@ n_pixel = size(image,2);
 image_size_mm = 200;
 pixel_size_mm = image_size_mm / n_pixel;
 
-% % Prerocess the image
-% image = double(image);
-% image = image / max(max(image));
-% image = image * 0.4;
-% 
+% Prerocess the image
+image = double(image);
+image = image / max(max(image));
+image = image * 0.4;
+
+% Create a single view of the sinogram
+p = view(image, FCD_mm, DCD_mm, angles_deg(1), n_dexel, dexel_size_mm, pixel_size_mm);
+
+fig = figure('units','normalized','outerposition',[0 0 .5 .55]);
+subplot(1,2,1)
+plot(p)
+set(gca,'xticklabel',[], 'yticklabel', [])
+title('Single View of Sinogram',FontSize=20)
+subplot(1,2,2)
+plt_sino = zeros(size(sinogram,1),size(sinogram,2));
+plt_sino(1,:) = sinogram(1,:);
+imagesc(plt_sino)
+colormap gray(256)
+set(gca,'xticklabel',[], 'yticklabel', [])
+title('Plot of View as Sinogram',FontSize=20)
+file_name = "figures/sino_view.png";
+exportgraphics(fig, file_name); % save figure
+
+
+%% Part 3 - Simulation
+
 % % Simulate the CT Machine
 % sino = simulation(image, FCD_mm, DCD_mm, angles_deg, n_dexel, dexel_size_mm, pixel_size_mm);
 % save('figures/head_sinogram.mat','sino') % save simulation array
@@ -97,17 +120,17 @@ sinogram = sino.sino;
 
 plot_img = zeros(size(sinogram,1),size(sinogram,2));
 
-for view=1:size(sinogram,1)
-    plot_img(1:view,:) = sinogram(1:view,:);
-
-    fig = figure();
-    imagesc(plot_img)
-    colormap gray(256)
-    axis off
-    file_name = "figures/sinogram_creation/sino_view_" + view + ".png";
-    exportgraphics(fig, file_name); % save figure
-    close(fig)
-end
+% for view=1:size(sinogram,1)
+%     plot_img(1:view,:) = sinogram(1:view,:);
+% 
+%     fig = figure();
+%     imagesc(plot_img)
+%     colormap gray(256)
+%     axis off
+%     file_name = "figures/sinogram_creation/sino_view_" + view + ".png";
+%     exportgraphics(fig, file_name); % save figure
+%     close(fig)
+% end
 
 %% 
 % %% Part 5 - Line integral through an array
