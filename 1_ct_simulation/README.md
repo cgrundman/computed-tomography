@@ -1,12 +1,16 @@
-# CT Simulation
+# CT Machine Simulation
 
 This folder contains files implementing a CT Simulation.
 
-## Description of task
+## How a CT Machine Works
+
+This repo is meant to teach how a CT Machine works and collects data, as well as the structure of the data it produces. 
 
 ### Start Point
 
-1) ct_simulation.m is the main file and the starting point. All of the other files are functions that are referenced. This is an 8-part file that walks through the building of a CT Scanner simulation.
+ct_simulation.m is the main file and the starting point. All of the other files are functions that are referenced. This is an 8-part file that walks through the building of a CT Scanner simulation.
+
+![CT Detector Array](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/CT%20Detector%20Array.jpg)
 
 ### Simulate the CT Scanner
 
@@ -49,9 +53,12 @@ CT scanners have physical devices whose location is crucial to reconstruction.
 11) projection.m
 ![CT Complete Simulation](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/CT%20Complete%20Simulation.jpg)
 
+### Start Point
+
+ct_simulation.m is the main file and the starting point. If you would like to play around with the simulation and the geometry, start here and play around with settings.
+
 ## Files:
 
-### Project Files
 ct_simulation.m 
   - main executable file
 detector_position_xy.m
@@ -74,23 +81,3 @@ x_to_c.m
   - function file - convert x-space coordination to c-space coordinate
 y_to_r.m
   - function file - convert y-space coordination to r-space coordinate
-
-### Image Files
-CTLab-Introduction3.jpg
-  - The starting sample image
-CT Complete Simulation.jpg
-  - Complete sinogram creation of the sample image
-CT Detector Array.jpg
-  - A plot of the X-ray detector array
-CT Initial Image.jpg
-  - A plot of the initial image
-CT Projection.jpg
-  - A 1 dimensional projection, single angle CT
-
-
-# CT-2-Simulation
-
-Complete CT Scanner Simulator
-
-Purpose: Create a sinogram representaion of a given crossection.
-
