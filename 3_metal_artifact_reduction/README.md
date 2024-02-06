@@ -76,6 +76,21 @@ This process obvisouly still has its flaws. THere is still noise that is not pre
 
 A full description of the ```regionfill()``` function can be found in [MATLAB documentation](https://de.mathworks.com/help/images/ref/regionfill.html).
 
+## Files:
+metal_artifact_remove.m
+hip_mask.m
+  - function file - create and display the metal mask for hip data
+phantom_mask.m
+  - function file - create and display the metal mask for phantom data
+phantom_smooth.m
+  - function file - implement different algorithms of the phantom data
+hip_interpolation.m
+  - function file - interpolate masked hip data
+forwardproject.m
+  - function file - forward project image data into a sinogram 
+reconstruct.m 
+  - function file - reconstruct sinogram data into an image 
+
 ## File structure:
 metal_artifact_remove.m
   - hip_mask.m* (function file)
