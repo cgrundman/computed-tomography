@@ -20,7 +20,7 @@ These functions create the initial Sinogram. This is an image in Radon Space. Th
 
 4) line_integral_xy.m performs a line integral of attenuation values. Calls x_to_c.m and y_to_r.m to convert to (r,c) space and line_integral_rc.m for the attenuation vector.
 
-![CT Detector Array](https://github.com/cgrundman/CT-Imaging/blob/main/3_ct_simulation/CT%20Detector%20Array.jpg)
+![CT Detector Array](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/CT%20Detector%20Array.jpg)
 
 5) line_integral_rc.m creates a vector containing the series of attenuation values for the current position or view.
 
@@ -32,7 +32,7 @@ CT scanners have physical devices whose location is crucial to reconstruction.
 
 7) detector_position_xy.m is a function file that creates a x_y coordinate of the x-ray detectors.
 
-![CT Projection](https://github.com/cgrundman/CT-Imaging/blob/main/3_ct_simulation/CT%20Projection.jpg)
+![CT Projection](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/CT%20Projection.jpg)
 
 ### Convert between coordinate systems
 
@@ -47,11 +47,7 @@ CT scanners have physical devices whose location is crucial to reconstruction.
 ### Create a sinogram through rotation of the image.
 
 11) projection.m
-![CT Complete Simulation](https://github.com/cgrundman/CT-Imaging/blob/main/3_ct_simulation/CT%20Complete%20Simulation.jpg)
-
-
-
-
+![CT Complete Simulation](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/CT%20Complete%20Simulation.jpg)
 
 ## Files:
 
