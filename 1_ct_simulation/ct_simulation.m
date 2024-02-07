@@ -104,7 +104,7 @@ set(gca,'xticklabel',[], 'yticklabel', [])
 title('Plot of View as Sinogram',FontSize=20)
 file_name = "figures/sino_view.png";
 exportgraphics(fig, file_name); % save figure
-
+close(fig)
 
 %% Part 3 - Simulation
 
