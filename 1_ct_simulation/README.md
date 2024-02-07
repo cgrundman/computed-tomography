@@ -54,7 +54,7 @@ simulation.m
   - function file - calculates sinogram through image data, and other inputs from the outputs of other files
 tube_position_xy.m
   - function file - calculates tube position from focus center distance and rotation.
-view.m
+sim_view.m
   - function file - view image data
 x_to_c.m
   - function file - convert x-space coordination to c-space coordinate
@@ -64,7 +64,7 @@ y_to_r.m
 ## File structure (for simulation):
 ct_simulation.m
   - simulation.m (function file)
-    - view.m
+    - sim_view.m
       - tube_position_xy.m
       - detector_position_xy.m
       - line_integral_xy.m
