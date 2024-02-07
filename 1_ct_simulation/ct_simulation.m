@@ -74,6 +74,8 @@ angles_deg = linspace(0,358,180);
 sino = load('figures/head_sinogram.mat');
 sinogram = sino.sino;
 
+
+
 % Reset Machine Properties for actual Simulation
 n_dexel = 200;
 detector_size_mm = 440;
@@ -88,23 +90,30 @@ image = image / max(max(image));
 image = image * 0.4;
 
 % Create a single view of the sinogram
-p = view(image, FCD_mm, DCD_mm, angles_deg(1), n_dexel, dexel_size_mm, pixel_size_mm);
+p = sim_view(image, FCD_mm, DCD_mm, angles_deg(1), n_dexel, dexel_size_mm, pixel_size_mm);
 
 fig = figure('units','normalized','outerposition',[0 0 .5 .55]);
-subplot(1,2,1)
-plot(p)
-set(gca,'xticklabel',[], 'yticklabel', [])
+set(fig,'defaultfigurecolor',[0 0 0])
+
+% subplot(1,2,1)
+bar(p,'BarWidth', 1, FaceColor=[0.6350 0.0780 0.1840])
+set(gca, 'yticklabel', [])
+xlabel("Detector Array")
+ylabel("Attenuation")
 title('Single View of Sinogram',FontSize=20)
-subplot(1,2,2)
-plt_sino = zeros(size(sinogram,1),size(sinogram,2));
-plt_sino(1,:) = sinogram(1,:);
-imagesc(plt_sino)
-colormap gray(256)
-set(gca,'xticklabel',[], 'yticklabel', [])
-title('Plot of View as Sinogram',FontSize=20)
+set(gca,'Color','k')
+ax = gca;
+ax.GridColor = [0.9, 0.9, 0.9];
+% subplot(1,2,2)
+% plt_sino = zeros(size(sinogram,1),size(sinogram,2));
+% plt_sino(1,:) = sinogram(1,:);
+% imagesc(plt_sino)
+% colormap gray(256)
+% set(gca,'xticklabel',[], 'yticklabel', [])
+% title('Plot of View as Sinogram',FontSize=20)
 file_name = "figures/sino_view.png";
 exportgraphics(fig, file_name); % save figure
-close(fig)
+% close(fig)
 
 %% Part 3 - Simulation
 
