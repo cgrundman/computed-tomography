@@ -183,9 +183,13 @@ close(fig)
 
 %% Description of Sinogram
 
-% % Simulate the CT Machine
-% sino = simulation(image, FCD_mm, DCD_mm, angles_deg, n_dexel, ...
-%                   dexel_size_mm, pixel_size_mm);
+% This is the full simulation of the sinogram. simulation() calls all the
+% subsequent subfunctions and sub outines. The github is a more
+% comprehensive overview of the implemented functionality.
+
+% Simulate the CT Machine
+sino = simulation(image, FCD_mm, DCD_mm, angles_deg, n_dexel, ...
+                  dexel_size_mm, pixel_size_mm);
 % save('figures/head_sinogram.mat','sino') % save simulation array
 
 %% Visualization of CT Machine Simulation
@@ -236,10 +240,8 @@ for angle=1:length(angles_deg)
 
     subplot(1,3,2)
     bar(sinogram(angle,:),'BarWidth', 1, FaceColor=[0.8 0.8 0.8]);
-    set(gca, 'yticklabel', [])
+    set(gca,'xticklabel',[],'yticklabel',[])
     ylim([0, 41])
-    xlabel("Detector Array")
-    ylabel("Attenuation")
     title('Sinogram of Current View',FontSize=20)
     set(gca,'Color','k')
     ax = gca;
