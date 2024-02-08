@@ -7,9 +7,9 @@ This Project has 3 sections, found in 3 folders from the main directory.
 
 ## Section 1: CT Simulation
 
-This section shows how a collection of different views are compiled into an image called a sinogram. This code simulates a CT machine. It should be noted that the simulation excludes many other real world issues, like noise and X-Ray beam distribution.
+This section shows how a collection of different views are compiled into an image called a sinogram. This code simulates a CT machine. It should be noted that the simulation excludes many other real world issues, like noise and X-Ray beam distribution. This idealization approximates how a CT machine works to serve as an educational tool.
 
-![CT Simulation!](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/ct_machine_geometry.gif)
+![CT Simulation!](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/ct_machine_simulation.gif)
 
 ## Section 2: Algebraic Reconstruction Technique
 
