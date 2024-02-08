@@ -18,3 +18,12 @@ This is a full demonstration of CT Data Reconstruction. The code from previous s
 ## Section 3: Metal Artifact Removal
 
 This section deals with metal artifacts in CT Imaging. 
+
+## Authors
+
+- [@cgrundman](https://github.com/cgrundman/)
+- [@RiccardoCatena1](https://github.com/RiccardoCatena1/)
+
+## Feedback
+
+If you have any feedback, please reach out to me at https://github.com/cgrundman.
