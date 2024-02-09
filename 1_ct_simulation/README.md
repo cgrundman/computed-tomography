@@ -2,39 +2,53 @@
 
 This folder contains files implementing a CT Simulation.
 
-## How a CT Machine Works
+## What a Computed Tomography Machine Does
 
-This repo is meant to teach how a CT Machine works and collects data, as well as the structure of the data it produces. 
+X-rays are simply fast moving electrons. They are used i medical imaging because they can pass through solid materials. At the same time different materials attenuate x-rays differently from each other. Harder tissues like bone block more x-rays than the softer tissues comprising organs. However it is only possible to send a beam through multiple materials. In some cases, an x-ray image is not enough to diagnose or understand what is happening inside of the body. CT-Images create cross-sections that are much more detailed and reveal what is happening inside the body.
 
-### Visualization of CT Machine
+Because, of their nature, the x-ray readings have to be collected and then reconstructed into images. This code reviews how a ct machine works and creates ct data, refered to as sinograms because of the structures the create.
 
-Below the functioning of a CT machine is visualized:
+## The Initial Data
 
-![CT Machine Visualization](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/ct_machine_geometry.gif)
+For this project, a CT machine is approximated. The starting point will be an actual CT image and transforming it into CT data to be transformed by later sections of the project. The image used in this section, a head CT scan, can be seen below:
 
-In Reality the detector array is arranged in a circular pattern. Aranging them linearly, simplifies the calulations later. Also this assumes all X-ray beams are uniform and simultaneous. This is not the case. This would include added noice and further interpolation that is done in real machines. This may be shown in another repo.
+![Initial Image](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/initial_image.png)
 
-### Simulate the CT Scanner
+This is just a starting point. Now to build the machine around it.
 
-Let's get into actual coding of this project.
+## The CT Machine
 
-TODO Add information about the project here.
+THe CT machine has two crucial components. The X-ray emitter, or source, and the detectors. The x-rays travel from the source to the detectors while passing through the body. This is visualized below:
 
-### Vizualization of the simulation
+![Single Beam](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/single_beam.png)
 
-As the machine spins, data is collected. This procedure is illustrated in the following gif, as each view is added one by one.
+However, the x-rays are generated in a fan beam shape. And each detector reads values for a small area opposite the source. This geometry is show below:
 
-![Sinogram Creation](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/sinogram_creation.gif)
+![Full Beam Array](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/ct_machine_geometry.png)
 
-With the full simulation completed, a visualization of the data can be found below:
+## CT Data Creation
 
-![CT Projection](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/head_sinogram.jpg)
+Remember how x-rays work? When they pass through the human body, different tissues block different amounts of x-rays. Softer tissues allow more to pass through, while harder tissues block more x-rays. In CT imaging, attenuation is the amount of x-rays that are blocked. This means that the more x-rays that the detectors read, the lower the attenuation.
 
-This image is called a sinogram, and it is a representation of the crossection of the body in radon space. Later sections of this repo will discuss reconstruction of this image, as that is where much of the challenge in creating accurate images.
+Now, this happens in a very short period of time. A single view as seen above is measured in a small instant. As all the detectors detect x-rays, the number of strikes are recorded and turned into attentuation values. Again, these are inversely related. Beams passing through more bone are seen to have higher values. From a single view, a collection of detector values can be seen below:
 
-### Start Point
+![Single Sinogram View](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/sino_view.png)
 
-ct_simulation.m is the main file and the starting point. If you would like to play around with the simulation and the geometry, start here and play around with settings.
+With the values collected, more information is needed to see inside the human body. The attenuation values are all of different value, but that does not tell about the structure of the body. So more data has to be taken from different views. This is why CT machines spin. They are taking views from all around the coss section of the body. This results in a series of views. If these values are collected and stitched together, they apear as below:
+
+![Sinogram](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/head_sinogram.jpg)
+
+See anything interesting? Most importantly, notice the shapes in the image. They should look like sinewaves. And it should look like a lot of sine waves. This is the reason this image is called a sinogram. Points in 3D space appear as sinewaves in a sinogram. The center point of machine rotation is simply a vertical line in the middle of the sinogram.
+
+Does this still not make sense? You can read that a few more times (recomended), find better sources that explain this topic better (even more recomended), or even take a look at the gif below. This visualizes the process.
+
+![Full Simulation Visualization](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/ct_machine_simulation.gif)
+
+On the left, is the position of the machine, as it spins around the patient. In the middle is the attenuation plot from the data picked up by detectors. On the right is the sinogram as vews are added with the different angles.
+
+However this process happens even faster than this. In the gif below, a CT machine without te protective covering is pictured. Here is the true speed of a CT Machine:
+
+![Actual CT Machine](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/spinning_machine.gif)
 
 ## Files:
 
