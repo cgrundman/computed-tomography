@@ -20,17 +20,14 @@ function correction_image = backproject_view_xy(image, FCD_mm, DCD_mm, ...
                                      n_dexel, dexel_size_mm);
 
 % Initialize correction_image
-correction_image = zeros(n_dexel,size(image,1),size(image,2)); % Create vector having the size of the Dexel amount
+correction_image = zeros(size(image)); % Create vector having the size of the Dexel amount
 
 % Iterate over all detectors to calculate attenuation array
 for i = 1:n_dexel
-    backproject = backproject_xy(image,source_x, source_y, dexel_x(i), dexel_y(i),pixel_size_mm, d(i), h(i)); % Create correcton data for one dexel
-    
-    % Reshape Correction Image
-    backproject = reshape(backproject, size(image));
+    backproject = backproject_xy(image, source_x, source_y, dexel_x(i), dexel_y(i),pixel_size_mm, d(i), h(i)); % Create correcton data for one dexel
 
     % Store current iteration
-    correction_image(i,:,:) = backproject; % Fill vector at dexel position idx
+    correction_image = correction_image + backproject; % Fill vector at dexel position idx
 end
 
 correction_image = squeeze(sum(correction_image, 1));

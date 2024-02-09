@@ -22,8 +22,12 @@ source_r = y_to_r(source_y, image, pixel_size_mm);
 dexel_c = x_to_c(dexel_x, image, pixel_size_mm);
 dexel_r = y_to_r(dexel_y, image, pixel_size_mm);
 
-% Calculate correction value for backprojection
-c_i = d_i/h_i;
+% Calculate correction value for backprojection, check if h_i is 0
+if h_i == 0
+    c_i = 0; % if so, set c_i to zero
+else 
+    c_i = d_i/h_i; % Otherwise calculate with d/h
+end
 
 % Calculate correction_image
 correction_image = backproject_rc(image, source_r, source_c, dexel_r, ...
