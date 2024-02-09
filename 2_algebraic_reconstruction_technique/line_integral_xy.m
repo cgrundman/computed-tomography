@@ -22,7 +22,7 @@ source_r = y_to_r(source_y, data, pixel_size_mm);
 dexel_c = x_to_c(dexel_x, data, pixel_size_mm);
 dexel_r = y_to_r(dexel_y, data, pixel_size_mm);
 
-% Perform line integration
+% Perform line integration in rc space
 [s, h] = line_integral_rc(data,source_r, source_c, dexel_r, dexel_c);
 
 % Convert attentuation to cm

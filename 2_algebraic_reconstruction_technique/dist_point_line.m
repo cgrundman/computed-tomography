@@ -1,42 +1,42 @@
-function distance = dist_point_line(A,B,C)
-%DIST_POINT_LINE returns the euclidean distance between point C and line passing
-%through A and B. A = [xa,ya]
+function distance = dist_point_line(point_a, point_b, pixel)
+% INPUTS
+% point_a - coordinates of first point
+% point_b - coordinates of second point
+% pixel - coordinates of pixel
+% 
+% OUTPUTS
+% distance - distance between points within pixel
 
-%   The function first calculates the projection of C onto the line
-%   proj = [xp,yp]. Later, it calculates the euclidan distance
-%   between projection and C. 
-%   The projection of C onto the line is obtained with solution
-%   of the system of two equations: 
-%   1) imposing dot product of [C-proj] and [B-A] = 0
-%   2) equation of line passing through A and B
+% Extrace coordinates of points and pixel
+xa = point_a(1);
+ya = point_a(2);
+xb = point_b(1);
+yb = point_b(2);
+xc = pixel(1);
+yc = pixel(2);
 
-xa = A(1);
-ya = A(2);
-xb = B(1);
-yb = B(2);
-xc = C(1);
-yc = C(2);
+% Find projection of C into the line
 
-%% find projection of C into the line
+% Establish vectors beteen x and y coordinates of both points
+x_vec = xb - xa;
+y_vec = yb - ya;
 
-K = xb - xa;
-L = yb - ya;
-
-% % trivial case 1: xb = xa
+% Trivial case 1: xb = xa
 if xb == xa
-proj = [xa,yc];
-distance = norm(C-proj);
-% trivial case 2: yb = ya
+    proj = [xa,yc];
+    distance = norm(pixel-proj);
+% Trivial case 2: yb = ya
 elseif yb == ya
-proj= [xc,ya];
-distance = norm(C-proj);
-% otherwise, solve system of equations analytically(to find intersection)
-% and implement solution here
+    proj= [xc,ya];
+    distance = norm(pixel-proj);
+% Otherwise, solve system of equations analytically(to find intersection)
 else 
-yp = (ya*K + xc*L + yc*L*L/K - xa*L)/(K+(L*L/K));
-xp = xc + yc*L/K - yp*L/K;
+    yp = (ya*x_vec + xc*y_vec + yc*y_vec*y_vec/x_vec - xa*y_vec)/(x_vec+(y_vec*y_vec/x_vec));
+    xp = xc + yc*y_vec/x_vec - yp*y_vec/x_vec;
+    proj = [xp,yp];
+    
+    % Calculate distance between C and its projection
+    distance = norm(pixel-proj);
+end
 
-proj = [xp,yp];
-% calculate distance between C and its projection
-distance = norm(C-proj);
 end

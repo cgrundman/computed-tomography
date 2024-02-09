@@ -13,7 +13,6 @@ function correction_image = backproject_xy(image, source_x, source_y, ...
 % OUTPUTS
 % correction_image - output of backprojection for beam
 
-
 % Convert the source coordinates from x,y to r,c
 source_c = x_to_c(source_x, image, pixel_size_mm);
 source_r = y_to_r(source_y, image, pixel_size_mm);
