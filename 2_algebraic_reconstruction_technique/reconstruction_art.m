@@ -48,7 +48,7 @@ dexel_size_mm = detector_size_mm / n_dexel;
 pixel_size_mm = image_size_mm / n_pixel;
 
 % Set number of iterations (best between 3-20)
-n_iter = 1;
+n_iter = 20;
 
 % Run the reconstruction loop
 for i = 1:n_iter
@@ -57,7 +57,7 @@ for i = 1:n_iter
     random_angles = angles(randperm(length(angles)));
     
     % iterate over this random permutation vector.
-    for view = 1:length(random_angles)/45
+    for view = 1:length(random_angles)
         
         % Display Current View under calculation
         fprintf("Iteration: %g\nView: %g\n", i, view);
@@ -98,5 +98,9 @@ for i = 1:n_iter
         file_name = "figures/reconstruction/iteration_" + i + "_view_" + view + ".png";
         exportgraphics(fig, file_name); % save figure
         close(fig)
+
+        % Save correction image
+        reconstruction = image;
+        save('figures/reconstruction.mat','reconstruction')
     end 
 end
