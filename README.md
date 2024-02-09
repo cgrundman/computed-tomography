@@ -9,7 +9,7 @@ This Project has 3 sections, found in 3 folders from the main directory.
 
 This section shows how a collection of different views are compiled into an image called a sinogram. This code simulates a CT machine. It should be noted that the simulation excludes many other real world issues, like noise and X-Ray beam distribution. This idealization approximates how a CT machine works to serve as an educational tool.
 
-![CT Simulation!](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/ct_machine_simulation.gif)
+![CT Simulation](https://github.com/cgrundman/CT-Imaging/blob/main/1_ct_simulation/figures/ct_machine_simulation.gif)
 
 ## Section 2: Algebraic Reconstruction Technique
 
@@ -17,7 +17,9 @@ This is a full demonstration of CT Data Reconstruction. The code from previous s
 
 ## Section 3: Metal Artifact Removal
 
-This section deals with metal artifacts in CT Imaging. 
+This section deals with metal artifacts in CT Imaging. Metal creates a lot of issues for creating CT Images. X-rays react much differently to metal than biological tisues. CT Images are given with Metal Artifacts present, and methods of removing these artifacts are described. 
+
+![Metal Artifact Reduction](https://github.com/cgrundman/CT-Imaging/blob/main/3_metal_artifact_reduction/figures/hip_sino_metal_mask_creation.jpg)
 
 ## Authors
 
