@@ -95,7 +95,7 @@ for i = 1:n_iter
         txt = {"Iteration " + i,"View " + view};
         t = annotation('textbox', [0.17 0.13 0.17 0.1], 'String', txt);
         t.BackgroundColor = [0.8 0.8 0.8];
-        file_name = "figures/iteration_" + i + "/views_" + view + ".png";
+        file_name = "figures/reconstruction/iteration_" + i + "_view_" + view + ".png";
         exportgraphics(fig, file_name); % save figure
         close(fig)
     end 
