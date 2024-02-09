@@ -35,32 +35,19 @@ This file performs full reconstruction on CT sinogram data by calling view_xy.m.
 
 ## Files:
 
-reconstruction_art.m
-  - main function file that performs the overall reconstruction
-view_xy.m 
-  - function file - view image data
-tube_position_xy.m
-  - function file - calculates tube position from focus center distance and rotation.
-detector_position_xy.m
-  - function file - detector location calculator
-line_integral_xy.m
-  - function file - calculates a single angle of CT Projection (see <em>CT Projection.jpg</em>), using xy coordinates
-line_integral_rc.m
-  - function file - calculates a single angle of CT Projection (see <em>CT Projection.jpg</em>), using rc coordinates
-backproject_view_xy.m
-  - function file - performs backprojection for an entire view of detectors
-backproject_xy.m
-  - function file - performs backprojection on single beam in xy space, calls backproject_rc
-backproject_rc.m
-  - function file - performs back projection on single beam in rc space
-x_to_c.m
-  - function file - convert x-space coordination to c-space coordinate
-y_to_r.m
-  - function file - convert y-space coordination to r-space coordinate
-dist_point_line.m
-  - function file - calculates the distance of a line within current pixel
-line_cell_intersection_rc.m
-  - function file - calculate points of intersection of current pixel
+- reconstruction_art.m - main function file that performs the overall reconstruction
+- view_xy.m  - function file - view image data
+- tube_position_xy.m - function file - calculates tube position from focus center distance and rotation.
+- detector_position_xy.m - function file - detector location calculator
+- line_integral_xy.m - function file - calculates a single angle of CT Projection (see <em>CT Projection.jpg</em>), using xy coordinates
+- line_integral_rc.m - function file - calculates a single angle of CT Projection (see <em>CT Projection.jpg</em>), using rc coordinates
+- backproject_view_xy.m - function file - performs backprojection for an entire view of detectors
+- backproject_xy.m - function file - performs backprojection on single beam in xy space, calls backproject_rc
+- backproject_rc.m - function file - performs back projection on single beam in rc space
+- x_to_c.m - function file - convert x-space coordination to c-space coordinate
+- y_to_r.m - function file - convert y-space coordination to r-space coordinate
+- dist_point_line.m - function file - calculates the distance of a line within current pixel
+- line_cell_intersection_rc.m - function file - calculate points of intersection of current pixel
 
 ## File structure:
 
