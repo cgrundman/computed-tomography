@@ -31,7 +31,7 @@ This file performs full reconstruction on CT sinogram data by calling view_xy.m.
 2. Backproject XY performs a single backprojection and calls backproject_rc
 3. Backproject RC performs a single backprojection through r and c coordinates
 
-![CT Detector Array]([https://github.com/cgrundman/CT-Imaging/blob/main/3_ct_simulation/CT%20Detector%20Array.jpg]
+![CT Detector Array](https://github.com/cgrundman/CT-Imaging/blob/main/2_algebraic_reconstruction_technique/figures/iteration.gif)
 
 ## Files:
 
