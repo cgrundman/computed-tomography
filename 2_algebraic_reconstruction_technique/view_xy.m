@@ -21,8 +21,8 @@ function [S, H] = view_xy(image_data, FCD_mm, DCD_mm, angle_deg, n_dexel, ...
                                      n_dexel, dexel_size_mm);
 
 % Initiate output arrays
-S = zeros(n_dexel,1); % attenuation array
-H = zeros(n_dexel,1); % normalization factor array
+S = zeros(1,n_dexel); % attenuation array
+H = zeros(1,n_dexel); % normalization factor array
 
 
 % Iterate over all detectors to calculate attenuation array

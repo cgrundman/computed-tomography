@@ -26,6 +26,6 @@ dexel_r = y_to_r(dexel_y, data, pixel_size_mm);
 [s, h] = line_integral_rc(data,source_r, source_c, dexel_r, dexel_c);
 
 % Convert attentuation to cm
-s = s*(pixel_size_mm/10);
+s = s*pixel_size_mm/10;
 
 end
