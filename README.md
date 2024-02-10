@@ -13,7 +13,9 @@ This section shows how a collection of different views are compiled into an imag
 
 ## Section 2: Algebraic Reconstruction Technique
 
-This is a full demonstration of CT Data Reconstruction. The code from previous sections creates the data, where this code rebuilds ot into images we can interpret. Unfortunately, full implementation is out of my reach, may a more capable programmer take it from here. Though it is to be noted, this is an old algorithm that is not in use. For a more current CT Example search for Fourier Transform.
+This is a full demonstration of CT Data Reconstruction. The code from previous sections creates the data, where this code rebuilds ot into images we can interpret. It should be noted, this is an old algorithm that is not in use. For a more current CT Example search for Fourier Transform.
+
+![Reconstruction](https://github.com/cgrundman/CT-Imaging/blob/main/2_algebraic_reconstruction_technique/figures/iteration.gif)
 
 ## Section 3: Metal Artifact Removal
 

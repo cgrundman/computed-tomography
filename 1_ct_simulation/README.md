@@ -52,30 +52,20 @@ However this process happens even faster than this. In the gif below, a CT machi
 
 ## Files:
 
-ct_simulation.m 
-  - main executable file
-detector_position_xy.m
-  - function file - detector location calculator
-line_integral_rc.m
-  - function file - calculates a single angle of CT Projection (see <em>CT Projection.jpg</em>), using rc coordinates
-line_integral_xy.m
-  - function file - calculates a single angle of CT Projection (see <em>CT Projection.jpg</em>), using xy coordinates
-projection.m
-  - function file - creates a full sinogram from an input image, only a simulation from inbuilt library files
-rotate_xy.m
-  - function file - calculates new x and y coordniates from a rotation angle and original coordinates
-simulation.m
-  - function file - calculates sinogram through image data, and other inputs from the outputs of other files
-tube_position_xy.m
-  - function file - calculates tube position from focus center distance and rotation.
-sim_view.m
-  - function file - view image data
-x_to_c.m
-  - function file - convert x-space coordination to c-space coordinate
-y_to_r.m
-  - function file - convert y-space coordination to r-space coordinate
+- ct_simulation.m  - main executable file
+- detector_position_xy.m - function file - detector location calculator
+- line_integral_rc.m - function file - calculates a single angle of CT Projection (see <em>CT Projection.jpg</em>), using rc coordinates
+- line_integral_xy.m - function file - calculates a single angle of CT Projection (see <em>CT Projection.jpg</em>), using xy coordinates
+- projection.m - function file - creates a full sinogram from an input image, only a simulation from inbuilt library files
+- rotate_xy.m - function file - calculates new x and y coordniates from a rotation angle and original coordinates
+- simulation.m - function file - calculates sinogram through image data, and other inputs from the outputs of other files
+- tube_position_xy.m - function file - calculates tube position from focus center distance and rotation.
+- sim_view.m - function file - view image data
+- x_to_c.m - function file - convert x-space coordination to c-space coordinate
+- y_to_r.m - function file - convert y-space coordination to r-space coordinate
 
 ## File structure (for simulation):
+
 ct_simulation.m
   - simulation.m (function file)
     - sim_view.m
