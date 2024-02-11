@@ -5,10 +5,14 @@ clc
 clear
 close all
 
+%% Define CT Data to Reconstruct
+
+source_file_name = "sinogram_1.mat";
+
 %% Load Data
 
 % import sinogram data not as image, but as .mat file(matrix)
-sinogram_data_struct = load("sinograms/head_sinogram.mat");
+sinogram_data_struct = load("sinograms/" + source_file_name);
 sinogram = sinogram_data_struct.sino;
 
 % Visulize CT Data
@@ -43,31 +47,31 @@ FCD_mm = 400;
 DCD_mm = 200;
 detector_size_mm = 440;
 image_size_mm = 200;
-n_dexel=200;
+n_dexel = 200;
 dexel_size_mm = detector_size_mm / n_dexel;
 pixel_size_mm = image_size_mm / n_pixel;
 
-% Set number of iterations (best between 3-20)
-n_iter = 20;
+% Set number of iterations
+n_iter = 2;
 
 % Run the reconstruction loop
 for i = 1:n_iter
-    
+
     % Generate random permutation of the angle_vector
     random_angles = angles(randperm(length(angles)));
-    
+
     % iterate over this random permutation vector.
     for view = 1:length(random_angles)
-        
+
         % Display Current View under calculation
         fprintf("Iteration: %g\nView: %g\n", i, view);
-    
+
         % Obtain current random angle
         random_angle_deg = random_angles(view);
 
         % Forward Projection: view_xy
         [s,h] = view_xy(old_image,FCD_mm,DCD_mm,random_angle_deg,n_dexel,dexel_size_mm,pixel_size_mm);
-        
+
         % Find index of current view
         angle_index = find(angles == random_angle_deg);
 
@@ -80,7 +84,7 @@ for i = 1:n_iter
         % Backprojection: image = image - backproject_view()
         correction_image = backproject_view_xy(image,FCD_mm,DCD_mm,random_angle_deg,n_dexel,dexel_size_mm,pixel_size_mm,d,h);
         image = image - correction_image;
-        
+
         % Set current reconstruction as the old reconstruction
         old_image = image;
 
@@ -101,6 +105,6 @@ for i = 1:n_iter
 
         % Save correction image
         reconstruction = image;
-        save('figures/reconstruction.mat','reconstruction')
-    end 
+        save('reconstructions/'+source_file_name,'reconstruction')
+    end
 end
