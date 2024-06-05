@@ -23,6 +23,9 @@ This section deals with metal artifacts in CT Imaging. Metal creates a lot of is
 
 ![Metal Artifact Reduction](https://github.com/cgrundman/CT-Imaging/blob/main/3_metal_artifact_reduction/figures/hip_sino_metal_mask_creation.jpg)
 
+TODO: Make in c++
+TODO: Make a more common reconstruction
+
 ## Authors
 
 - [@cgrundman](https://github.com/cgrundman/)
