@@ -30,5 +30,15 @@ int main() {
         test_1 = "Failed";
     std::cout << "Test 1: " << test_1 << std::endl;
 
+    // Test 2
+    std::string test_2;
+    double pos_x_2 = 0.0; // set X-coord
+    double pos_c_2 = converter.x_to_c(pos_x_2); // calculate the c-coordinate
+    if (pos_c_2 == 3.0)
+        test_2 = "Passed";
+    else
+        test_2 = "Failed";
+    std::cout << "Test 2: " << test_2 << std::endl;
+
     return 0;
 }
