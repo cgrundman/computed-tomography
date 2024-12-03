@@ -20,10 +20,10 @@ int main() {
     double pos_x = 10.0;
 
     // Calculate the c-coordinate
-    // double pos_c = converter.x_to_c(pos_x);
+    double pos_c = converter.x_to_c(pos_x);
 
     // Print the result
-    // std::cout << "The c-coordinate is: " << pos_c << std::endl;
+    std::cout << "The c-coordinate is: " << pos_c << std::endl;
 
     return 0;
 }
