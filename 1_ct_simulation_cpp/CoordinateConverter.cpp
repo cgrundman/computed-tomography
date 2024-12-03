@@ -13,7 +13,7 @@ double CoordinateConverter::x_to_c(double pos_x) {
     double shift = (static_cast<double>(data_x) / 2.0) + 0.5;
 
     // Calculate new coordinate
-    return pos_x / pixel_size_mm + shift;
+    return (pos_x / pixel_size_mm) + shift;
 }
 
 // Method to convert y position to r coordinate

@@ -4,37 +4,31 @@
 int main() {
     // Define the image matrix (e.g., 4x4 matrix for simplicity)
     std::vector<std::vector<double>> image_matrix = {
-        { 0,  1,  2,  3},
-        { 4,  5,  6,  7},
-        { 8,  9, 10, 11},
-        {12, 13, 14, 15}
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0}
     };
 
-    // Define pixel size in mm
-    double pixel_size_mm = 0.5;
+    // x_to_c( 6.0, data, 3.0) % result: 5
+    // x_to_c( 0.0, data, 3.0) % result: 3
+    // x_to_c(-7.5, data, 3.0) % result: 0.5
+    // y_to_r( 0.0, data, 6.0) % result: 3
+    // y_to_r(15.0, data, 6.0) % result: 0.5
 
-    // Create an object of CoordinateConverter
-    CoordinateConverter converter(image_matrix, pixel_size_mm);
-
-    // Define an x-coordinate position
-    double pos_x = 0.0;
-
-    // Define a y-coordinate position
-    double pos_y = 0.0;
-
-    // Print the input
-    std::cout << "The x-coordinate is: " << pos_x << std::endl;
-    std::cout << "The y-coordinate is: " << pos_y << std::endl;
-
-    // Calculate the c-coordinate
-    double pos_c = converter.x_to_c(pos_x);
-
-    // Calculate the c-coordinate
-    double pos_r = converter.y_to_r(pos_y);
-
-    // Print the result
-    std::cout << "The c-coordinate is: " << pos_c << std::endl;
-    std::cout << "The r-coordinate is: " << pos_r << std::endl;
+    // Test conditions for x,y to r,c conversion
+    // Test 1
+    std::string test_1;
+    double pos_x_1 = 6.0; // set X-coord
+    double pixel_size_mm_1 = 3.0; // set pixel size
+    CoordinateConverter converter(image_matrix, pixel_size_mm_1); // create an object of CoordinateConverter
+    double pos_c_1 = converter.x_to_c(pos_x_1); // calculate the c-coordinate
+    if (pos_c_1 == 5.0)
+        test_1 = "Passed";
+    else
+        test_1 = "Failed";
+    std::cout << "Test 1: " << test_1 << std::endl;
 
     return 0;
 }
