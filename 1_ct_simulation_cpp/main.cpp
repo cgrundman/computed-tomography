@@ -19,11 +19,18 @@ int main() {
     // Define an x-coordinate position
     double pos_x = 10.0;
 
+    // Define a y-coordinate position
+    double pos_y = 10.0;
+
     // Calculate the c-coordinate
     double pos_c = converter.x_to_c(pos_x);
 
+    // Calculate the c-coordinate
+    double pos_r = converter.y_to_r(pos_y);
+
     // Print the result
     std::cout << "The c-coordinate is: " << pos_c << std::endl;
+    std::cout << "The r-coordinate is: " << pos_r << std::endl;
 
     return 0;
 }
