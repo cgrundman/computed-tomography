@@ -17,10 +17,14 @@ int main() {
     CoordinateConverter converter(image_matrix, pixel_size_mm);
 
     // Define an x-coordinate position
-    double pos_x = 10.0;
+    double pos_x = 0.0;
 
     // Define a y-coordinate position
-    double pos_y = 10.0;
+    double pos_y = 0.0;
+
+    // Print the input
+    std::cout << "The x-coordinate is: " << pos_x << std::endl;
+    std::cout << "The y-coordinate is: " << pos_y << std::endl;
 
     // Calculate the c-coordinate
     double pos_c = converter.x_to_c(pos_x);
