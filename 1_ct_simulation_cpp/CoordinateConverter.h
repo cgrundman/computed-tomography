@@ -14,6 +14,9 @@ public:
 
     // Method to convert x position to c coordinate
     double x_to_c(double pos_x);
+
+    // Method to convert y position to r coordinate
+    double y_to_r(double pos_y);
 };
 
 #endif // COORDINATE_CONVERTER_H

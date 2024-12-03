@@ -15,3 +15,14 @@ double CoordinateConverter::x_to_c(double pos_x) {
     // Calculate new coordinate
     return pos_x / pixel_size_mm + shift;
 }
+
+// Method to convert y position to r coordinate
+double CoordinateConverter::y_to_r(double pos_y) {
+    int data_y = data.empty() ? 0 : data[0].size(); // Number of columns in the matrix
+
+    // Calculate shift in coordinate systems
+    double shift = (static_cast<double>(data_y) / 2.0) + 0.5;
+
+    // Calculate new coordinate
+    return pos_y / -pixel_size_mm + shift;
+}
