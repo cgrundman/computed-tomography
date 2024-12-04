@@ -14,6 +14,7 @@ int main() {
         {0, 0, 0, 0, 0}
     };
 
+    // Create test set
     std::vector<std::vector<double>> test_set = {
         // Input coord, pixel size (mm), Output coord
         { 6.0, 3.0, 5.0}, // Test 1
@@ -44,28 +45,38 @@ int main() {
             test = "Passed!";
         }
         std::cout << "Test " << i+1 << ": " << test << std::endl;
-    }
+    };
 
     // Coordinate Rotation
     std::cout << "2. Coordinate Rotation tests:" << std::endl;
+    // Create tests
+    std::vector<std::vector<double>> test_rotation {
+        // Angle, new x, new y
+        {  0,     0,    10},
+        {135,  7.07, -7.07},
+        {270,   -10,     0},
+        {-45, -7.07,  7.07}
+    };
+    
     // Create an instance of the Rotator class
     RotationXY rotator;
 
     // Original coordinates
-    double x = 1.0;
+    double x = 10.0;
     double y = 0.0;
 
-    // Angle of rotation in degrees
-    double angle_deg = 90.0;
-
-    // Variables to hold the new coordinates
-    double new_x, new_y;
-
-    // Perform the rotation
-    rotator.rotate(x, y, angle_deg, new_x, new_y);
-
-    // Output the result
-    std::cout << "Rotated coordinates: (" << new_x << ", " << new_y << ")" << std::endl;
+    for (int i = 0; i < 4; i++) {
+        std::string test = "failed";
+        double angle_deg = test_rotation[i][0]; // Angle of rotation in degrees
+        double new_x, new_y; // Variables to hold the new coordinates
+        rotator.rotate(x, y, angle_deg, new_x, new_y); // Perform the rotation
+        if (new_y > test_rotation[i][1] - 0.005 && new_y < test_rotation[i][1] + 0.005) {
+            if (new_x > test_rotation[i][2] - 0.005 && new_x < test_rotation[i][2] + 0.005) {
+                test = "Passed!";
+            }
+        }
+        std::cout << "Test " << i+1 << ": " << test << std::endl;
+    }
 
     return 0;
 }
