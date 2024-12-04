@@ -50,5 +50,16 @@ int main() {
         test_3 = "Failed";
     std::cout << "Test 3: " << test_3 << std::endl;
 
+    // Test 4 - y_to_r( 0.0, data, 6.0) % result: 3
+    std::string test_4;
+    double pos_y_1 = 0.0; // set X-coord
+    double pixel_size_mm_4 = 6.0;
+    double pos_r_1 = converter.y_to_r(pos_y_1); // calculate the c-coordinate
+    if (pos_r_1 == 3.0)
+        test_4 = "Passed";
+    else
+        test_4 = "Failed";
+    std::cout << "Test 4: " << test_4 << std::endl;
+
     return 0;
 }
