@@ -10,13 +10,13 @@ private:
 
 public:
     // Constructor
-    CoordinateConverter(const std::vector<std::vector<double>>& data, double pixel_size_mm);
+    CoordinateConverter(const std::vector<std::vector<double>>& data);
 
     // Method to convert x position to c coordinate
-    double x_to_c(double pos_x);
+    double x_to_c(double pos_x, double pixel_size_mm);
 
     // Method to convert y position to r coordinate
-    double y_to_r(double pos_y);
+    double y_to_r(double pos_y, double pixel_size_mm);
 };
 
 #endif // COORDINATE_CONVERTER_H

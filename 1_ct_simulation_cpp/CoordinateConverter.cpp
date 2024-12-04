@@ -1,11 +1,11 @@
 #include "CoordinateConverter.h"
 
 // Constructor
-CoordinateConverter::CoordinateConverter(const std::vector<std::vector<double>>& data, double pixel_size_mm) 
-    : data(data), pixel_size_mm(pixel_size_mm) {}
+CoordinateConverter::CoordinateConverter(const std::vector<std::vector<double>>& data) 
+    : data(data) {}
 
 // Method to convert x position to c coordinate
-double CoordinateConverter::x_to_c(double pos_x) {
+double CoordinateConverter::x_to_c(double pos_x, double pixel_size_mm) {
     // Extract x-coordinates of data matrix
     int data_x = data.size(); // Number of rows in the matrix
 
@@ -17,7 +17,7 @@ double CoordinateConverter::x_to_c(double pos_x) {
 }
 
 // Method to convert y position to r coordinate
-double CoordinateConverter::y_to_r(double pos_y) {
+double CoordinateConverter::y_to_r(double pos_y, double pixel_size_mm) {
     int data_y = data.empty() ? 0 : data[0].size(); // Number of columns in the matrix
 
     // Calculate shift in coordinate systems
