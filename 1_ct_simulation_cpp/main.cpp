@@ -1,7 +1,10 @@
 #include <iostream>
 #include "CoordinateConverter.h"
+#include "RotationXY.h"
 
 int main() {
+    // Coordinate Conversion
+    std::cout << "1. Coordinate Conversion tests:" << std::endl; 
     // Define the image matrix (e.g., 4x4 matrix for simplicity)
     std::vector<std::vector<double>> image_matrix = {
         {0, 0, 0, 0, 0},
@@ -42,6 +45,27 @@ int main() {
         }
         std::cout << "Test " << i+1 << ": " << test << std::endl;
     }
+
+    // Coordinate Rotation
+    std::cout << "2. Coordinate Rotation tests:" << std::endl;
+    // Create an instance of the Rotator class
+    RotationXY rotator;
+
+    // Original coordinates
+    double x = 1.0;
+    double y = 0.0;
+
+    // Angle of rotation in degrees
+    double angle_deg = 90.0;
+
+    // Variables to hold the new coordinates
+    double new_x, new_y;
+
+    // Perform the rotation
+    rotator.rotate(x, y, angle_deg, new_x, new_y);
+
+    // Output the result
+    std::cout << "Rotated coordinates: (" << new_x << ", " << new_y << ")" << std::endl;
 
     return 0;
 }
