@@ -17,62 +17,36 @@ int main() {
     // y_to_r( 0.0, data, 6.0) % result: 3
     // y_to_r(15.0, data, 6.0) % result: 0.5
 
-    // Test conditions for x,y to r,c conversion
-    // Test 1
-    std::string test_1;
-    double pos_x_1 = 6.0; // set X-coord
-    double pixel_size_mm_1 = 3.0; // set pixel size
+    std::vector<std::vector<double>> test_set = {
+        { 6.0, 3.0, 5.0}, // Test 1
+        { 0.0, 3.0, 3.0}, // Test 2
+        {-7.5, 3.0, 0.5}, // Test 3
+        { 0.0, 6.0, 3.0}, // Test 4
+        {15.0, 6.0, 0.5}  // Test 5
+    };
+
+    std::vector<std::string> test_function = {
+        {"x_c", "x_c", "x_c", "y_r", "y_r"}
+    };
+
     CoordinateConverter converter(image_matrix); // create an object of CoordinateConverter
-    double pos_c_1 = converter.x_to_c(pos_x_1, pixel_size_mm_1); // calculate the c-coordinate
-    if (pos_c_1 == 5.0)
-        test_1 = "Passed";
-    else
-        test_1 = "Failed";
-    std::cout << "Test 1: " << test_1 << std::endl;
 
-    // Test 2
-    std::string test_2;
-    double pos_x_2 = 0.0; // set X-coord
-    double pixel_size_mm_2 = 3.0; // set pixel size
-    double pos_c_2 = converter.x_to_c(pos_x_2, pixel_size_mm_2); // calculate the c-coordinate
-    if (pos_c_2 == 3.0)
-        test_2 = "Passed";
-    else
-        test_2 = "Failed";
-    std::cout << "Test 2: " << test_2 << std::endl;
-
-    // Test 3
-    std::string test_3;
-    double pos_x_3 = -7.5; // set X-coord
-    double pixel_size_mm_3 = 3.0; // set pixel size
-    double pos_c_3 = converter.x_to_c(pos_x_3, pixel_size_mm_3); // calculate the c-coordinate
-    if (pos_c_3 == 0.5)
-        test_3 = "Passed";
-    else
-        test_3 = "Failed";
-    std::cout << "Test 3: " << test_3 << std::endl;
-
-    // Test 4 - y_to_r( 0.0, data, 6.0) % result: 3
-    std::string test_4;
-    double pos_y_1 = 0.0; // set X-coord
-    double pixel_size_mm_4 = 6.0;
-    double pos_r_1 = converter.y_to_r(pos_y_1, pixel_size_mm_4); // calculate the c-coordinate
-    if (pos_r_1 == 3.0)
-        test_4 = "Passed";
-    else
-        test_4 = "Failed";
-    std::cout << "Test 4: " << test_4 << std::endl;
-
-    // Test 5 - y_to_r(15.0, data, 6.0) % result: 0.5
-    std::string test_5;
-    double pos_y_2 = 15.0; // set X-coord
-    double pixel_size_mm_5 = 6.0;
-    double pos_r_2 = converter.y_to_r(pos_y_2, pixel_size_mm_5); // calculate the c-coordinate
-    if (pos_r_2 == 0.5)
-        test_5 = "Passed";
-    else
-        test_5 = "Failed";
-    std::cout << "Test 5: " << test_5 << std::endl;
+    for (int i = 0; i < 5; i++) {
+        std::string test = "failed";
+        double pos = test_set[i][0]; // set input coord
+        double pixel_size_mm = test_set[i][1]; // set pixel size
+        double guess = 0;
+        double answer = test_set[i][2]; // set correct answer
+        if (test_function[i] == "x_c") {
+            guess = converter.x_to_c(pos, pixel_size_mm); // calculate the c-coordinate
+        } else if (test_function[i] == "y_r") {
+            guess = converter.y_to_r(pos, pixel_size_mm); // calculate the c-coordinate
+        }
+        if (guess == answer) {
+            test = "Passed!";
+        }
+        std::cout << "Test " << i+1 << ": " << test << std::endl;
+    }
 
     return 0;
 }
