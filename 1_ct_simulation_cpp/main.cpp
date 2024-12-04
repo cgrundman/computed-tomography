@@ -11,13 +11,8 @@ int main() {
         {0, 0, 0, 0, 0}
     };
 
-    // x_to_c( 6.0, data, 3.0) % result: 5
-    // x_to_c( 0.0, data, 3.0) % result: 3
-    // x_to_c(-7.5, data, 3.0) % result: 0.5
-    // y_to_r( 0.0, data, 6.0) % result: 3
-    // y_to_r(15.0, data, 6.0) % result: 0.5
-
     std::vector<std::vector<double>> test_set = {
+        // Input coord, pixel size (mm), Output coord
         { 6.0, 3.0, 5.0}, // Test 1
         { 0.0, 3.0, 3.0}, // Test 2
         {-7.5, 3.0, 0.5}, // Test 3
