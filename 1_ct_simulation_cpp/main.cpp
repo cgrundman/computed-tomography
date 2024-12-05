@@ -1,6 +1,7 @@
 #include <iostream>
 #include "CoordinateConverter.h"
 #include "RotationXY.h"
+#include "TubePosition.h"
 
 int main() {
     // Coordinate Conversion
@@ -72,6 +73,34 @@ int main() {
         rotator.rotate(x, y, angle_deg, new_x, new_y); // Perform the rotation
         if (new_y > test_rotation[i][1] - 0.005 && new_y < test_rotation[i][1] + 0.005) {
             if (new_x > test_rotation[i][2] - 0.005 && new_x < test_rotation[i][2] + 0.005) {
+                test = "Passed!";
+            }
+        }
+        std::cout << "Test " << i+1 << ": " << test << std::endl;
+    }
+
+    // Coordinate Rotation
+    std::cout << "3. Tube position tests:" << std::endl;
+    // Create tests
+    std::vector<std::vector<double>> test_tube_position {
+        // FCD (mm), Angle, tube x, tube y
+        {10,   0,     0,    10},
+        {10, 135,  7.07, -7.07},
+        {10, 270,   -10,     0},
+        {10, -45, -7.07,  7.07}
+    };
+
+    TubePosition tube;
+
+    for (int i = 0; i < 4; i++) {
+        std::string test = "failed";
+        double fcd = test_tube_position[i][0]; // FCD in mm
+        double angle_deg = test_tube_position[i][1]; // Angle of rotation in degrees
+        double tube_x, tube_y; // Variables to hold the new coordinates
+        tube.calculate(fcd, angle_deg, tube_x, tube_y); // Perform the rotation
+
+        if (tube_x > test_tube_position[i][2] - 0.005 && tube_x < test_tube_position[i][2] + 0.005) {
+            if (tube_y > test_tube_position[i][3] - 0.005 && tube_y < test_tube_position[i][3] + 0.005) {
                 test = "Passed!";
             }
         }
