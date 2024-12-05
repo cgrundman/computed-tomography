@@ -1,16 +1,6 @@
 #include "DetectorPosition.h"
+#include "RotationXY.cpp"
 
-// Helper method to rotate a point
-void DetectorPosition::rotate_xy(double x, double y, double angle_deg, double& new_x, double& new_y) const {
-    float pi = 3.14159;
-    double angle_rad = angle_deg * pi / 180.0;
-    double neg_angle_rad = -angle_rad;
-
-    new_x = x * std::cos(neg_angle_rad) - y * std::sin(neg_angle_rad);
-    new_y = x * std::sin(neg_angle_rad) + y * std::cos(neg_angle_rad);
-}
-
-// Method to calculate the detector's positions
 void DetectorPosition::calculate(
     double DCD_mm, 
     double angle_deg, 
@@ -33,8 +23,11 @@ void DetectorPosition::calculate(
     det_x.resize(n_dexel);
     det_y.resize(n_dexel);
 
+    // Create rotation object
+    RotationXY rotation;
+
     // Calculate new x and y values after rotation
     for (int i = 0; i < n_dexel; ++i) {
-        rotate_xy(x[i], y[i], -angle_deg, det_x[i], det_y[i]);
+        rotation.rotate(x[i], y[i], -angle_deg, det_x[i], det_y[i]); // Use external rotate_xy
     }
 }
