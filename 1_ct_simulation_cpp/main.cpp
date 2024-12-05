@@ -31,7 +31,7 @@ int main() {
 
     CoordinateConverter converter(image_matrix); // create an object of CoordinateConverter
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < test_set.size(); i++) {
         std::string test = "failed";
         double pos = test_set[i][0]; // set input coord
         double pixel_size_mm = test_set[i][1]; // set pixel size
@@ -66,7 +66,7 @@ int main() {
     double x = 10.0;
     double y = 0.0;
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < test_rotation.size(); i++) {
         std::string test = "failed";
         double angle_deg = test_rotation[i][0]; // Angle of rotation in degrees
         double new_x, new_y; // Variables to hold the new coordinates
@@ -79,7 +79,7 @@ int main() {
         std::cout << "Test " << i+1 << ": " << test << std::endl;
     }
 
-    // Coordinate Rotation
+    // Tube Position
     std::cout << "3. Tube position tests:" << std::endl;
     // Create tests
     std::vector<std::vector<double>> test_tube_position {
@@ -92,7 +92,7 @@ int main() {
 
     TubePosition tube;
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < test_tube_position.size(); i++) {
         std::string test = "failed";
         double fcd = test_tube_position[i][0]; // FCD in mm
         double angle_deg = test_tube_position[i][1]; // Angle of rotation in degrees
